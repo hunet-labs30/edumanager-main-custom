@@ -808,7 +808,6 @@ body.nomk .ph .dl{display:none}
       <div class="li"><b style="font-size:12px">이생산 (생산본부)</b><span>자료 감사합니다.</span></div></div></div></div>
   </div>
   <div class="note-mk" style="max-width:700px">전파교육 자료 목록, 글쓰기, 상세도 PC 화면과 동일한 항목, 용어, 안내 문구를 모바일에 적용합니다. 모바일에서의 첨부파일 바로보기 가능 여부는 개발 확인이 필요하여 이 시안은 PC와 같은 보기 영역으로 표시했습니다.</div>
-  <div class="note-mk" style="max-width:700px">결재 관리 팝업은 17번 화면을 참고합니다.</div>
 </section>
 <!-- m5 -->
 <style>
@@ -965,7 +964,8 @@ function addC(){const v=$('#cin').value.trim();if(!v){toast('의견 내용을 �
     if(!b)return;
     const pop=b.nextSibling;const on=!pop.classList.contains('on');
     pop.classList.toggle('on',on);b.classList.toggle('on',on);
-    if(on){pop.classList.remove('fl');pop.style.left='';pop.style.width='';
+    if(on){pop.classList.remove('fl');pop.style.left='';pop.style.width='';pop.style.position='';pop.style.top='';
+      if(b.closest('.ph,.pp')){const r=b.getBoundingClientRect();pop.style.position='fixed';pop.style.left=Math.max(8,Math.min(r.left,window.innerWidth-346))+'px';pop.style.top=(r.bottom+6)+'px'}
       const pn=b.closest('.pn');
       if(pn){const pr=pn.getBoundingClientRect(),wr=b.parentNode.getBoundingClientRect();const w=Math.min(330,pr.width-28);pop.style.width=w+'px';pop.style.left=(pr.left+14-wr.left)+'px'}
       else{const r=pop.getBoundingClientRect();if(r.right>window.innerWidth-8)pop.classList.add('fl')}}
@@ -991,6 +991,16 @@ function addC(){const v=$('#cin').value.trim();if(!v){toast('의견 내용을 �
   put('a1',2,fe('a1','h4',/^커뮤니티 관리/));
   put('a2',2,fe('a2','h4',/^과정 상세 정보/));
   put('a3',3,fe('a3','h4',/^결과보고 수정/));
+  /* 모바일 화면: 번호 버튼을 해당 영역 옆으로 이동 */
+  const capAt=(s,re)=>[...document.querySelectorAll('#'+s+' p.cp')].find(e=>re.test(e.textContent));
+  put('m1',1,capAt('m1',/변경 후/));
+  put('m2',1,fe('m2','h4',/^외부교육 신청하기/));
+  put('m3',1,fe('m3','h4',/^교육 활용도 보고/));
+  put('m3',2,fe('m3','.t',/^교육시간/));
+  put('m4',1,capAt('m4',/^목록/));
+  put('m5',1,capAt('m5',/^결재자 의견/));
+  put('m5',2,fe('m5','span',/^결재자 의견$/));
+  put('m5',3,capAt('m5',/^외부교육 보고서/));
   /* 화면 안에서 위에서 아래 순서로 번호 다시 매김 */
   document.querySelectorAll('.screen').forEach(sc=>{[...sc.querySelectorAll('.nb')].forEach((b,i)=>{b.textContent=i+1})});
 })();
