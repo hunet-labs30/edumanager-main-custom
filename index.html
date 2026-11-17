@@ -272,7 +272,7 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .nav-btns button:hover{background:#f0f0f0}
 .slider{display:flex;gap:18px;overflow:hidden;scroll-behavior:smooth}
 .c-item{flex:none;width:calc((100% - 72px)/5);background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer}
-.c-thumb{height:112px;display:flex;align-items:flex-end;padding:12px 14px;color:#fff;font-weight:500;font-size:15px;line-height:1.35}
+.c-thumb{aspect-ratio:16/9;display:flex;align-items:flex-end;padding:12px 14px;color:#fff;font-weight:500;font-size:15px;line-height:1.35}
 .c-title{padding:14px 14px 16px;font-size:14px;line-height:1.5;height:62px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .sec-h{display:flex;align-items:center;justify-content:space-between;margin:26px 0 14px}
 .sec-h h2{font-size:16px;font-weight:500}
@@ -284,12 +284,12 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .tabs button.on{background:#333;color:#fff;border-color:#333}
 .info li{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid #f2f2f2;cursor:pointer}
 .info li:last-child{border:0}
-.info .th{width:84px;height:54px;border-radius:6px;flex:none}
+.info .th{width:96px;height:54px;border-radius:6px;flex:none}
 .info li b{font-weight:400;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .info li:hover b{text-decoration:underline}
 .info small{color:var(--mute);display:block;margin-top:2px}
 .insight{display:grid;grid-template-columns:340px minmax(0,1fr);gap:22px;align-items:start}
-.rep{position:relative;height:172px;border-radius:10px;overflow:hidden;background:#263238;color:#fff;cursor:pointer}
+.rep{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#263238;color:#fff;cursor:pointer}
 .rep img.cv{display:block;width:100%;height:100%;object-fit:cover}
 .rep img.sem{display:block;width:100%;margin-top:-7.6%}
 .rep .ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;font-size:16px;font-weight:500;line-height:1.45}
@@ -312,7 +312,7 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .pi-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .pi-h .lb{font-weight:500;font-size:14px;color:var(--blue)}
 .pi-b{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px}
-.pi-thumb{height:168px;border-radius:8px;overflow:hidden;cursor:pointer;background:#ddd}
+.pi-thumb{aspect-ratio:16/9;align-self:start;border-radius:8px;overflow:hidden;cursor:pointer;background:#ddd}
 .pi-thumb img{display:block;width:100%;height:100%;object-fit:cover}
 .pi-title{font-size:17px;font-weight:500;line-height:1.4;cursor:pointer}
 .pi-title:hover{text-decoration:underline}
@@ -720,7 +720,7 @@ function infoItems(){var l=infoKey==='전체'?ALL:ALL.filter(function(x){return 
 function repHtml(it){
   if(!it)return '';
   if(it.tag==='휴넷TV')return '<img class="cv" src="'+TV_IMG+'" alt=""><span class="play">&#9654;</span><span class="dur">'+it.dur+'</span>';
-  if(it.tag==='세미나'){var s=document.querySelector('.monthly .thumb img');return '<img class="sem" src="'+(s?s.src:'')+'" alt="">'}
+  if(it.tag==='세미나')return '<div class="ph" style="background:linear-gradient(135deg,#5b3fd6,#2d1b8a)"><small>세미나</small>'+esc(it.title)+'</div>';
   return '<div class="ph" style="background:'+it.color+'"><small>'+esc(it.tag)+'</small>'+esc(it.title)+'</div>';
 }
 function renderInfo(){
