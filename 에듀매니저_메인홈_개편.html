@@ -178,6 +178,11 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .monthly .btn{width:100%}
 .mt{display:flex;flex-direction:column}
 .favcard{display:flex;flex-direction:column}
+.fav-rows{list-style:none;display:flex;flex-direction:column;gap:8px}
+.fav-rows li{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.fav-rows li:hover{border-color:#bdbdbd;background:#fcfcfc}
+.fav-rows .st{color:#ffc107}.fav-rows .gp{color:var(--mute)}
+.fav-rows .fav-empty{border-style:dashed;color:var(--mute);cursor:default;justify-content:center;height:80px}
 .fq-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .fq-grid .fq{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:96px;padding:8px;border:1px solid var(--line);border-radius:10px;cursor:pointer;text-align:center;line-height:1.35}
 .fq-grid .fq:hover{border-color:#bdbdbd;background:#fcfcfc}
@@ -338,6 +343,11 @@ body.annot .anno-tag{display:block}
   <div class="side-scroll">
     <div class="s-row" id="goMain"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>메인</div>
 
+    <div id="favBox" data-n="4">
+      <div class="s-title"><b><span class="star">★</span>즐겨찾기</b></div>
+      <ul class="fav-list" id="favList"></ul>
+    </div>
+
     <div class="divider"></div>
 
     <div class="all-head">
@@ -438,9 +448,9 @@ body.annot .anno-tag{display:block}
         </section>
         <!-- 8. 월간휴넷 -->
         <section class="card favcard" data-n="8">
-          <div class="card-h"><h2>자주 찾는 메뉴</h2><span class="fq-nav"><button id="fqPrev" aria-label="이전" hidden>‹</button><button id="fqNext" aria-label="다음" hidden>›</button></span></div>
-          <div class="fq-grid" id="favCard"></div>
-          <button class="btn fq-set" id="fqSet">자주 찾는 메뉴 설정</button>
+          <div class="card-h"><h2>즐겨찾기</h2><span class="card-desc">자주 쓰는 메뉴로 바로 이동합니다.</span></div>
+          <ul class="fav-rows" id="favCard"></ul>
+          <button class="btn fq-set" id="fqSet">즐겨찾기 설정</button>
         </section>
       </div>
     </div>
@@ -500,10 +510,10 @@ body.annot .anno-tag{display:block}
 
 <div class="chatbot" title="아이런 챗봇">?</div>
 <button class="annot-btn" id="annotBtn">기획 번호 표시</button>
-<div class="fq-layer" id="fqLayer"><div class="fq-box"><h3>자주 찾는 메뉴 설정</h3>
+<div class="fq-layer" id="fqLayer"><div class="fq-box"><h3>즐겨찾기 설정</h3>
 <input type="text" id="fqQ" placeholder="메뉴명을 검색해 선택하세요">
 <ul class="fq-res" id="fqRes"></ul>
-<div>현재 자주 찾는 메뉴 (<b id="fqCnt">0</b>)</div><div class="fq-cur" id="fqCur"></div>
+<div>현재 즐겨찾기 (<b id="fqCnt">0</b>)</div><div class="fq-cur" id="fqCur"></div>
 <div class="fq-act"><button id="fqCancel">취소</button><button class="pri" id="fqSave">저장</button></div></div></div>
 <button class="unused-btn" id="unusedBtn">미사용 메뉴 시연</button>
 <div class="unused-pop" id="unusedPop"><small>권한에 따라 메뉴별로 노출·미노출됩니다.<br>미노출로 체크한 카드만 빠집니다.</small></div>
@@ -547,18 +557,20 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
 var tt;function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},2000)}
 
 /* 사이드바 */
-var FQ_KEY='edm_freq_proto',FQ_DEF=['교육신청 현황','학습 수료 현황','교육 수료 확인서','정부지원금 현황','학습 결과 보고서','마이크로러닝 현황'];
-var FQ_COL=['#1e88e5','#43a047','#fb8c00','#8e24aa','#e53935','#00897b','#3949ab','#6d4c41'];
-function fqLoad(){try{var v=JSON.parse(localStorage.getItem(FQ_KEY));if(Array.isArray(v))return v}catch(e){}return FQ_DEF.slice()}
-var freq=fqLoad(),fqPage=0,FQ_PER=6;
+var FAV_KEY='edm_fav_proto',FAV_DEF=['수강신청','비밀번호 초기화','관리권한부여'];
+function favLoad(){try{var v=JSON.parse(localStorage.getItem(FAV_KEY));if(Array.isArray(v))return v}catch(e){}return FAV_DEF.slice()}
+var fav=favLoad();
+function grpOf(n){for(var i=0;i<FLAT.length;i++){if(FLAT[i].n===n)return FLAT[i].g}return ''}
 function renderFavCard(){
   var c=$('#favCard');if(!c)return;
-  var pages=Math.max(1,Math.ceil(freq.length/FQ_PER));if(fqPage>=pages)fqPage=pages-1;
-  var part=freq.slice(fqPage*FQ_PER,fqPage*FQ_PER+FQ_PER);
-  c.innerHTML=part.length?part.map(function(n,i){var k=fqPage*FQ_PER+i;return '<div class="fq" data-go="'+esc(n)+'"><span class="fq-ic" style="background:'+FQ_COL[k%FQ_COL.length]+'"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg></span><span>'+esc(n)+'</span></div>'}).join(''):'<div class="fq-empty">설정한 메뉴가 없습니다.</div>';
-  $('#fqPrev').hidden=$('#fqNext').hidden=pages<2;
+  c.innerHTML=fav.length?fav.map(function(n){var g=grpOf(n);return '<li data-go="'+esc(n)+'"><span class="st">★</span>'+(g&&g!==n?'<span class="gp">'+esc(g)+' ›</span>':'')+'<span>'+esc(n)+'</span></li>'}).join(''):'<li class="fav-empty">즐겨찾기한 메뉴가 없습니다.</li>';
 }
-function renderFav(){renderFavCard()}
+function renderFav(){
+  renderFavCard();
+  var ul=$('#favList');
+  if(!fav.length){ul.innerHTML='<li class="fav-empty" style="padding:4px 20px 8px 48px;height:auto;cursor:default">즐겨찾기 메뉴가<br>여기에 표시됩니다.</li>';return}
+  ul.innerHTML=fav.map(function(n){return '<li data-go="'+esc(n)+'"><span>'+esc(n)+'</span></li>'}).join('');
+}
 function renderAll(){
   var openSet={};document.querySelectorAll('#allMenu .g.open').forEach(function(e){openSet[e.dataset.g]=1});
   $('#allMenu').innerHTML=MENUS.map(function(m){
@@ -694,7 +706,8 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '5':[O,'교담자 진행 업무 목록','학습시작일 기준 드롭다운, 권한별 메뉴 노출·미노출'],
    '6':[O,'교육현황 대시보드','교담자별 열람 가능 과정만 노출 (예: 온보딩 담당자는 온보딩 과정만)'],
    '7':[M,'공지사항','전체 공지 최근 4건·구분 태그'],
-   '8':[M,'자주 찾는 메뉴','기본 6종 슬라이드, 메뉴 검색·선택·삭제 설정'],
+   '4':[M+'·'+O,'즐겨찾기','','below'],
+   '8':[O,'즐겨찾기 바로가기','즐겨찾기한 메뉴를 메인 우측에 수동 배치 (사이드바와 동일 목록)'],
    '9':[M,'신규·인기 과정 추천','썸네일+제목 캐러셀, 상세는 새 탭'],
    '10':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
    '11':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 체험 콘텐츠'],
@@ -710,24 +723,22 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
     e.appendChild(t);
   });
 })();
-/* 자주 찾는 메뉴 설정 레이어 : 메뉴 검색 후 선택/해제, 저장 시 반영 */
+/* 즐겨찾기 설정 레이어 : 메뉴 검색 후 선택/해제, 저장 시 사이드바·메인에 동시 반영 */
 (function(){
   var draft=[];var L=$('#fqLayer');
-  var ALL=[];FQ_DEF.concat(FLAT.map(function(x){return x.n})).forEach(function(n){if(ALL.indexOf(n)<0)ALL.push(n)});
+  var ALL=FLAT.map(function(x){return x.n}).filter(function(n,i,a){return a.indexOf(n)===i});
   function draw(){
     var q=$('#fqQ').value.trim();
     $('#fqRes').innerHTML=ALL.filter(function(n){return !q||n.indexOf(q)>-1}).map(function(n){return '<li data-m="'+esc(n)+'"><span>'+esc(n)+'</span>'+(draft.indexOf(n)>-1?'<span class="v">✓</span>':'')+'</li>'}).join('')||'<li style="color:#999;cursor:default">검색 결과가 없습니다.</li>';
     $('#fqCur').innerHTML=draft.map(function(n){return '<span>'+esc(n)+'<i data-x="'+esc(n)+'">×</i></span>'}).join('');
     $('#fqCnt').textContent=draft.length;
   }
-  $('#fqSet').onclick=function(e){e.stopPropagation();draft=freq.slice();$('#fqQ').value='';draw();L.classList.add('open')};
+  $('#fqSet').onclick=function(e){e.stopPropagation();draft=fav.slice();$('#fqQ').value='';draw();L.classList.add('open')};
   $('#fqQ').oninput=draw;
   $('#fqRes').onclick=function(e){var li=e.target.closest('[data-m]');if(!li)return;var n=li.dataset.m,i=draft.indexOf(n);if(i>-1)draft.splice(i,1);else draft.push(n);draw()};
   $('#fqCur').onclick=function(e){var x=e.target.closest('[data-x]');if(!x)return;draft.splice(draft.indexOf(x.dataset.x),1);draw()};
   $('#fqCancel').onclick=function(){L.classList.remove('open')};
-  $('#fqSave').onclick=function(){freq=draft.slice();try{localStorage.setItem(FQ_KEY,JSON.stringify(freq))}catch(e){}fqPage=0;renderFavCard();L.classList.remove('open');toast('자주 찾는 메뉴를 저장했습니다.')};
-  $('#fqPrev').onclick=function(e){e.stopPropagation();fqPage=Math.max(0,fqPage-1);renderFavCard()};
-  $('#fqNext').onclick=function(e){e.stopPropagation();fqPage=fqPage+1;renderFavCard()};
+  $('#fqSave').onclick=function(){fav=draft.slice();try{localStorage.setItem(FAV_KEY,JSON.stringify(fav))}catch(e){}renderFav();L.classList.remove('open');toast('즐겨찾기를 저장했습니다.')};
 })();
 /* 교담자 진행 업무 목록 : 기업이 사용하지 않는 메뉴는 카드 제외, 남은 개수로 열 수 재구성 */
 var UNUSED={},REQ=[];
