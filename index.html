@@ -178,12 +178,32 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .monthly .btn{width:100%}
 .mt{display:flex;flex-direction:column}
 .favcard{display:flex;flex-direction:column}
-.fav-cards{list-style:none;display:flex;flex-direction:column;gap:8px}
-.fav-cards li{display:flex;align-items:center;gap:10px;height:44px;padding:0 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
-.fav-cards li:hover{border-color:#bdbdbd;background:#fcfcfc}
-.fav-cards li .st{color:#ffc107}
-.fav-cards li .ar{margin-left:auto;color:#bbb}
-.fav-cards .fav-empty{border-style:dashed;color:var(--mute);cursor:default;justify-content:center;height:80px}
+.fq-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fq-grid .fq{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:96px;padding:8px;border:1px solid var(--line);border-radius:10px;cursor:pointer;text-align:center;line-height:1.35}
+.fq-grid .fq:hover{border-color:#bdbdbd;background:#fcfcfc}
+.fq-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.fq-ic svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fq-grid .fq-empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:10px;color:var(--mute);height:96px;display:flex;align-items:center;justify-content:center}
+.fq-nav button{border:1px solid #ddd;background:#fff;border-radius:50%;width:26px;height:26px;margin-left:4px;cursor:pointer}
+.fq-set{margin-top:auto;width:100%;background:#fff;border:1px solid #ccc;border-radius:8px;height:36px;cursor:pointer}
+.fq-set:hover{background:#f6f6f6}
+.fq-layer{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:none;align-items:center;justify-content:center}
+.fq-layer.open{display:flex}
+.fq-box{background:#fff;border-radius:12px;width:480px;max-width:92vw;padding:20px 22px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.fq-box h3{font-size:16px;margin-bottom:12px}
+.fq-box input[type=text]{width:100%;height:36px;border:1px solid #ccc;border-radius:8px;padding:0 12px;font:inherit}
+.fq-res{list-style:none;max-height:170px;overflow:auto;border:1px solid var(--line);border-radius:8px;margin:8px 0 14px}
+.fq-res li{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;border-bottom:1px solid #f0f0f0}
+.fq-res li:last-child{border-bottom:0}.fq-res li:hover{background:#f6f9fd}
+.fq-res li .v{margin-left:auto;color:var(--blue);font-weight:700}
+.fq-cur{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px;min-height:28px}
+.fq-cur span{background:#eef3fb;border-radius:14px;padding:4px 6px 4px 12px}
+.fq-cur span i{font-style:normal;color:#888;cursor:pointer;margin-left:6px}
+.fq-act{display:flex;justify-content:flex-end;gap:8px}
+.fq-act button{height:36px;padding:0 18px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer}
+.fq-act .pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.startsel{font-size:12px;color:#555;display:flex;align-items:center;gap:6px}
+.startsel select{height:30px;border:1px solid #ccc;border-radius:6px;padding:0 8px;font:inherit;background:#fff}
 .mt-tabs{display:flex;gap:20px;border-bottom:1px solid #eee;margin:-4px 0 14px}
 .mt-tabs button{font-size:16px;font-weight:500;color:#aaa;padding:0 2px 10px;border-bottom:2px solid transparent;margin-bottom:-1px}
 .mt-tabs button.on{color:var(--text);border-bottom-color:var(--text)}
@@ -318,10 +338,6 @@ body.annot .anno-tag{display:block}
   <div class="side-scroll">
     <div class="s-row" id="goMain"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>메인</div>
 
-    <div id="favBox" data-n="4">
-      <div class="s-title"><b><span class="star">★</span>즐겨찾기</b></div>
-      <ul class="fav-list" id="favList"></ul>
-    </div>
     <div class="divider"></div>
 
     <div class="all-head">
@@ -369,7 +385,7 @@ body.annot .anno-tag{display:block}
 
         <!-- 5. 교담자 진행 업무 목록 (필수 고정 메뉴 4개 + 실제 건수) -->
         <section class="card" data-n="5">
-          <div class="card-h"><h2>교담자 진행 업무 목록<small>학습시작일 기준으로 처리가 필요한 건수를 확인하세요</small></h2></div>
+          <div class="card-h"><h2>교담자 진행 업무 목록<small>처리가 필요한 건수를 바로 확인하세요</small></h2><label class="startsel">학습시작일 기준 <select id="startSel"></select></label></div>
           <div class="todo">
             <div class="t-card" data-go="교육 신청 현황 (학습시작일 기준 승인대기 건 조회)">
               <span class="ic y"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
@@ -422,8 +438,9 @@ body.annot .anno-tag{display:block}
         </section>
         <!-- 8. 월간휴넷 -->
         <section class="card favcard" data-n="8">
-          <div class="card-h"><h2>즐겨찾기</h2><span class="card-desc">자주 쓰는 메뉴로 바로 이동합니다.</span></div>
-          <ul class="fav-cards" id="favCard"></ul>
+          <div class="card-h"><h2>자주 찾는 메뉴</h2><span class="fq-nav"><button id="fqPrev" aria-label="이전" hidden>‹</button><button id="fqNext" aria-label="다음" hidden>›</button></span></div>
+          <div class="fq-grid" id="favCard"></div>
+          <button class="btn fq-set" id="fqSet">자주 찾는 메뉴 설정</button>
         </section>
       </div>
     </div>
@@ -483,8 +500,13 @@ body.annot .anno-tag{display:block}
 
 <div class="chatbot" title="아이런 챗봇">?</div>
 <button class="annot-btn" id="annotBtn">기획 번호 표시</button>
+<div class="fq-layer" id="fqLayer"><div class="fq-box"><h3>자주 찾는 메뉴 설정</h3>
+<input type="text" id="fqQ" placeholder="메뉴명을 검색해 선택하세요">
+<ul class="fq-res" id="fqRes"></ul>
+<div>현재 자주 찾는 메뉴 (<b id="fqCnt">0</b>)</div><div class="fq-cur" id="fqCur"></div>
+<div class="fq-act"><button id="fqCancel">취소</button><button class="pri" id="fqSave">저장</button></div></div></div>
 <button class="unused-btn" id="unusedBtn">미사용 메뉴 시연</button>
-<div class="unused-pop" id="unusedPop"><small>기본 4개는 필수 노출이며,<br>사용하지 않는 메뉴로 설정한 카드만 빠집니다.</small></div>
+<div class="unused-pop" id="unusedPop"><small>권한에 따라 메뉴별로 노출·미노출됩니다.<br>미노출로 체크한 카드만 빠집니다.</small></div>
 
 <div class="dim" id="dim">
   <div class="modal" role="dialog" aria-modal="true" aria-label="결과보고서 확정">
@@ -520,36 +542,32 @@ var MENUS=[
  {g:'서약서작성',items:[]}
 ];
 var FLAT=[];MENUS.forEach(function(m){if(m.items.length){m.items.forEach(function(i){FLAT.push({g:m.g,n:i})})}else{FLAT.push({g:'',n:m.g})}});
-var FAV_KEY='edm_fav_proto';
-function load(){try{var v=JSON.parse(localStorage.getItem(FAV_KEY));if(Array.isArray(v))return v}catch(e){}return ['수강신청','비밀번호 초기화','관리권한부여']}
-function save(){try{localStorage.setItem(FAV_KEY,JSON.stringify(fav))}catch(e){}}
-var fav=load();
 function $(s,r){return (r||document).querySelector(s)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var tt;function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},2000)}
 
 /* 사이드바 */
+var FQ_KEY='edm_freq_proto',FQ_DEF=['교육신청 현황','학습 수료 현황','교육 수료 확인서','정부지원금 현황','학습 결과 보고서','마이크로러닝 현황'];
+var FQ_COL=['#1e88e5','#43a047','#fb8c00','#8e24aa','#e53935','#00897b','#3949ab','#6d4c41'];
+function fqLoad(){try{var v=JSON.parse(localStorage.getItem(FQ_KEY));if(Array.isArray(v))return v}catch(e){}return FQ_DEF.slice()}
+var freq=fqLoad(),fqPage=0,FQ_PER=6;
 function renderFavCard(){
   var c=$('#favCard');if(!c)return;
-  c.innerHTML=fav.length?fav.map(function(n){return '<li data-go="'+esc(n)+'"><span class="st">★</span><span>'+esc(n)+'</span><span class="ar">›</span></li>'}).join(''):'<li class="fav-empty">즐겨찾기 메뉴가 여기에 표시됩니다.</li>';
+  var pages=Math.max(1,Math.ceil(freq.length/FQ_PER));if(fqPage>=pages)fqPage=pages-1;
+  var part=freq.slice(fqPage*FQ_PER,fqPage*FQ_PER+FQ_PER);
+  c.innerHTML=part.length?part.map(function(n,i){var k=fqPage*FQ_PER+i;return '<div class="fq" data-go="'+esc(n)+'"><span class="fq-ic" style="background:'+FQ_COL[k%FQ_COL.length]+'"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg></span><span>'+esc(n)+'</span></div>'}).join(''):'<div class="fq-empty">설정한 메뉴가 없습니다.</div>';
+  $('#fqPrev').hidden=$('#fqNext').hidden=pages<2;
 }
-function renderFav(){
-  renderFavCard();
-  var ul=$('#favList');
-  if(!fav.length){ul.innerHTML='<li class="fav-empty" style="padding:4px 20px 8px 48px;height:auto;cursor:default">즐겨찾기 메뉴가<br>여기에 표시됩니다.</li>';return}
-  ul.innerHTML=fav.map(function(n){return '<li data-go="'+esc(n)+'"><span>'+esc(n)+'</span><span class="x" data-rm="'+esc(n)+'" title="즐겨찾기 해제">×</span></li>'}).join('');
-}
+function renderFav(){renderFavCard()}
 function renderAll(){
   var openSet={};document.querySelectorAll('#allMenu .g.open').forEach(function(e){openSet[e.dataset.g]=1});
   $('#allMenu').innerHTML=MENUS.map(function(m){
     if(!m.items.length)return '<li><div class="g-head" data-go="'+esc(m.g)+'"><span>'+esc(m.g)+'</span></div></li>';
     return '<li class="g'+(openSet[m.g]?' open':'')+'" data-g="'+esc(m.g)+'"><div class="g-head"><span>'+esc(m.g)+'</span><span class="arr">▼</span></div><ul class="g-items">'+
-      m.items.map(function(i){var on=fav.indexOf(i)>-1;return '<li data-go="'+esc(i)+'"><span>'+esc(i)+'</span></li>'}).join('')+'</ul></li>';
+      m.items.map(function(i){return '<li data-go="'+esc(i)+'"><span>'+esc(i)+'</span></li>'}).join('')+'</ul></li>';
   }).join('');
 }
 document.addEventListener('click',function(e){
-  var rm=e.target.closest('[data-rm]');if(rm){var n=rm.dataset.rm;fav=fav.filter(function(x){return x!==n});save();renderFav();renderAll();toast('즐겨찾기에서 해제했습니다.');e.stopPropagation();return}
-  var fs=e.target.closest('[data-fs]');if(fs){var n2=fs.dataset.fs,i=fav.indexOf(n2);if(i>-1){fav.splice(i,1);toast('즐겨찾기에서 해제했습니다.')}else{fav.push(n2);toast('즐겨찾기에 추가했습니다.')}save();renderFav();renderAll();e.stopPropagation();return}
   var gh=e.target.closest('.g-head');if(gh&&gh.parentElement.classList.contains('g')){gh.parentElement.classList.toggle('open');return}
   var go=e.target.closest('[data-go]');if(go){toast('이동: '+go.dataset.go)}
 });
@@ -606,18 +624,20 @@ var SUM=[
 var SUM_MODE='start',TODAY='2026-11-16';
 function sd(s){return s.slice(2).replace(/-/g,'.')}
 function dday(e){var d=Math.round((new Date(e)-new Date(TODAY))/864e5);return d>0?'<span class="dd">D-'+d+'</span>':d===0?'<span class="dd">D-day</span>':'<span class="dd z">종료</span>'}
+var SCOPE='all';function SUMV(){return SCOPE==='onb'?SUM.filter(function(r){return r[1].indexOf('온보딩')>-1}):SUM}
 function renderSum(){
   var rows;
   if(SUM_MODE==='end'){
-    var open=SUM.filter(function(r){return r[5]>=TODAY}).sort(function(a,b){return a[5]<b[5]?-1:a[5]>b[5]?1:0});
-    var done=SUM.filter(function(r){return r[5]<TODAY}).sort(function(a,b){return a[5]<b[5]?1:a[5]>b[5]?-1:0});
+    var open=SUMV().filter(function(r){return r[5]>=TODAY}).sort(function(a,b){return a[5]<b[5]?-1:a[5]>b[5]?1:0});
+    var done=SUMV().filter(function(r){return r[5]<TODAY}).sort(function(a,b){return a[5]<b[5]?1:a[5]>b[5]?-1:0});
     rows=open.concat(done).slice(0,MAX_ROWS);
     $('#sumDesc').textContent='학습종료일이 임박한 과정 순으로 최대 5건이 표시됩니다.';
   }else{
-    rows=SUM.slice().sort(function(a,b){return a[0]<b[0]?1:a[0]>b[0]?-1:0}).slice(0,MAX_ROWS);
+    rows=SUMV().slice().sort(function(a,b){return a[0]<b[0]?1:a[0]>b[0]?-1:0}).slice(0,MAX_ROWS);
     $('#sumDesc').textContent='학습시작일이 최근인 과정 순으로 최대 5건이 표시됩니다.';
   }
   [].forEach.call(document.querySelectorAll('#sumSeg button'),function(x){x.classList.toggle('on',x.dataset.s===SUM_MODE)});
+  if(!rows.length){$('#sumBody').innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;height:80px">열람 가능한 과정이 없습니다.</td></tr>';return}
   $('#sumBody').innerHTML=rows.map(function(r){var un=Math.round(r[2]*(100-r[3])/100);return '<tr><td style="white-space:nowrap">'+sd(r[0])+' ~ '+sd(r[5])+dday(r[5])+'</td><td style="max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a class="cl" title="'+esc(r[1])+'" data-go="과정 학습 현황: '+esc(r[1])+'">'+esc(r[1])+'</a></td><td class="num">'+r[2].toLocaleString()+'명</td><td style="white-space:nowrap"><span class="bar"><i style="width:'+r[3]+'%"></i></span>'+r[3]+'%</td><td class="num '+(un>0?'un':'un0')+'">'+un.toLocaleString()+'명</td></tr>'}).join('');
 }
 document.getElementById('sumSeg').addEventListener('click',function(e){var s=e.target.dataset&&e.target.dataset.s;if(s){SUM_MODE=s;renderSum()}});
@@ -671,11 +691,10 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '1':[M,'기업정보','기업명·멤버십 등급, 혜택 툴팁','below'],
    '2':[O,'통합검색','메뉴명 검색 후 바로 이동','below'],
    '3':[M,'상단 메뉴','문의·과정리스트 다운로드·매뉴얼','below'],
-   '4':[M+'·'+O,'즐겨찾기','','below'],
-   '5':[O,'교담자 진행 업무 목록','학습시작일 기준 처리 필요 건수 (필수 4종 고정)'],
-   '6':[O,'교육현황 대시보드','시작일 최근순·종료일 임박순 5건'],
+   '5':[O,'교담자 진행 업무 목록','학습시작일 기준 드롭다운, 권한별 메뉴 노출·미노출'],
+   '6':[O,'교육현황 대시보드','교담자별 열람 가능 과정만 노출 (예: 온보딩 담당자는 온보딩 과정만)'],
    '7':[M,'공지사항','전체 공지 최근 4건·구분 태그'],
-   '8':[M+'·'+O,'즐겨찾기','자주 쓰는 메뉴 바로가기'],
+   '8':[M,'자주 찾는 메뉴','기본 6종 슬라이드, 메뉴 검색·선택·삭제 설정'],
    '9':[M,'신규·인기 과정 추천','썸네일+제목 캐러셀, 상세는 새 탭'],
    '10':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
    '11':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 체험 콘텐츠'],
@@ -691,8 +710,31 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
     e.appendChild(t);
   });
 })();
+/* 자주 찾는 메뉴 설정 레이어 : 메뉴 검색 후 선택/해제, 저장 시 반영 */
+(function(){
+  var draft=[];var L=$('#fqLayer');
+  var ALL=[];FQ_DEF.concat(FLAT.map(function(x){return x.n})).forEach(function(n){if(ALL.indexOf(n)<0)ALL.push(n)});
+  function draw(){
+    var q=$('#fqQ').value.trim();
+    $('#fqRes').innerHTML=ALL.filter(function(n){return !q||n.indexOf(q)>-1}).map(function(n){return '<li data-m="'+esc(n)+'"><span>'+esc(n)+'</span>'+(draft.indexOf(n)>-1?'<span class="v">✓</span>':'')+'</li>'}).join('')||'<li style="color:#999;cursor:default">검색 결과가 없습니다.</li>';
+    $('#fqCur').innerHTML=draft.map(function(n){return '<span>'+esc(n)+'<i data-x="'+esc(n)+'">×</i></span>'}).join('');
+    $('#fqCnt').textContent=draft.length;
+  }
+  $('#fqSet').onclick=function(e){e.stopPropagation();draft=freq.slice();$('#fqQ').value='';draw();L.classList.add('open')};
+  $('#fqQ').oninput=draw;
+  $('#fqRes').onclick=function(e){var li=e.target.closest('[data-m]');if(!li)return;var n=li.dataset.m,i=draft.indexOf(n);if(i>-1)draft.splice(i,1);else draft.push(n);draw()};
+  $('#fqCur').onclick=function(e){var x=e.target.closest('[data-x]');if(!x)return;draft.splice(draft.indexOf(x.dataset.x),1);draw()};
+  $('#fqCancel').onclick=function(){L.classList.remove('open')};
+  $('#fqSave').onclick=function(){freq=draft.slice();try{localStorage.setItem(FQ_KEY,JSON.stringify(freq))}catch(e){}fqPage=0;renderFavCard();L.classList.remove('open');toast('자주 찾는 메뉴를 저장했습니다.')};
+  $('#fqPrev').onclick=function(e){e.stopPropagation();fqPage=Math.max(0,fqPage-1);renderFavCard()};
+  $('#fqNext').onclick=function(e){e.stopPropagation();fqPage=fqPage+1;renderFavCard()};
+})();
 /* 교담자 진행 업무 목록 : 기업이 사용하지 않는 메뉴는 카드 제외, 남은 개수로 열 수 재구성 */
-var UNUSED={},REQ=['교육 신청 현황','학습 수료 현황','결과보고서 출력','마이크로러닝 현황'];
+var UNUSED={},REQ=[];
+var START_DATES=['2026.11.18','2026.11.17','2026.11.16','2026.11.12','2026.11.10','2026.11.09','2026.11.05','2026.11.04','2026.11.03','2026.11.02'],BASEC=null;
+(function(){var s=$('#startSel');s.innerHTML=START_DATES.map(function(d){return '<option>'+d+'</option>'}).join('');
+  BASEC=[].map.call(document.querySelectorAll('.todo .t-card .tl b'),function(b){return +b.textContent});
+  s.onchange=function(){var f=1-s.selectedIndex*0.09;[].forEach.call(document.querySelectorAll('.todo .t-card .tl b'),function(b,i){b.textContent=Math.max(0,Math.round(BASEC[i]*f))})}})();
 function applyTodo(){
   var box=document.querySelector('.todo'),cards=[].slice.call(box.querySelectorAll('.t-card')),n=0;
   cards.forEach(function(c){var k=c.querySelector('.tn').textContent;var off=!!UNUSED[k];c.style.display=off?'none':'';if(!off)n++});
@@ -707,6 +749,8 @@ function applyTodo(){
     var l=document.createElement('label');l.innerHTML='<input type="checkbox"> '+t.textContent+' 미사용';
     l.firstChild.onchange=function(){if(this.checked)UNUSED[t.textContent]=1;else delete UNUSED[t.textContent];applyTodo()};
     pop.appendChild(l)});
+  var sc=document.createElement('div');sc.style.cssText='border-top:1px solid #eee;margin-top:6px;padding-top:6px';sc.innerHTML='교육현황 대시보드 열람 범위<br><select id="scopeSel"><option value="all">전체 과정</option><option value="onb">온보딩 과정만</option></select>';pop.appendChild(sc);
+  sc.querySelector('select').onchange=function(){SCOPE=this.value;renderSum()};
   document.getElementById('unusedBtn').onclick=function(){pop.classList.toggle('open')};
 })();
 $('#annotBtn').onclick=function(){var on=document.body.classList.toggle('annot');this.classList.toggle('on',on);this.textContent=on?'기획 번호 숨기기':'기획 번호 표시'};
