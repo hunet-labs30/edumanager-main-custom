@@ -682,8 +682,8 @@ function renderSum(){
     $('#sumDesc').textContent='학습시작일이 최근인 과정 순으로 최대 5건이 표시됩니다.';
   }
   [].forEach.call(document.querySelectorAll('#sumSeg button'),function(x){x.classList.toggle('on',x.dataset.s===SUM_MODE)});
-  if(!rows.length){$('#sumBody').innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;height:80px">열람 가능한 과정이 없습니다.</td></tr>';return}
-  $('#sumBody').innerHTML=rows.map(function(r){var un=Math.round(r[2]*(100-r[3])/100);return '<tr><td style="white-space:nowrap">'+sd(r[0])+' ~ '+sd(r[5])+dday(r[5])+'</td><td style="max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a class="cl" title="'+esc(r[1])+'" data-go="과정 학습 현황: '+esc(r[1])+'">'+esc(r[1])+'</a></td><td class="num">'+r[2].toLocaleString()+'명</td><td style="white-space:nowrap"><span class="bar"><i style="width:'+r[3]+'%"></i></span>'+r[3]+'%</td><td class="num '+(un>0?'un':'un0')+'">'+un.toLocaleString()+'명</td></tr>'}).join('');
+  if(!rows.length){$('#sumBody').innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;height:'+(MAX_ROWS*40)+'px;border:0">열람 가능한 과정이 없습니다.</td></tr>';return}
+  $('#sumBody').innerHTML=rows.map(function(r){var un=Math.round(r[2]*(100-r[3])/100);return '<tr><td style="white-space:nowrap">'+sd(r[0])+' ~ '+sd(r[5])+dday(r[5])+'</td><td style="max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a class="cl" title="'+esc(r[1])+'" data-go="과정 학습 현황: '+esc(r[1])+'">'+esc(r[1])+'</a></td><td class="num">'+r[2].toLocaleString()+'명</td><td style="white-space:nowrap"><span class="bar"><i style="width:'+r[3]+'%"></i></span>'+r[3]+'%</td><td class="num '+(un>0?'un':'un0')+'">'+un.toLocaleString()+'명</td></tr>'}).join('')+new Array(Math.max(0,MAX_ROWS-rows.length)+1).join('<tr class="blank"><td colspan="5" style="height:40px;border:0">&nbsp;</td></tr>');
 }
 document.getElementById('sumSeg').addEventListener('click',function(e){var s=e.target.dataset&&e.target.dataset.s;if(s){SUM_MODE=s;renderSum()}});
 /* 신규 인기 과정 */
