@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KCC글라스 사이버연수원 화면 수정 프로토타입</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:#333;background:#e9ebef}
+/* 시연 도구바 */
+body{padding-left:250px}
+#bar{position:fixed;left:0;top:0;bottom:0;width:250px;z-index:50;background:#20242c;color:#fff;padding:16px 0;overflow:auto;font-size:12.5px}
+#bar h1{font-size:14px;margin:0 16px 4px;line-height:1.4}
+#bar .sub{margin:0 16px 12px;color:#9aa3b2;font-size:11px;line-height:1.5}
+#bar .grp{margin:14px 0 4px;padding:0 16px;color:#ffc000;font-size:11px;font-weight:700;letter-spacing:.03em}
+#bar a{display:block;color:#dfe3ea;text-decoration:none;padding:7px 16px 7px 14px;border-left:3px solid transparent;cursor:pointer;line-height:1.4}
+#bar a i{font-style:normal;color:#7e8798;margin-right:6px;display:inline-block;width:16px}
+#bar a:hover{background:#2b303a}
+#bar a.on{background:#343a46;border-left-color:#ffc000;color:#fff;font-weight:700}
+#bar label{display:block;margin:18px 16px 0;cursor:pointer;color:#cbd1db;border-top:1px solid #343a46;padding-top:12px}
+.secbar{background:#20242c;color:#fff;padding:12px 24px;font-size:14px;font-weight:700;font-family:"Malgun Gothic",sans-serif;display:flex;gap:10px;align-items:baseline;scroll-margin-top:0}
+.secbar small{font-weight:400;color:#aab2c0;font-size:12px}
+.secbar .no{background:#ffc000;color:#222;border-radius:3px;padding:1px 8px;font-size:12px}
+.screen{display:block;margin-bottom:36px;border-bottom:6px solid #cfd3da}
+.edu,.adm{min-height:0!important}
+@media(max-width:900px){body{padding-left:0}#bar{position:static;width:auto}}
+.cardbox{max-width:940px;margin:0 auto;padding:22px 0}
+.cardbox .cap{font-size:12px;color:#888;margin:0 0 8px}
+.mainhome{background:#f4f6fb;border:1px solid #e1e5ee;border-radius:6px;padding:22px 26px;position:relative}
+.mainhome .hello{font-size:22px;color:#222;margin-bottom:14px;line-height:1.4}
+.mainhome .hello b{color:#0a2fb0}
+.mainhome .row{display:flex;gap:12px;flex-wrap:wrap}
+.mainhome .bx{background:#fff;border:1px solid #e3e6ee;border-radius:8px;padding:14px;font-size:12px;color:#555;flex:1;min-width:170px}
+.mainhome .bx b{display:block;color:#222;margin-bottom:6px}
+.mainhome .linkbtn{display:block;text-align:center;border:1px solid #cfd6e6;border-radius:6px;padding:13px;margin-top:10px;color:#0a2fb0;font-weight:700;background:#fff}
+.mainhome .quick{position:absolute;right:-8px;top:14px;width:78px;background:#0a2fb0;color:#fff;font-size:10px;text-align:center;border-radius:4px;overflow:hidden}
+.mainhome .quick div{padding:9px 4px;border-bottom:1px solid #2c4bc4}
+.mainhome .tabs2{display:flex;gap:12px;margin-top:12px}
+.mainhome .tabs2 div{flex:1;background:#e8f0fb;border-radius:6px;padding:14px;text-align:center;color:#223;font-size:12px;font-weight:700}
+.delmark{position:relative;outline:3px solid #e60012;outline-offset:2px}
+.delmark:after{content:"삭제";position:absolute;right:-2px;top:-22px;background:#e60012;color:#fff;font-size:11px;padding:1px 7px;font-family:"Malgun Gothic",sans-serif}
+body.nomk .delmark{outline:0}
+body.nomk .delmark:after{display:none}
+.ghostgone{display:none}
+body:not(.nomk) .gone-after{display:none}
+body.nomk .mk,body.nomk .note-mk{display:none!important}
+.mk{display:inline-block;background:#ffc000;color:#222;font-size:11px;font-weight:700;padding:1px 6px;border-radius:2px;margin:0 4px;vertical-align:middle;font-family:"Malgun Gothic",sans-serif;font-style:normal;letter-spacing:0}
+.mk.del{background:#e60012;color:#fff}
+.note-mk{background:#fff7d6;border:1px dashed #d9a400;color:#6b5200;font-size:12px;padding:8px 12px;margin:14px auto;max-width:1000px;border-radius:3px;font-family:"Malgun Gothic",sans-serif}
+.delbox{border:1px dashed #b5b9c2;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 8px,#f0f0f0 8px,#f0f0f0 16px);color:#8a8f99;text-align:center;padding:12px;font-size:12px}
+body.nomk .delbox{display:none}
+
+/* ===== 연수원 ===== */
+.edu{background:#fff;min-height:calc(100vh - 44px);font-size:13px;color:#555}
+.edu .hd{max-width:940px;margin:0 auto;padding:14px 0 0;position:relative}
+.edu .logo{font-style:italic;font-weight:900;color:#0a2fb0;font-size:26px;letter-spacing:-1px}
+.edu .logo small{font-style:normal;font-weight:700;font-size:22px;margin-left:6px}
+.edu .srch{position:absolute;right:0;top:16px;width:195px;border:1px solid #ccc;border-radius:16px;padding:5px 12px;font-size:11px;color:#aaa}
+.edu .gnb{display:flex;justify-content:space-between;margin-top:14px;font-size:14px;font-weight:500;color:#555}
+.edu .gnb span{padding-bottom:12px}
+.edu .gnb span.on{color:#0a2fb0;font-weight:700}
+.edu .gnbline{border-bottom:1px solid #0a2fb0}
+.edu .gnbwrap{border-bottom:1px solid #0a2fb0}
+.edu .bd{max-width:940px;margin:0 auto;display:flex;gap:40px;padding:22px 0 60px}
+.edu .lnb{width:172px;flex:none}
+.edu .lnb .box{border:1px solid #ddd;border-radius:10px;overflow:hidden}
+.edu .lnb .tt{background:#0a2fb0;color:#fff;font-size:16px;font-weight:700;padding:21px 14px 14px}
+.edu .lnb .it{padding:10px 14px;border-bottom:1px solid #eee;color:#888;font-size:13px;display:flex;justify-content:space-between;cursor:pointer}
+.edu .lnb .it.on{color:#222;font-weight:700}
+.edu .lnb .it:last-child{border:0}
+.edu .ct{flex:1;min-width:0}
+.edu h2{margin:0 0 38px;font-size:23px;font-weight:500;color:#777;padding:6px 0 18px;border-bottom:1px solid #666}
+.edu .notice{background:#f6f6f6;padding:20px;line-height:1.75;font-size:12.5px;margin-bottom:34px}
+.edu .notice b{color:#222}
+.edu .notice .r{color:#e60012}
+.edu h3{font-size:15px;font-weight:700;color:#222;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.edu h3:before{content:"";width:7px;height:7px;background:#0a2fb0;display:inline-block}
+.edu h3 .red{color:#e60012;font-size:11.5px;font-weight:400}
+.edu table.g{width:100%;border-collapse:collapse;border-top:1px solid #0a2fb0;margin-bottom:34px}
+.edu table.g th{background:#f6f6f6;font-weight:400;color:#666;padding:9px 6px;border-bottom:1px solid #ccc;border-left:1px solid #e5e5e5}
+.edu table.g th:first-child{border-left:0}
+.edu table.g td{padding:8px;border-bottom:1px solid #e5e5e5;text-align:center;border-left:1px solid #e5e5e5;color:#666}
+.edu table.g td:first-child{border-left:0}
+.edu input[type=text],.edu input[type=number],.edu input[type=date],.edu select{border:1px solid #ccc;border-radius:3px;padding:8px;font:inherit;font-size:12px;background:#fff;color:#555}
+.edu input:disabled,.edu textarea:disabled{background:#f1f1f1}
+.edu .req{color:#e60012}
+.edu .frm{border-top:1px solid #666;margin-bottom:34px}
+.edu .frm .r{display:flex;border-bottom:1px solid #eee;padding:12px 0;align-items:center}
+.edu .frm .r>label{width:121px;flex:none;font-size:12px;color:#666;padding-right:8px}
+.edu .frm .r>div{flex:1}
+.edu .ed{border:1px solid #ccc}
+.edu .ed .tb{background:#f5f5f5;border-bottom:1px solid #ddd;padding:7px 10px;font-size:11px;color:#777;line-height:2}
+.edu .ed textarea{display:block;width:100%;border:0;padding:12px;font:inherit;font-size:12.5px;min-height:190px;resize:vertical;outline:0;line-height:1.7}
+.edu .ed .ft{background:#f0f0f0;height:22px;border-top:1px solid #ddd}
+.edu .drop{border:1px dashed #aaa;text-align:center;padding:16px;font-size:12px;color:#777}
+.edu .btns{text-align:center;margin-top:34px}
+.edu .pill{display:inline-block;border-radius:22px;padding:11px 22px;font:inherit;font-size:12.5px;cursor:pointer;border:1px solid #ccc;background:#fff;color:#333;margin:0 2px}
+.edu .pill.bl{background:#0a2fb0;color:#fff;border-color:#0a2fb0}
+.edu .sbtn{background:#0a2fb0;color:#fff;border:0;border-radius:3px;padding:9px 14px;font-size:11px;cursor:pointer;font-family:inherit}
+.edu .rpt{border:1px solid #333;border-collapse:collapse;width:100%;font-size:12px;margin-bottom:24px;color:#222}
+.edu .rpt th,.edu .rpt td{border:1px solid #333;padding:9px 10px;text-align:left;vertical-align:middle;background:#fff}
+.edu .rpt th{text-align:center;font-weight:700;width:190px}
+.edu .rpt thead th,.edu .rpt tr.h th{background:#f0f0f0;text-align:left;font-weight:700}
+.edu .rpt td.c{width:60px;text-align:center}
+.edu .rpt tr.dis td,.edu .rpt tr.dis th{color:#aaa;background:#f5f5f5}
+.edu .rpt input[type=text]{width:100%;border:0;padding:2px;outline:0;font-size:12px;background:transparent}
+.edu .rpt .ph::placeholder{color:#999}
+.edu .ro{display:block;padding:8px 0;font-size:12.5px;color:#555;cursor:pointer;border-bottom:1px solid #f0f0f0}.edu .ro:last-child{border:0}.edu .ro b{color:#222;margin-right:8px}.edu .ro span{color:#777}.edu .frm.dis{opacity:.45}.edu .frm.dis input[type=text]{background:#f1f1f1}
+.edu .err{color:#e60012;font-size:12px;margin:6px 0 0;display:none}
+.edu .tag-cat{display:flex;gap:6px;padding:20px 24px;border:1px solid #ddd;border-bottom:0;border-radius:14px 14px 0 0;align-items:center;font-size:12.5px}
+.edu .tag-cat span.c{padding:6px 14px;border-radius:16px;color:#666;cursor:pointer}
+.edu .tag-cat span.c.on{background:#0a2fb0;color:#fff}
+.edu .sbox{display:flex;gap:8px;padding:14px 24px 22px;border:1px solid #ddd;border-top:1px solid #eee;border-radius:0 0 14px 14px;margin-bottom:30px}
+.edu .sbox select,.edu .sbox input{flex:none}
+.edu .sbox input{flex:1}
+.edu table.bd2{width:100%;border-collapse:collapse;border-top:1px solid #0a2fb0;font-size:12.5px}
+.edu table.bd2 th{background:#f6f6f6;font-weight:400;padding:14px 6px;color:#666;border-bottom:1px solid #ccc}
+.edu table.bd2 td{padding:18px 6px;border-bottom:1px solid #e5e5e5;text-align:center;color:#666}
+.edu table.bd2 td.l{text-align:left}
+.edu .pop{background:#e9ebef;display:none;justify-content:center;padding:24px;font-size:12px;margin:10px 0 30px}
+.edu .pop.on{display:flex}
+.edu .pop .pn{background:#fff;border-radius:14px;width:380px;max-width:100%;max-height:96vh;overflow:auto;padding:22px 24px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.edu .pop .pn .t{display:flex;justify-content:space-between;font-size:16px;color:#777;font-weight:700;border-bottom:1px solid #666;padding-bottom:10px;margin-bottom:12px}
+.edu .pop textarea{width:100%;height:100px;border:1px solid #ddd;padding:8px;font:inherit;font-size:12px;resize:none;outline:0;margin-bottom:10px;background:#fafafa}
+.edu .pop .q{color:#666;margin:6px 0 4px}
+.edu .pop .ex{color:#0a2fb0;font-size:11.5px}
+.edu .wh{white-space:pre-line}
+.edu .viewer{background:#222;border-radius:3px;color:#ddd;text-align:center;padding:14px 10px;margin:14px 0}
+.edu .viewer .pg{background:#fff;color:#333;margin:0 auto;padding:46px 10px;width:70%;font-size:13px}
+.edu .viewer .ctl{margin-top:8px;font-size:12px;display:flex;justify-content:center;gap:12px;align-items:center}
+.edu .viewer .ctl span{cursor:pointer}
+.edu .cmt{border-top:1px solid #eee;padding:10px 0;font-size:12.5px;color:#555}
+.edu .cmtin{display:flex;gap:6px;margin-top:6px}
+.edu .cmtin input{flex:1}
+.edu .cbtn{background:#33425b;color:#fff;border:0;font-size:11px;padding:6px 10px;cursor:pointer}
+.edu .lk{display:inline-flex;gap:6px;align-items:center}
+.edu .lkb{background:#1ba1e2;color:#fff;border:0;padding:6px 11px;font-size:11px;cursor:pointer}
+
+/* ===== 에듀매니저 ===== */
+.adm{display:flex;min-height:calc(100vh - 44px);font-family:"Malgun Gothic","Noto Sans KR",sans-serif;font-size:12.5px;color:#444;background:#fff}
+.adm .sb{width:188px;flex:none;background:#333;color:#eee;font-weight:700;font-size:12px}
+.adm .sb .lg{background:#f00;color:#fff;padding:17px 14px;font-size:13px}
+.adm .sb .mn{padding:18px 20px;font-weight:400;border-bottom:1px solid #3d3d3d;color:#ddd}
+.adm .sb .g{padding:12px 20px;color:#eee;display:flex;justify-content:space-between}
+.adm .sb .g.on{background:#4a4a4a}
+.adm .sb .sub{background:#505050;color:#aaa;font-weight:400;padding:0}
+.adm .sb .sub div{padding:7px 20px}
+.adm .sb .sub div.on{color:#fff;font-weight:700}
+.adm .sb .l{padding:12px 20px;font-size:11px;color:#eee}
+.adm .mainc{flex:1;min-width:0}
+.adm .top{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:#fafafa;border-bottom:0}
+.adm .top .pt{font-weight:700;font-size:13px;color:#222}
+.adm .top .rt{display:flex;gap:6px;align-items:center;font-size:11px}
+.adm .chip{padding:5px 10px;border-radius:14px;color:#fff;background:#1d5be0}
+.adm .chip.sq{border-radius:3px;background:#1565c0}
+.adm .chip.gr{border-radius:3px;background:#666}
+.adm .body{padding:14px 20px 40px}
+.adm h4{font-size:15px;margin:10px 0 8px;color:#111}
+.adm h5{font-size:12.5px;margin:20px 0 4px;color:#111;border-bottom:1px solid #555;padding-bottom:6px}
+.adm table.f{width:100%;border-collapse:collapse;margin-bottom:6px}
+.adm table.f th{background:#f5f5f3;width:267px;text-align:left;padding:11px 20px;font-weight:700;color:#444;border-bottom:1px solid #e8e8e8}
+.adm table.f td{padding:8px 20px;border-bottom:1px solid #eee;color:#666}
+.adm table.f.top1{border-top:1px solid #555}
+.adm table.l{width:100%;border-collapse:collapse;font-size:11.5px;text-align:center}
+.adm table.l thead th{border-top:1px solid #555;border-bottom:1px solid #aaa;background:#fafafa;padding:11px 4px;font-weight:700;color:#555}
+.adm table.l td{border-bottom:1px solid #e5e5e5;padding:14px 4px;color:#777}
+.adm table.l td.lf{text-align:left}
+.adm a.u{color:#2674c9;text-decoration:none}
+.adm input[type=text],.adm input[type=number],.adm select{border:1px solid #ccc;padding:5px 6px;font:inherit;font-size:12px;background:#fff}
+.adm .sbt{border:1px solid #aaa;background:#fff;padding:5px 9px;font:inherit;font-size:11px;cursor:pointer}
+.adm .sbt.red{border-color:#c0392b;color:#c0392b;font-weight:700;padding:9px 18px;font-size:12px}
+.adm .sbt.dk{background:#555;color:#fff;border-color:#555}
+.adm .sbt:disabled{color:#bbb;cursor:default}
+.adm .edi{border:1px solid #aaa}
+.adm .edi .tb{background:#f3f3f3;border-bottom:1px solid #ccc;padding:5px 8px;font-size:10px;color:#777}
+.adm .edi textarea{width:100%;border:0;min-height:120px;padding:8px;font:inherit;font-size:12px;outline:0;display:block}
+.adm .edi .ft{background:#f3f3f3;border-top:1px solid #ccc;font-size:10px;color:#777;padding:3px 8px;text-align:center}
+.adm .sch{background:#f7f7f7;padding:14px 30px;line-height:2.1;margin-bottom:24px;font-size:12px}
+.adm .rd{color:#d33}
+.adm .pre{white-space:pre-line;line-height:1.7}
+@media(max-width:760px){.edu .bd{flex-direction:column;padding:16px}.edu .lnb{width:auto}.adm .sb{display:none}.adm table.f th{width:110px;padding:10px}.edu .hd{padding:14px 16px 0}.edu .gnb{font-size:12px}.edu .srch{display:none}}
+
+.nb-wrap{position:relative;display:inline-block;vertical-align:middle;margin:2px 4px;font-family:"Malgun Gothic",sans-serif;font-style:normal;letter-spacing:0;font-weight:400}
+.nb-wrap.blk{display:block;margin:8px 0}
+.nb{width:20px;height:20px;border-radius:50%;border:0;background:#ffc000;color:#222;font-size:11px;font-weight:700;cursor:pointer;padding:0;line-height:20px;font-family:inherit}
+.nb:hover,.nb.on{background:#222;color:#ffc000}
+.nb-pop{display:none;position:absolute;left:0;top:26px;z-index:45;width:330px;max-width:80vw;background:#fffdf3;border:1px solid #ffc000;border-radius:4px;box-shadow:0 4px 14px rgba(0,0,0,.2);padding:10px 12px;font-size:12px;line-height:1.65;color:#333;text-align:left;white-space:normal}
+.nb-pop.on{display:block}
+.nb-pop.fl{left:auto;right:0}
+body.nomk .nb-wrap{display:none!important}
+</style>
+</head>
+<body>
+<div id="bar">
+  <h1>KCC글라스 사이버연수원<br>화면 수정 목록</h1>
+  <div class="sub">요청 PPT 기준 수정 화면을 순서대로 모았습니다. 항목을 누르면 해당 화면으로 이동합니다.</div>
+  <div class="grp">연수원 (사용자)</div>
+  <a data-s="c1"><i>1</i>메인 · 1:1문의 바로가기 삭제</a>
+  <a data-s="c1b"><i>2</i>상단 메뉴 · 1:1문의 삭제</a>
+  <a data-s="c2"><i>3</i>사외교육 신청</a>
+  <a data-s="c3"><i>4</i>결재 관리 (결재자 의견)</a>
+  <a data-s="c4"><i>5</i>교육결과보고</a>
+  <a data-s="c5"><i>6</i>전파교육 자료 · 목록</a>
+  <a data-s="c6"><i>7</i>전파교육 자료 · 글쓰기</a>
+  <a data-s="c7"><i>8</i>전파교육 자료 · 상세</a>
+  <div class="grp">에듀매니저 (관리자)</div>
+  <a data-s="a1"><i>9</i>커뮤니티 관리</a>
+  <a data-s="a2"><i>10</i>외부교육 신청 · 과정 상세</a>
+  <a data-s="a2b"><i>11</i>외부교육 신청 수정</a>
+  <a data-s="a3"><i>12</i>결과보고서 확인·수정</a>
+  <label><input type="checkbox" id="mkt" checked> 변경 표시 보기</label>
+</div>
+
+<!-- ============ 연수원 공통 상단 템플릿은 각 화면에 포함 ============ -->
+
+<!-- c1 -->
+<style>
+.mh{position:relative;background:#fff;border:1px solid #e1e4ea;overflow:hidden;font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:#333}
+.mh .hdr{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 40px;background:#fff}
+.mh .hdr .logo{font-style:italic;font-weight:900;color:#0a2fb0;font-size:25px;letter-spacing:-1px}
+.mh .hdr .logo small{font-style:normal;font-weight:700;font-size:21px;margin-left:5px}
+.mh .hdr .wl{font-size:10px;color:#888;display:flex;align-items:center;gap:8px}
+.mh .hdr .wl b{color:#222}
+.mh .hdr .wl i{width:26px;height:26px;border-radius:50%;background:#6b6cf0;display:inline-block}
+.mh .gray{background:#f2f2f2;padding:22px 40px 18px;position:relative;margin-right:92px}
+.mh .gray:before{content:"";position:absolute;left:-30px;top:30px;width:110px;height:110px;border-radius:110px 0 0 0;background:#cde6fb;opacity:.9}
+.mh .gray:after{content:"";position:absolute;left:-40px;bottom:-20px;width:120px;height:120px;border-radius:50%;background:#c8f0e6}
+.mh .hello{position:relative;z-index:1;font-size:22px;line-height:1.35;color:#222;margin-bottom:16px}
+.mh .hello b{color:#14459a}
+.mh .grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:10px}
+.mh .card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.12);padding:14px;font-size:11px}
+.mh .card h4{margin:0 0 8px;font-size:12.5px;color:#222}
+.mh .sm3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:8px 0}
+.mh .sm3 div{border:1px solid #dde;border-radius:4px;text-align:center;padding:6px 2px;font-size:9.5px;color:#555}
+.mh .sm3 div b{display:block;font-size:16px;color:#2bb9d6;margin-top:3px}
+.mh .sm3 div.on{background:#14459a;color:#fff}
+.mh .sm3 div.on b{color:#fff}
+.mh .lb{background:#e8f1fb;border-radius:4px;text-align:center;font-weight:700;color:#223;padding:10px;font-size:12px}
+.mh ul{margin:0;padding-left:14px;line-height:2}
+.mh .two{display:grid;gap:10px;grid-template-rows:auto auto}
+.mh .rc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mh .rc .card{text-align:center;font-weight:700;font-size:11.5px;line-height:1.5;padding:12px 4px}
+.mh .rc .card em{color:#d10f0f;font-style:normal;display:block;font-size:13px}
+.mh .mob{display:flex;gap:8px;font-size:9.5px;color:#666}
+.mh .mob .qr{width:54px;height:54px;background:repeating-conic-gradient(#222 0 25%,#fff 0 50%) 0 0/10px 10px;flex:none}
+.mh .wh{background:#fff;margin:10px 132px 14px 40px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.12);padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1}
+.mh .wh div{background:#e5f0fb;border-radius:5px;text-align:center;padding:14px 4px;font-weight:700;font-size:12.5px;color:#223}
+.mh .qk{position:absolute;right:0;top:0;bottom:0;width:92px;background:#14459a;color:#fff;font-size:10px;text-align:center}
+.mh .qk div{padding:11px 4px;border-bottom:1px solid #2a58ad}
+.mh .qk .av{width:34px;height:34px;border-radius:50%;background:#dfe6f3;margin:6px auto}
+.mh .qk .mid{font-size:9px;line-height:1.5;border:0}
+.mh .qk div.sel{background:transparent}
+.mh .contents{padding:12px 40px 20px;margin-right:92px;font-size:15px;font-weight:700;color:#222}
+.mh .contents span{display:block;font-size:10px;font-weight:400;color:#999;margin-top:4px}
+.mh .del{outline:3px solid #e60012;outline-offset:1px;position:relative}
+.mh .del:after{content:"삭제";position:absolute;right:-1px;top:-19px;background:#e60012;color:#fff;font-size:10px;padding:1px 6px;font-family:"Malgun Gothic",sans-serif;z-index:5;outline:0}
+body.nomk .mh .del{outline:0}
+body.nomk .mh .del:after{display:none}
+.mh .qk .del:after{right:2px;top:-17px}
+</style>
+<section class="screen" id="c1">
+  <div class="secbar"><span class="no">1</span>연수원 · 메인 1:1문의 바로가기 삭제 <small>슬라이드 1 / 1:1문의 게시판 페이지 완전 삭제</small></div>
+  <div class="edu"><div class="cardbox" id="mhwrap"></div></div>
+</section>
+<script>
+function mainHome(after){
+  const bn=after?'':'<div class="card del" style="margin-top:0;text-align:center;font-weight:700;font-size:12.5px;color:#14459a;padding:15px">💬 1 : 1 문의 게시판</div>';
+  return `<div class="mh">
+   <div class="hdr"><span class="logo">KCC<small>글라스</small></span><span class="wl"><span><b>KCC글라스</b>님 환영합니다. | 로그아웃</span><i></i></span></div>
+   <div class="gray"><div class="hello"><b>KCC글라스</b>님의<br>학습과 성장을 응원합니다 :-)</div>
+    <div class="grid">
+     <div class="card"><h4>연간 교육 진행 현황</h4><div style="font-size:10px">기준시간 <b style="color:#14459a">0</b>시간 중 <b style="color:#d10f0f">0</b>시간 인정</div>
+       <div class="sm3"><div>사내교육<br>인정시간<b>0</b></div><div>사외교육<br>인정시간<b>0</b></div><div class="on">총 교육<br>인정시간<b>0</b></div></div><div class="lb">나의 교육관리</div></div>
+     <div class="two" style="${after?'grid-template-rows:1fr':''}"><div class="card"><h4 style="display:flex;justify-content:space-between">공지사항 <span style="font-weight:400;font-size:10px;color:#666">더보기 ›</span></h4><ul><li>어학 달성 축하금 지원 신청 링크 안내</li><li>어학역량 활성화 방안 안내</li><li>현업 주도 교육 프로세스 안내</li><li>[KCC글라스] 교육 프로세스</li>${after?'<li>사외교육 신청 유의사항 안내 <span class="mk">공지 추가 노출</span></li><li>전파교육 자료 게시판 이용 안내</li><li>연간 교육 인정시간 산정 기준 안내</li><li>교육결과보고 작성 방법 안내</li>':''}</ul></div>${bn}</div>
+     <div class="two"><div class="rc"><div class="card">고객행복센터<em>1833-7257</em></div><div class="card" style="display:flex;align-items:center;justify-content:center">학습장애<br>원격상담</div></div>
+       <div class="card"><h4>모바일 학습 안내</h4><div class="mob"><div>• 네이버, 다음 등의 어플 중 하나를 실행하여 QR코드를 촬영해 주세요.<br>• 설치 URL을 보내드립니다.<div style="border:1px solid #ddd;border-radius:12px;padding:4px 8px;margin-top:5px;color:#aaa">휴대폰 번호 입력</div><div style="color:#d10f0f;margin-top:4px">기업고유번호 : 12080</div></div><div class="qr"></div></div></div></div>
+    </div></div>
+   <div class="wh"><div>온라인교육</div><div>사외교육</div><div>GPC</div></div>
+   <div class="contents">KCC글라스님의 맞춤형 콘텐츠<span>개인 맞춤형 콘텐츠입니다.</span></div>
+   <div class="qk"><div class="mid">⌂<br>KCC글라스</div><div class="av"></div><div class="mid">KCC글라스 님<br>환영합니다.</div><div>온라인 학습현황</div><div>나의 교육이력</div><div>모바일앱다운로드</div><div>학습장애 원격상담</div>${after?'':'<div class="del" style="background:#0a2fb0">1:1문의 게시판</div>'}<div style="border:0">최근 본 과정</div></div>
+  </div>`;
+}
+document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span class="mk" style="margin-left:6px">1:1 문의 게시판 바로가기 2곳 (메인 카드, 우측 퀵메뉴)</span></p>'+mainHome(false)+'<p class="cap" style="margin-top:26px">변경 후</p>'+mainHome(true)+'<div class="note-mk" style="max-width:none">메인 카드의 "1:1 문의 게시판" 바로가기와 우측 퀵메뉴의 "1:1문의 게시판"을 삭제합니다. 삭제된 중앙 자리에는 공지사항 카드를 늘려 공지 목록을 더 많이 보여줍니다(변경 후 화면은 4건에서 8건으로 표시하는 예시).</div>';
+</script>
+
+<!-- c1b -->
+<section class="screen" id="c1b">
+  <div class="secbar"><span class="no">2</span>연수원 · 상단 메뉴 1:1문의 삭제 <small>슬라이드 1 / 1:1문의 게시판 페이지 완전 삭제</small></div>
+  <div class="edu"><div class="cardbox">
+    <p class="cap">변경 전</p>
+    <div class="gnbwrap" style="border:1px solid #eee"><div class="hd" style="padding:14px 16px 0"><span class="logo">KCC<small>글라스</small></span><div class="srch" style="right:16px">검색어를 입력하세요</div>
+      <div class="gnb"><span>공지사항</span><span>온라인교육</span><span>사외교육</span><span>나의 교육관리</span><span class="delmark" style="color:#0a2fb0;font-weight:700;padding:0 6px 12px">1:1문의 게시판</span></div></div></div>
+    <p class="cap" style="margin-top:26px">변경 후</p>
+    <div class="gnbwrap" style="border:1px solid #eee"><div class="hd" style="padding:14px 16px 0"><span class="logo">KCC<small>글라스</small></span><div class="srch" style="right:16px">검색어를 입력하세요</div>
+      <div class="gnb" style="justify-content:space-around"><span>공지사항</span><span>온라인교육</span><span>사외교육</span><span>나의 교육관리</span></div></div></div>
+    <div class="note-mk" style="max-width:none">상단 메뉴에서 "1:1문의 게시판"을 삭제하고, 1:1문의 페이지(목록 · 글쓰기 · 상세)는 완전히 삭제합니다. 기존 주소로 접근하더라도 이용할 수 없으며 연수원 메인으로 이동합니다. (이동 방식은 제안)</div>
+  </div></div>
+</section>
+
+<!-- c2 -->
+<section class="screen edu" id="c2">
+  <div class="secbar"><span class="no">3</span>연수원 · 사외교육 신청 <small>슬라이드 2~4</small></div>
+  <div class="gnbwrap"><div class="hd"><span class="logo">KCC<small>글라스</small></span><div class="srch">검색어를 입력하세요</div>
+    <div class="gnb"><span>공지사항</span><span>온라인교육</span><span class="on">사외교육</span><span>나의 교육관리</span></div></div></div>
+  <div class="bd">
+    <div class="lnb"><div class="box"><div class="tt">사외교육</div><div class="it on">사외교육 신청 <span>⌄</span></div><div class="it">교육결과보고 <span>›</span></div><div class="it" id="lnbc2">전파교육 자료 <span class="mk">신규</span><span>›</span></div></div></div>
+    <div class="ct">
+      <h2>사외교육 신청</h2>
+      <div class="notice"><b>[필독] 사외교육 신청 유의사항</b><br>
+        <span class="r">1. 교육비 결재선 : 무료-팀장 / 50만원 이하-임원 / 50만원 초과-본부장<br>2. 본인 신청 원칙 (일괄/대리 신청 불가)</span><br>
+        <span class="r">3. 교육 신청 목적이 불분명하거나 구체적이지 않은 형식적인 경우, 담당자 검토 후 반려 가능</span> <span class="mk">신규</span><br>
+        <span class="r">4. 사외교육 수강 후 '교육결과보고' 필히 작성 필요<br>&nbsp;&nbsp;&nbsp;&nbsp;(※ 50만원 초과 교육의 경우 '교육결과보고' 미제출시 해당 연도 추가 사외교육 결재 제한)</span> <span class="mk">신규</span><br>
+        <span class="r">5. 법정교육도 이력관리를 위해 신청 必</span> <span class="mk">신규</span></div>
+      <h3>신청자 정보</h3>
+      <table class="g"><tr><th>이름</th><th>사번</th><th>부서</th></tr><tr><td>한보람</td><td>22502456</td><td>인사팀</td></tr></table>
+      <h3>교육과정 정보</h3>
+      <div style="display:flex;gap:4px;margin-bottom:10px"><select style="width:132px"><option>사외-직무역량개발</option></select><input type="text" style="flex:1;max-width:450px;color:#e60012" placeholder="과정명을 입력하세요.(필수 입력)"></div>
+      <table class="g"><tr><th>교육기간<span class="req">*</span></th><th>교육시간<span class="req">*</span></th><th>교육비용<span class="req">*</span></th><th>법정교육 여부<span class="req">*</span> <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 고용보험 환급여부)</div></th></tr>
+        <tr><td><input type="text" style="width:80px"> ~ <input type="text" style="width:80px"></td><td><input type="text" style="width:64px"> 시간</td><td><input type="text" style="width:96px"> 원</td><td><select><option>선택</option><option>법정교육</option><option>일반교육</option></select><div style="font-size:10px;color:#aaa;margin-top:3px">(기존: 비환급 / 환급)</div></td></tr></table>
+      <h3>교육기관 정보</h3>
+      <table class="g"><tr><th>교육기관명<span class="req">*</span></th><th>교육장소<span class="req">*</span></th><th>교육 URL</th></tr><tr><td><input type="text" style="width:100%"></td><td><input type="text" style="width:100%"></td><td>https:// <input type="text" style="width:130px"></td></tr></table>
+      <h3>교육내용</h3>
+      <div class="frm"><div class="r"><label>교육내용</label><div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea></textarea><div class="ft"></div></div></div></div>
+        <div class="r"><label>교육 신청 목적 <span class="mk">항목명 변경</span><br><span style="font-size:10.5px;color:#aaa">(기존: 교육목적)</span></label><div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea id="purpose">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.
+
+
+
+2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.
+</textarea><div class="ft"></div></div>
+          <div class="note-mk" style="margin:6px 0 0">기존 입력란의 "1. 직무역량 향상 관점", "2. 조직성과 창출 기여 관점" 소제목 문구가 각각 아래 안내 문구로 바뀝니다. 입력란은 하나이며, 에듀매니저와 결과보고 화면에서도 하나의 내용으로 보입니다.</div></div></div>
+        <div class="r"><label>첨부파일</label><div><div class="drop">찾아보기</div></div></div></div>
+      <h3 style="margin-top:6px">결재단계 등록 <span class="red">※ 인사팀 결재단계 추가 불필요 / 부서 결재 후 인사팀 최종 확인 시 완료</span><span class="mk">문구 변경</span><span style="margin-left:auto"><button class="sbtn">결재등록</button></span></h3>
+      <table class="g" style="margin-bottom:6px"><tr><th>결재단계</th><th>결재유형</th><th>이름</th><th>직급</th><th>부서</th></tr><tr><td colspan="5">검색된 데이터가 없습니다.</td></tr></table>
+      <div class="note-mk" style="margin:0 0 20px">기존 문구: 인사팀 교육담당자 승인 후 최종 결재가 완료 됩니다.</div>
+      <div class="btns"><button class="pill" onclick="toast('제출되었습니다. (시연)')">제출 ▣</button><button class="pill bl">목록 ☰</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- c3 -->
+<section class="screen edu" id="c3">
+  <div class="secbar"><span class="no">4</span>연수원 · 결재 관리 (결재자 의견) <small>슬라이드 5</small></div>
+  <div class="gnbwrap"><div class="hd"><span class="logo">KCC<small>글라스</small></span><div class="srch">검색어를 입력하세요</div>
+    <div class="gnb"><span>공지사항</span><span>온라인교육</span><span>사외교육</span><span class="on">나의 교육관리</span></div></div></div>
+  <div class="bd">
+    <div class="lnb"><div class="box"><div class="tt">나의 교육관리</div><div class="it">온라인 학습현황 <span>›</span></div><div class="it">마이크로러닝 학습현황 <span>›</span></div><div class="it on">결재 관리 <span>⌄</span></div><div class="it">학습장애 원격상담 <span>›</span></div></div></div>
+    <div class="ct">
+      <h2 style="margin:0 0 18px;font-size:20px">결재관리</h2>
+      <div style="border:1px solid #ddd;border-radius:14px;padding:16px 22px;margin-bottom:24px;font-size:12px;color:#666;line-height:2.4">교육시작일 <select><option>2026</option></select> <select><option>전체</option></select> &nbsp; 교육유형 <select><option>전체</option><option>온라인과정</option><option>독서통신</option><option>도서학습</option><option>오프라인</option><option>외부교육</option><option>사외과정신청</option><option>사외과정보고서</option></select> &nbsp; 과정분류 <select><option>분류선택</option></select><br>팀원검색 <select><option>이름</option><option>사번</option><option>부서명</option></select> <input type="text" style="width:55%" placeholder="검색어를 입력해주세요."> <button class="sbtn" style="background:#555">검색</button></div>
+      <div class="note-mk" style="margin-top:0">안내 문구의 노출 방식(항상 노출 또는 정보 아이콘 마우스 오버)과 의견 항목명 일치 여부는 고객사 답변 후 확정합니다. 시연에서는 항상 노출로 표시했습니다.</div>
+      <h3>결재 대기중인 수강신청 현황</h3>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px">
+        <div style="color:#e60012;font-size:11.5px;line-height:1.6">※ 사외교육의 경우 결재권자는 품의 결재 시 <span style="background:#ffe3e3">교육 대상자가 교육 신청 시</span> 작성한 교육 목적을 필히 확인하여<br>&nbsp;&nbsp;'직무역량향상', '조직성과 창출 기여' 두 가지 관점에서 상신 의견 등록에 승인 / 반려 의견 기술 <span class="mk">문구 변경</span><br><span style="color:#aaa">(기존: 교육참가자가 작성한 교육 목적을 필히 확인하여)</span></div>
+        <div style="display:flex;gap:6px"><select><option>승인</option><option>반려</option></select><button class="sbtn">확인</button></div></div>
+      <table class="g" style="margin-bottom:10px"><tr><th style="width:36px"></th><th>이름<br>(아이디)</th><th>부서</th><th>과정명</th><th>결재단계</th><th>신청일</th><th>처리</th></tr>
+        <tr><td><input type="checkbox"></td><td style="color:#2674c9">홍길동<br><span style="color:#999;font-size:11px">(hong01)</span></td><td>생산기술팀</td><td style="text-align:left"><span style="background:#6f8fb5;color:#fff;border-radius:9px;padding:2px 8px;font-size:10px">외부교육과정신청</span><br><u style="color:#222">구조 및 응급처치 교육</u><br><span style="color:#999;font-size:11px">· 학습기간 : 2026-11-18 ~ 2026-11-18</span></td><td><button class="pill" style="padding:5px 12px;font-size:11px">확인</button></td><td>2026-11-16</td><td><button class="sbtn">승인</button> <button class="pill" style="padding:5px 10px;font-size:11px">반려</button></td></tr>
+        <tr><td><input type="checkbox"></td><td style="color:#2674c9">홍길동<br><span style="color:#999;font-size:11px">(hong01)</span></td><td>생산기술팀</td><td style="text-align:left"><span style="background:#6f8fb5;color:#fff;border-radius:9px;padding:2px 8px;font-size:10px">외부교육결과보고서</span><br><u style="color:#222">AI 활용 공정데이터 문제 해결</u><br><span style="color:#999;font-size:11px">· 학습기간 : 2026-10-27 ~ 2026-10-28</span></td><td><button class="pill" style="padding:5px 12px;font-size:11px">확인</button></td><td>2026-11-12</td><td><button class="sbtn">승인</button> <button class="pill" style="padding:5px 10px;font-size:11px">반려</button></td></tr></table>
+      <div style="text-align:center;color:#666;margin-bottom:26px">« ‹ <b style="border:1px solid #0a2fb0;border-radius:50%;padding:3px 8px">1</b> › »</div>
+      <h3>결재 완료인 수강신청 현황</h3>
+      <div class="note-mk" style="margin:0 0 10px">아래 두 상세 화면(사외교육 신청, 외부교육 보고서)은 상급자가 과정명을 눌러 확인하는 화면입니다. 신청자가 입력한 항목이 그대로 노출되므로 항목명 변경과 삭제가 함께 적용됩니다. 실제 데이터가 없는 상태값은 확인 후 확정합니다.</div>
+    </div>
+  </div>
+  <div class="pop on" id="p3"><div class="pn">
+    <div class="t"><span>결재자 의견</span><span style="cursor:pointer;color:#222" onclick="closePop('p3')">✕</span></div>
+    <div style="background:#fff2f2;border:1px dashed #e66;padding:8px;font-size:11.5px;line-height:1.6;margin-bottom:10px;color:#333">본 교육은 회사의 비용 지원으로 운영됩니다.<br>조직책임자께서는 대상자에게 꼭 필요한 교육인지 면밀히 검토하신 후, 구체적인 결재 의견을 작성해 주시기 바랍니다. <span class="mk">신규</span><div style="margin-top:8px;color:#e60012">※ 교육 내용과 무관하거나 형식적인 사유로 기재된 경우 부득이하게 반려될 수 있습니다.<br>(반려 예시: 단순 '승인', '도움이 될 것 같음', 모든 교육에 동일한 사유를 복사하여 붙여넣은 경우 등) <span class="mk">신규</span></div></div>
+    <div class="q">1. 직무역량향상 관점 <span class="ex">(교육 대상자의 수강 필요 사유)</span><span class="mk">설명 추가</span></div><textarea placeholder="-"></textarea>
+    <div class="q">2. 조직성과창출 관점 <span class="ex">(교육 이수 후 현업에 적용하길 기대하는 업무 및 연계 과제)</span><span class="mk">설명 추가</span></div><textarea placeholder="-"></textarea>
+        <div style="text-align:center"><button class="pill" onclick="closePop('p3')">닫기</button></div>
+  </div></div>
+  <div class="pop on" id="p3a"><div class="pn" style="width:560px">
+    <div class="t"><span>사외교육 신청</span><span>✕</span></div>
+    <h3 style="font-size:13px;margin:10px 0 6px">신청자 정보</h3>
+    <table class="g" style="margin-bottom:14px"><tr><th>이름</th><th>사번</th><th>부서</th></tr><tr><td>홍길동</td><td>22500000</td><td>생산기술팀</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육과정 정보</h3>
+    <div style="margin-bottom:6px">구조 및 응급처치 교육</div>
+    <table class="g" style="margin-bottom:14px"><tr><th>교육기간</th><th>교육시간</th><th>교육비용</th><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 고용보험 환급여부)</div></th></tr><tr><td>2026-11-18</td><td>4시간</td><td>0원</td><td>일반교육</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육기관 정보</h3>
+    <table class="g" style="margin-bottom:14px"><tr><th>교육기관명</th><th>교육장소</th><th>교육 URL</th></tr><tr><td>노원구보건소</td><td>서울 노원구 노해로 437</td><td></td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육내용</h3>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:130px">교육내용</th><td style="text-align:left">구조 및 응급처치교육(4시간)</td></tr>
+      <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 교육목적)</div></th><td style="text-align:left">1. 응급의료법 대상자(자동심장충격기 관리책임자)에 해당하여 수강<br>2. 응급활동의 원칙 및 기본인명구조술 등 현업 적용 예정</td></tr></table>
+  </div></div>
+  <div class="pop on" id="p3b"><div class="pn" style="width:560px">
+    <div class="t"><span>외부교육 보고서</span><span>✕</span></div>
+    <h3 style="font-size:13px;margin:10px 0 6px">신청자 정보</h3>
+    <table class="g" style="margin-bottom:14px"><tr><th>이름</th><th>사번</th><th>부서</th></tr><tr><td>홍길동</td><td>22500000</td><td>생산기술팀</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육과정 정보</h3>
+    <div style="margin-bottom:6px">AI 활용 공정데이터 문제 해결</div>
+    <table class="g" style="margin-bottom:14px"><tr><th>교육기간</th><th>교육시간</th><th>교육비용</th><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 고용보험 환급여부)</div></th></tr><tr><td>2026-10-27 ~ 2026-10-28</td><td>약 12.0시간</td><td>0원</td><td>일반교육</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육기관 정보</h3>
+    <table class="g" style="margin-bottom:14px"><tr><th>교육기관명</th><th>교육기관 전화번호</th><th>교육 URL</th><th>교육장소</th></tr><tr><td>휴넷</td><td></td><td></td><td>휴넷캠퍼스</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육내용</h3>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:130px">교육내용</th><td style="text-align:left">스마트 팩토리에서 AX 팩토리로의 변화 …</td></tr>
+      <tr><th>교육소감 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr>
+      <tr><th>첨부파일 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr>
+      <tr><th>수료여부 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr>
+      <tr><th>교육 만족도 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr>
+      <tr><th>업무활용도 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">교육 활용도 보고 <span class="mk">신규</span></h3>
+    <div class="note-mk" style="margin:0 0 8px">신청자가 선택한 활용 수준에 따라 노출 항목이 달라집니다. 아래 3가지 경우 중 해당하는 1가지만 보입니다.</div>
+    <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">① 직접 적용 선택 시</p>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">사전 작성 내용(수강 필요 이유)</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
+      <tr><th>사전 작성 내용(적용할 업무/과제)</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
+      <tr><th>실제 활용 수준</th><td style="text-align:left">직접 적용</td></tr>
+      <tr><th>적용/참고 업무</th><td style="text-align:left">공정 데이터 분석 자동화 코드 작성</td></tr>
+      <tr><th>적용/참고 내용</th><td style="text-align:left">교육에서 배운 분석 방법을 공정 불량 데이터 정제 업무에 직접 적용함</td></tr>
+      <tr><th>성과 및 변화</th><td style="text-align:left">월간 불량 데이터 정리 시간 단축</td></tr></table>
+    <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">② 업무 참고 선택 시 <span style="font-weight:400;color:#888">(①과 같은 항목, 활용 수준 값만 "업무 참고")</span></p>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">실제 활용 수준</th><td style="text-align:left">업무 참고</td></tr>
+      <tr><th>적용/참고 업무 · 내용 · 성과 및 변화</th><td style="text-align:left">①과 동일하게 3개 항목 노출</td></tr></table>
+    <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">③ 미활용 선택 시</p>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">실제 활용 수준</th><td style="text-align:left">미활용</td></tr>
+      <tr><th>미활용 사유</th><td style="text-align:left">향후 활용 예정 <span style="color:#888">(입력한 내용: 12월 신규 라인 가동 시 적용 예정)</span></td></tr>
+      <tr><td colspan="2" style="text-align:left;color:#888;font-size:11px">적용/참고 업무 · 내용 · 성과 및 변화는 노출하지 않습니다. 사유가 "향후 활용 예정" 또는 "기타 사유"이면 입력 내용을 함께 보여 줍니다.</td></tr></table>
+    <h3 style="font-size:13px;margin:10px 0 6px">결재진행현황</h3>
+    <table class="g" style="margin-bottom:6px"><tr><th>결재단계</th><th>이름</th><th>직급</th><th>부서</th><th>결재일</th><th>상태</th></tr><tr><td>1</td><td>김팀장</td><td>팀장</td><td>생산기술팀</td><td></td><td style="color:#e60012">대기</td></tr></table>
+  </div></div>
+</section>
+
+<!-- c4 -->
+<section class="screen edu" id="c4">
+  <div class="secbar"><span class="no">5</span>연수원 · 교육결과보고 <small>슬라이드 6~10</small></div>
+  <div class="gnbwrap"><div class="hd"><span class="logo">KCC<small>글라스</small></span><div class="srch">검색어를 입력하세요</div>
+    <div class="gnb"><span>공지사항</span><span>온라인교육</span><span class="on">사외교육</span><span>나의 교육관리</span></div></div></div>
+  <div class="bd">
+    <div class="lnb"><div class="box"><div class="tt">사외교육</div><div class="it">교육참가신청 <span>›</span></div><div class="it on">교육결과보고 <span>⌄</span></div><div class="it">전파교육 자료 <span class="mk">신규</span><span>›</span></div></div></div>
+    <div class="ct">
+      <h2>교육결과보고</h2>
+      <div class="notice"><b>[필독] 작성시 유의 사항</b><br><span class="r">1. [전결권한] : 상위 조직책임자<br>2. 첨부 : 교육 수료증(이수증), 전파교육 실시 사진, 전파교육 자료<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*3개 자료 모두 첨부하여 결과보고서 작성 완료 시, 인사팀 검토 후 교육시간 인정)<br>3. 전파교육 자료 필수 항목 : 교육명, 교육일자, 교육주관처, 교육강사, 교육참석자(소속/이름/직급)<br>&nbsp;&nbsp;&nbsp;&nbsp;*전파 교육자료는 <u>교육플랫폼 게시판</u>에 게시될 예정</span> <span class="mk">그룹웨어 → 교육플랫폼</span><br><span class="r">4. 50만원 초과 교육의 경우 '교육결과보고' 미제출시 해당 연도 추가 사외교육 결재 보류</span> <span class="mk">신규</span></div>
+      <h3>신청자 정보</h3>
+      <table class="g"><tr><th>이름</th><th>사번</th><th>부서</th></tr><tr><td>한보람</td><td>22502456</td><td>인사팀</td></tr></table>
+      <h3>교육과정 정보</h3>
+      <div style="display:flex;gap:4px;margin-bottom:10px"><select style="width:132px"><option>사외-직무역량개발</option></select><input type="text" style="flex:1;max-width:450px;color:#e60012" placeholder="과정명을 입력하세요.(필수 입력)"></div>
+      <table class="g"><tr><th>교육기간<span class="req">*</span></th><th>교육시간<span class="req">*</span></th><th>교육비용<span class="req">*</span></th><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 고용보험 환급여부)</div></th><th>인정시간<span class="req">*</span></th></tr>
+        <tr><td><input type="text" style="width:70px"> ~ <input type="text" style="width:70px"></td><td><input type="text" style="width:50px" value="0"> 시간</td><td><input type="text" style="width:80px"> 원</td>
+        <td><label style="margin-right:6px"><input type="radio" name="legal" value="legal" onchange="calc()"> 법정교육</label><label><input type="radio" name="legal" value="gen" checked onchange="calc()"> 일반교육</label><div style="font-size:10px;color:#aaa">(기존: 비환급 / 환급)</div></td><td><input type="text" style="width:60px"></td></tr></table>
+      <h3>교육기관 정보</h3>
+      <table class="g"><tr><th>교육기관명<span class="req">*</span></th><th>교육장소</th><th>교육 URL</th></tr><tr><td><input type="text" style="width:100%"></td><td><input type="text" style="width:100%"></td><td>https:// <input type="text" style="width:130px"></td></tr></table>
+      <h3>조직 내 전파교육</h3>
+      <div class="frm"><div class="r"><label>전파교육 시간</label><div><input type="text" style="width:100%"></div></div><div class="r"><label>전파교육 장소</label><div><input type="text" style="width:100%"></div></div><div class="r"><label>전파교육 참석자</label><div><input type="text" style="width:100%"></div></div></div>
+      <h3>교육내용</h3>
+      <div class="frm"><div class="r"><label>교육내용</label><div><div style="color:#0a2fb0;font-size:11.5px;margin-bottom:4px">업무에 활용할 교육내용을 구체적으로 작성해 주세요. <span class="mk">안내 변경</span></div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea></textarea><div class="ft"></div></div></div></div>
+        <div class="r"><label>교육소감 <span class="mk del">삭제</span></label><div><div class="delbox">교육소감 입력란 삭제</div></div></div>
+        <div class="r"><label>첨부파일 <span class="mk del">삭제</span></label><div><div class="delbox">첨부파일 항목 삭제</div></div></div></div>
+      <div class="frm" style="margin-top:-20px"><div class="r"><label>수료 여부 · 교육 만족도 · 업무 활용도 <span class="mk del">삭제</span></label><div><div class="delbox">선택 항목 삭제 (아래 교육 활용도 보고로 대체)</div></div></div></div>
+
+      <h3>교육 활용도 보고 <span class="mk">신규 (삭제한 영역에 제시)</span></h3>
+      <div class="note-mk" style="margin:0 0 10px;max-width:none" id="reqtxt"></div>
+      <div class="frm">
+        <div class="r"><label>해당 교육 수강이 필요한 이유<br>사전 작성 내용</label><div style="font-size:12.5px;line-height:1.7">수입 시 서류 및 세관 검사 PROCESS 스터디</div></div>
+        <div class="r"><label>교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제<br>사전 작성 내용</label><div style="font-size:12.5px;line-height:1.7">인도네시아 유리 수입 시 인보이스 금액 오기입 방지</div></div>
+      </div>
+      <div class="frm" id="t1">
+        <div class="r" style="align-items:flex-start"><label>실제 활용 수준<span class="req">*</span><br><span style="font-size:10.5px;color:#aaa">(하나만 선택)</span></label><div>
+          <label class="ro"><input type="radio" name="lv" value="a" onchange="calc()"> <b>직접 적용</b> <span>현재 수행 중인 업무, 프로세스, 산출물 등에 직접 반영</span></label>
+          <label class="ro"><input type="radio" name="lv" value="b" onchange="calc()"> <b>업무 참고</b> <span>트렌드 분석, 신규 업무 기획안 작성 등의 구체적 참고 자료로 활용</span></label>
+          <label class="ro"><input type="radio" name="lv" value="c" onchange="calc()"> <b>미활용</b> <span>현업에 적용하거나 참고하지 않음</span></label></div></div>
+      </div>
+      <div class="frm" id="t2">
+        <div class="r"><label>적용/참고 업무<span class="req">*</span></label><div><input type="text" class="pf" style="width:100%" placeholder="예: 인도네시아 유리 수입 프로세스 개선안"></div></div>
+        <div class="r"><label>적용/참고 내용<span class="req">*</span></label><div><input type="text" class="pf" style="width:100%" placeholder="예: 교육에서 배운 A지표를 기획안 작성 시 벤치마킹 지표로 참고함"></div></div>
+        <div class="r"><label>성과 및 변화<span class="req">*</span></label><div><input type="text" class="pf" style="width:100%" placeholder="예: 인보이스 오기입 0건 달성, 관련 리서치 소요 시간 20% 단축"></div></div>
+        <div class="note-mk" style="margin:8px 0 0;max-width:none">1번에서 '직접 적용' 또는 '업무 참고' 선택 시 작성합니다. 예시 문구는 입력을 시작하면 사라집니다.</div>
+      </div>
+      <div class="frm" id="t3">
+        <div class="r" style="align-items:flex-start"><label>미활용 사유<span class="req">*</span><br><span style="font-size:10.5px;color:#aaa">(하나만 선택)</span></label><div>
+          <label class="ro"><input type="radio" name="why" value="1"> <b>업무 상황 변동</b> <span>적용 예정이었던 프로젝트나 업무가 지연되거나 취소됨</span></label>
+          <label class="ro"><input type="radio" name="why" value="2"> <b>환경적 제약</b> <span>적용을 시도했으나, 예산/인프라/권한 등 조직 제약으로 적용 불가</span></label>
+          <label class="ro"><input type="radio" name="why" value="3"> <b>교육 내용 불일치</b> <span>실제 교육 내용이 사전 커리큘럼 및 예측한 내용과 달라 적용 불가</span></label>
+          <label class="ro"><input type="radio" name="why" value="4"> <b>향후 활용 예정</b> <span>구체적으로 언제, 어떤 업무에 적용할 예정인지 기재</span><input type="text" id="whytxt" style="width:100%;margin-top:6px"></label>
+          <label class="ro"><input type="radio" name="why" value="5"> <b>기타 사유</b> <span>직접 입력</span><input type="text" id="whytxt2" style="width:100%;margin-top:6px"></label></div></div>
+        <div class="note-mk" style="margin:8px 0 0;max-width:none">1번에서 '미활용' 선택 시 작성합니다.</div>
+      </div>
+      <div class="err" id="err"></div>
+      <div class="note-mk" style="margin:10px 0 0;max-width:none">법정교육을 선택하면 활용도 보고 전체가 비활성화되며 작성하지 않아도 제출할 수 있습니다. 일반교육은 1번이 필수이고, 선택에 따라 2번(3개 항목 모두 필수) 또는 3번(사유 필수)이 활성화됩니다. 1번 선택을 바꾸면 맞지 않는 하위 입력은 초기화됩니다.</div>
+      <div class="btns"><button class="pill">임시저장</button><button class="pill bl" onclick="submitReport()">제출 ▣</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- c5 -->
+<section class="screen edu" id="c5">
+  <div class="secbar"><span class="no">6</span>연수원 · 전파교육 자료 목록 <small>슬라이드 11~12</small></div>
+  <div class="gnbwrap"><div class="hd"><span class="logo">KCC<small>글라스</small></span><div class="srch">검색어를 입력하세요</div>
+    <div class="gnb"><span>공지사항</span><span>온라인교육</span><span class="on">사외교육</span><span>나의 교육관리</span></div></div></div>
+  <div class="bd">
+    <div class="lnb"><div class="box"><div class="tt">사외교육</div><div class="it">교육참가신청 <span>›</span></div><div class="it">교육결과보고 <span>›</span></div><div class="it on">전파교육 자료 <span class="mk">신규</span><span>⌄</span></div></div></div>
+    <div class="ct">
+      <h2>전파교육 자료 <span class="mk">기존 1:1문의 게시판 형태로 제작</span></h2>
+      <div class="tag-cat"><b style="margin-right:20px;color:#333">분류</b><span id="catwrap" style="display:flex;gap:4px;flex-wrap:wrap"><span class="c on" data-c="전체">전체</span><span class="c" data-c="영업본부">영업본부</span><span class="c" data-c="생산본부">생산본부</span><span class="c" data-c="관리본부">관리본부</span><span class="c" data-c="SCM">SCM</span><span class="c" data-c="EHS위원회">EHS위원회</span></span></div>
+      <div class="sbox"><select style="width:100px"><option>제목</option></select><input type="text"><button class="sbtn" style="background:#555;padding:9px 24px">검색 ⌕</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:17px;color:#777"><b id="cnt" style="color:#333">0</b>개의 게시글</div><button class="sbtn" style="padding:11px 18px" onclick="go('c6')">글등록 ✎</button></div>
+      <table class="bd2"><thead><tr><th>번호</th><th>제목</th><th>첨부</th><th>작성자</th><th>부서명 <span class="mk">신규</span></th><th>등록일</th><th>조회수</th></tr></thead><tbody id="plist"></tbody></table>
+      <div class="note-mk" style="max-width:none">작성자의 소속(부서명)을 목록에 추가로 노출합니다. 소속 정보가 없으면 빈 값으로 표시합니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- c6 -->
+<section class="screen edu" id="c6">
+  <div class="secbar"><span class="no">7</span>연수원 · 전파교육 자료 글쓰기 <small>슬라이드 13</small></div>
+  <div class="gnbwrap"><div class="hd"><span class="logo">KCC<small>글라스</small></span><div class="srch">검색어를 입력하세요</div>
+    <div class="gnb"><span>공지사항</span><span>온라인교육</span><span class="on">사외교육</span><span>나의 교육관리</span></div></div></div>
+  <div class="bd">
+    <div class="lnb"><div class="box"><div class="tt">사외교육</div><div class="it">교육참가신청 <span>›</span></div><div class="it">교육결과보고 <span>›</span></div><div class="it on">전파교육 자료 <span>⌄</span></div></div></div>
+    <div class="ct">
+      <h2>전파교육 자료</h2>
+      <div style="background:#f6f6f6;padding:18px 22px;margin:-18px 0 30px;font-size:12.5px;line-height:1.75;color:#444">
+        <b style="color:#222">📢 사외교육 신청 전, 게시판을 먼저 확인해 주세요!</b> <span class="mk">문구 추가</span><br>
+        본 게시판은 임직원들이 다녀온 사외교육의 핵심 인사이트와 학습 자료가 공유되는 지식 자료실입니다.<br>
+        신규 사외교육을 신청하시기 전, 아래의 목적으로 게시판을 먼저 검색해 보시기를 권장합니다.<br>
+        * 유사 자료 확인: 신청하려는 교육과 겹치는 내용의 자료가 이미 등록되어 있는지 확인<br>
+        * 인사이트 발굴: 동료들이 다녀온 교육 중, 내 업무에 즉시 적용할 수 있는 유익한 자료 참고<br><br>
+        동료들의 소중한 경험을 먼저 확인하고 더욱 효과적인 교육을 계획해 보세요!</div>
+      <div class="frm" style="border-top:1px solid #ddd">
+        <div class="r"><label>제목 <span class="req">*</span></label><div><input type="text" style="width:100%"></div></div>
+        <div class="r"><label>분류 <span class="mk del">삭제</span></label><div><div class="delbox" style="text-align:left;padding:10px 14px">분류 선택 삭제 (부서 분류는 작성자 소속 기준)</div></div></div>
+        <div class="r"><label>교육기간 <span class="req">*</span><br><span class="mk">신규</span></label><div><input type="text" style="width:130px"> ~ <input type="text" style="width:130px"></div></div>
+        <div class="r"><label>교육시간 <span class="req">*</span><br><span class="mk">신규</span></label><div><input type="text" style="width:80px" value="0"> 시간</div></div>
+        <div class="r"><label>교육기관명 <span class="req">*</span><br><span class="mk">신규</span></label><div><input type="text" style="width:100%"></div></div>
+        <div class="r"><label>교육장소 <span class="req">*</span><br><span class="mk">신규</span></label><div><input type="text" style="width:100%"></div></div>
+      </div>
+      
+      <div class="frm" style="border-top:0"><div class="r" style="align-items:flex-start"><label>내용</label><div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div>
+        <textarea style="min-height:300px"></textarea><div class="ft"></div></div></div></div>
+        <div class="r"><label>파일첨부</label><div><div class="drop">찾아보기</div></div></div></div>
+      <div class="btns"><button class="pill" onclick="go('c5')">취소 ✕</button><button class="pill bl" onclick="toast('등록되었습니다. (시연)')">등록 ✎</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- c7 -->
+<section class="screen edu" id="c7">
+  <div class="secbar"><span class="no">8</span>연수원 · 전파교육 자료 상세 <small>슬라이드 14</small></div>
+  <div class="gnbwrap"><div class="hd"><span class="logo">KCC<small>글라스</small></span><div class="srch">검색어를 입력하세요</div>
+    <div class="gnb"><span>공지사항</span><span>온라인교육</span><span class="on">사외교육</span><span>나의 교육관리</span></div></div></div>
+  <div class="bd">
+    <div class="lnb"><div class="box"><div class="tt">사외교육</div><div class="it">교육참가신청 <span>›</span></div><div class="it">교육결과보고 <span>›</span></div><div class="it on">전파교육 자료 <span>⌄</span></div></div></div>
+    <div class="ct">
+      <h2 style="margin-bottom:0;border-bottom:1px solid #999">전파교육 자료</h2>
+      <div style="font-size:24px;color:#222;padding:28px 0 12px">2026 글로벌 유리 시장 동향 세미나 전파교육</div>
+      <div style="font-size:12px;color:#444;padding-bottom:14px;border-bottom:1px solid #eee">분류 : 영업본부</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 0;font-size:12px;color:#777;border-bottom:1px solid #999">
+        <div>최정헌 <span class="mk" style="margin:0 4px">소속 추가</span><b style="color:#555;font-weight:400">영업1팀</b> <span style="color:#ddd;margin:0 6px">|</span>2026-11-16 <span style="color:#ddd;margin:0 6px">|</span>조회수 : 1 <span style="color:#ddd;margin:0 6px">|</span>추천 : <span id="rc">0</span></div>
+        <div>첨부파일 : <a style="color:#0a2fb0">093d5b4e9a84e5ef7ae3447075686193.pdf</a> <button class="pill" style="padding:5px 12px;font-size:11px;margin-left:4px" onclick="toast('다운로드 (시연)')">다운로드 ⤓</button></div></div>
+      <div style="padding:20px 10px 26px;font-size:13px;color:#444;line-height:1.8;border-bottom:1px solid #999">
+        <div style="font-size:12px;color:#777;margin-bottom:12px">교육기간 2026-10-20 ~ 2026-10-21 · 교육시간 16시간 · 교육기관명 한국유리협회 · 교육장소 서울</div>
+        <div class="viewer">
+          <div class="pg" id="pgbox">전파교육 자료 1페이지</div>
+          <div class="ctl"><span onclick="pg(-1)">◀</span><span id="pgn">1 of 3</span><span onclick="pg(1)">▶</span><span onclick="toast('전체 화면 (시연)')" title="전체 화면">⛶</span></div></div>
+        <div class="note-mk" style="margin:8px 0 0">첨부파일 바로보기(가능한 경우 제공): 가로형 문서는 기본으로, 세로형 문서는 좌우 여백을 두어 보여줍니다. 미리보기가 불가한 형식은 다운로드만 제공합니다.</div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;margin:36px 0 6px">
+        <div style="white-space:nowrap"><button class="pill" style="border-color:#999">이전 ←</button><button class="pill" style="border-color:#999">다음 →</button><button class="pill" style="background:#0a2fb0;border-color:#0a2fb0;color:#fff" onclick="go('c5')">목록 ☰</button></div>
+        <div style="white-space:nowrap;margin-left:auto"><button class="pill" style="border-color:#999" onclick="recm()">추천 ☆</button><button class="pill" style="border-color:#999">수정 ✎</button><button class="pill" style="background:#0a2fb0;border-color:#0a2fb0;color:#fff">삭제 🗑</button></div></div>
+      <div style="text-align:right;margin-bottom:6px"><span class="mk">추천 · 다운로드 · 이전/다음/목록 · 수정/삭제는 기존 게시판 기능 그대로 사용</span></div>
+      <div style="margin-top:34px;background:#f6f6f6;border-top:1px solid #aaa;height:30px"></div>
+      <div style="padding:10px 0;font-size:11px;color:#555"><span class="mk">댓글 등록 기능</span></div>
+      <div class="cmtin"><input type="text" id="cin" placeholder="의견을 입력하세요"><button class="cbtn" onclick="addC()">의견 등록</button></div>
+      <div id="cmts" style="margin-top:12px"><div class="cmt"><b>이생산</b> (생산본부) · 자료 감사합니다.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 에듀매니저 ============ -->
+<!-- a1 -->
+<section class="screen" id="a1"><div class="secbar"><span class="no">9</span>에듀매니저 · 커뮤니티 관리 <small>1:1문의 정리 / 전파교육 자료 게시판</small></div><div class="adm">
+  <div class="sb"><div class="lg">⬡ 교육운영관리시스템</div><div class="mn">⌂ 메인</div><div class="g">수강생 <span>⌄</span></div><div class="g">학습설정 <span>⌄</span></div><div class="g">온라인과정 <span>⌄</span></div><div class="g">외부교육 <span>⌄</span></div><div class="g">학점관리 <span>⌄</span></div><div class="g">사이트설정 <span>⌄</span></div><div class="g on">게시글관리 <span>⌃</span></div>
+    <div class="sub"><div>공지사항</div><div>팝업</div><div>자료실</div><div class="on">커뮤니티</div><div>용어집 관리</div></div></div>
+  <div class="mainc"><div class="top"><span class="pt">커뮤니티 관리</span><span class="rt">KCC글라스 (12080) <span class="chip">Platinum</span><span class="chip sq">메뉴얼</span><span class="chip gr">기업변경</span></span></div>
+    <div class="body"><h4 style="font-size:16px;margin-bottom:18px">커뮤니티 관리</h4>
+      <div style="text-align:right;margin-bottom:6px"><button class="sbt" style="color:#c0392b">통계다운로드</button> <button class="sbt" style="color:#c0392b">커뮤니티 등록</button></div>
+      <table class="l"><thead><tr><th style="width:30px"><input type="checkbox"></th><th style="width:60px">번호</th><th>커뮤니티 이름</th><th>노출여부</th><th>커뮤니티 이용권한</th><th>등록일</th><th>관리</th></tr></thead>
+        <tbody><tr><td><input type="checkbox"></td><td>2</td><td class="lf" style="text-align:center">전파교육 자료 <span class="mk">신규 등록</span></td><td>노출</td><td>전체공개</td><td>2026-11-20</td><td><button class="sbt">수정</button> <button class="sbt">삭제</button></td></tr>
+        <tr><td><input type="checkbox"></td><td>1</td><td style="text-align:center">1:1 문의 게시판 <span class="mk">삭제 안 함 · 비노출로 유지</span></td><td><span style="color:#d33">비노출</span></td><td>전체공개</td><td>2025-03-19</td><td><button class="sbt">수정</button> <button class="sbt">삭제</button></td></tr></tbody></table>
+      <div class="note-mk" style="max-width:none">1:1문의 게시판은 삭제하지 않고 노출 없이 그대로 둡니다(기존 글 11건도 그대로). 전파교육 자료 게시판은 노출 · 댓글 사용 · 추천 사용 · 글쓰기/보기 권한 전체로 등록하는 안을 제안합니다. 부서별 분류 설정 가능 여부는 개발 확인 후 확정합니다.</div>
+    </div></div></div></section>
+
+<!-- a2 -->
+<section class="screen" id="a2"><div class="secbar"><span class="no">10</span>에듀매니저 · 외부교육 신청 · 과정 상세 <small>교육 신청 목적 조회</small></div><div class="adm">
+  <div class="sb"><div class="lg">⬡ 교육운영관리시스템</div><div class="mn">⌂ 메인</div><div class="g">수강생 <span>⌄</span></div><div class="g">학습설정 <span>⌄</span></div><div class="g">온라인과정 <span>⌄</span></div><div class="g">오프라인과정 <span>⌄</span></div><div class="g on">외부교육 <span>⌃</span></div><div class="sub"><div class="on">외부교육신청</div><div>결과보고서</div></div><div class="g">학점관리 <span>⌄</span></div><div class="g">사이트설정 <span>⌄</span></div><div class="g">게시글관리 <span>⌄</span></div></div>
+  <div class="mainc"><div class="top"><span class="pt">외부교육 과정관리</span><span class="rt">KCC글라스 (12080) <span class="chip">Platinum</span><span class="chip sq">메뉴얼</span><span class="chip gr">기업변경</span></span></div>
+    <div class="body"><h4 style="font-size:16px">과정 상세 정보</h4>
+      <h5 style="border-top:0;margin-top:6px;border-bottom:0;padding:0">수강생정보</h5>
+      <table class="f top1"><tr><th>신청자</th><td>· 이유미 - kccglass-ymlee0030, 22600030, 안전환경팀.환경보건</td></tr></table>
+      <h5 style="border-bottom:1px solid #555">교육과정정보</h5>
+      <table class="f"><tr><th>교육명</th><td>구조 및 응급처치 교육</td></tr><tr><th>교육분류</th><td>사외-직무역량개발</td></tr><tr><th>교육기간</th><td>2026-11-18 ~ 2026-11-18</td></tr><tr><th>교육시간</th><td>4시간</td></tr><tr><th>교육비용</th><td>0원</td></tr><tr><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 고용보험 환급여부)</div></th><td>일반교육 <span style="color:#aaa;font-size:11px">(기존 값: 비환급)</span></td></tr></table>
+      <h5>교육기관정보</h5>
+      <table class="f"><tr><th>교육기관명</th><td>노원구보건소</td></tr><tr><th>교육기관 전화번호</th><td></td></tr><tr><th>교육 URL</th><td>http://</td></tr><tr><th>교육장소</th><td>서울 노원구 노해로 437, 노원구청 별관1층 심폐소생술 교육장</td></tr></table>
+      <h5>교육내용</h5>
+      <table class="f"><tr><th>교육내용</th><td>- 구조 및 응급처치교육(4시간)<br>&nbsp;&nbsp;- 일상에서 응급환자 발생 시 대처하는 응급처치 요령, 심폐소생술의 이론과 술기, 자동심장충격기(AED) 사용법을 배울 수 있는 과정입니다.</td></tr>
+        <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 교육목적)</div></th><td class="pre">1. 응급의료법 제14조 대상자(자동심장충격기 관리책임자)에 해당하여 이 내용을 교육해 함.
+2. 응급활동의 원칙 및 내용, 기본인명구조술(이론·실습) 등 현업 적용 예정<div class="note-mk" style="margin:6px 0 0">신청자가 작성한 내용을 하나의 내용으로 조회합니다.</div></td></tr>
+        <tr><th>첨부파일</th><td></td></tr></table>
+      <div style="text-align:center;margin:18px 0"><button class="sbt red" onclick="go('a2b')">수정하기</button> <button class="sbt" style="padding:9px 18px">목록</button> <button class="sbt" style="padding:9px 18px">삭제</button></div>
+      <div class="note-mk" style="max-width:none">결재여부 · 최종승인(승인대기/승인완료/반려) 처리 방식과 결재현황 팝업(결재자 의견 두 컬럼)은 변경 없이 현행 유지합니다.</div>
+    </div></div></div></section>
+
+<!-- a3 -->
+<section class="screen" id="a2b"><div class="secbar"><span class="no">11</span>에듀매니저 · 외부교육 신청 수정 (과정 개설 하기) <small>과정 상세에서 [수정하기] 클릭 시 이동 / 법정교육 여부 · 교육 신청 목적</small></div><div class="adm">
+  <div class="sb"><div class="lg">⬡ 교육운영관리시스템</div><div class="mn">⌂ 메인</div><div class="g">수강생 <span>⌄</span></div><div class="g">학습설정 <span>⌄</span></div><div class="g">온라인과정 <span>⌄</span></div><div class="g">오프라인과정 <span>⌄</span></div><div class="g on">외부교육 <span>⌃</span></div><div class="sub"><div class="on">외부교육신청</div><div>결과보고서</div></div><div class="g">학점관리 <span>⌄</span></div><div class="g">사이트설정 <span>⌄</span></div><div class="g">게시글관리 <span>⌄</span></div></div>
+  <div class="mainc"><div class="top"><span class="pt">외부교육 과정관리</span><span class="rt">KCC글라스 (12080) <span class="chip">Platinum</span><span class="chip sq">메뉴얼</span><span class="chip gr">기업변경</span></span></div>
+    <div class="body"><h4 style="font-size:16px">과정 개설 하기</h4>
+      <h5 style="margin-top:8px">수강생정보</h5>
+      <table class="f"><tr><th>신청자</th><td>· 홍길동 - hong01, 22500000, 생산기술팀</td></tr></table>
+      <h5>교육과정 정보</h5>
+      <table class="f"><tr><th>*교육명</th><td><input type="text" style="width:96%" value="구조 및 응급처치 교육"></td></tr><tr><th>*교육분류</th><td><label><input type="radio" name="bc"> 사내-직무역량개발</label> &nbsp; <label><input type="radio" name="bc"> 사내-자기개발</label> &nbsp; <label><input type="radio" name="bc" checked> 사외-직무역량개발</label> &nbsp; <label><input type="radio" name="bc"> 사외-자기개발</label></td></tr>
+        <tr><th>*교육기간</th><td><input type="text" value="2026-11-18" style="width:90px"> ~ <input type="text" value="2026-11-18" style="width:90px"></td></tr><tr><th>*교육시간</th><td><input type="text" value="4" style="width:60px"> 시간</td></tr><tr><th>교육비용</th><td><input type="text" value="0" style="width:90px"> 원</td></tr>
+        <tr><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 고용보험 환급여부 · 비환급/환급)</div></th><td><label><input type="radio" name="bl"> 법정교육</label> &nbsp; <label><input type="radio" name="bl" checked> 일반교육</label></td></tr></table>
+      <h5>교육기관 정보</h5>
+      <table class="f"><tr><th>*교육기관명</th><td><input type="text" style="width:96%" value="노원구보건소"></td></tr><tr><th>교육기관 전화번호</th><td><input type="text" style="width:90px"></td></tr><tr><th>교육 URL</th><td>http:// <input type="text" style="width:60%"></td></tr><tr><th>교육장소</th><td><input type="text" style="width:260px" value="서울 노원구 노해로 437, 노원구청 별관1층"></td></tr></table>
+      <h5>교육내용</h5>
+      <table class="f"><tr><th>교육내용</th><td><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>- 구조 및 응급처치교육(4시간)
+  - 일상에서 응급환자 발생 시 대처하는 응급처치 요령, 심폐소생술의 이론과 술기, 자동심장충격기(AED) 사용법을 배울 수 있는 과정입니다.</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div></td></tr>
+        <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 교육목적)</div></th><td><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>1. 응급의료법 제14조 대상자(자동심장충격기 관리책임자)에 해당하여 이 내용을 교육해 함.
+2. 응급활동의 원칙 및 내용, 기본인명구조술(이론·실습) 등 현업 적용 예정</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div><div class="note-mk" style="margin:6px 0 0">연수원 신청 화면에서 신청자가 한 입력란에 작성한 내용을 하나의 내용으로 조회·수정합니다. 기존 데이터의 "교육목적" 값은 항목명만 "교육 신청 목적"으로 바뀌어 그대로 보입니다.</div></td></tr>
+        <tr><th>첨부파일</th><td><button class="sbt" style="background:#ddd">Select...</button><div style="font-size:11px;color:#777;margin-top:6px">(업로드 용량제한 10MB)</div></td></tr></table>
+      <div style="text-align:center;margin:16px 0"><button class="sbt red" onclick="toast('수정되었습니다. (시연)')">수정하기</button> <button class="sbt" style="padding:9px 18px" onclick="go('a2')">목록</button> <button class="sbt" style="padding:9px 18px">삭제</button></div>
+    </div></div></div></section>
+
+<section class="screen" id="a3"><div class="secbar"><span class="no">12</span>에듀매니저 · 결과보고서 확인·수정 <small>법정교육 여부 / 활용도 보고</small></div><div class="adm">
+  <div class="sb"><div class="lg">⬡ 교육운영관리시스템</div><div class="mn">⌂ 메인</div><div class="g">수강생 <span>⌄</span></div><div class="g">학습설정 <span>⌄</span></div><div class="g">온라인과정 <span>⌄</span></div><div class="g">오프라인과정 <span>⌄</span></div><div class="g on">외부교육 <span>⌃</span></div><div class="sub"><div>외부교육신청</div><div class="on">결과보고서</div></div><div class="g">학점관리 <span>⌄</span></div><div class="g">사이트설정 <span>⌄</span></div><div class="g">게시글관리 <span>⌄</span></div></div>
+  <div class="mainc"><div class="top"><span class="pt">외부교육 결과보고</span><span class="rt">KCC글라스 (12080) <span class="chip">Platinum</span><span class="chip sq">메뉴얼</span><span class="chip gr">기업변경</span></span></div>
+    <div class="body"><h4 style="font-size:16px">결과보고 수정</h4>
+      <h5 style="margin-top:8px">신청자정보</h5>
+      <table class="f"><tr><th>이름</th><td>홍길동</td></tr><tr><th>사번</th><td>22500000</td></tr><tr><th>부서</th><td>생산기술팀</td></tr></table>
+      <h5>교육과정 정보</h5>
+      <table class="f"><tr><th>*교육명</th><td><input type="text" style="width:96%" value="AI 활용 공정데이터 문제 해결"></td></tr><tr><th>*교육분류</th><td><label><input type="radio" name="ac"> 사내-직무역량개발</label> &nbsp; <label><input type="radio" name="ac"> 사내-자기개발</label> &nbsp; <label><input type="radio" name="ac" checked> 사외-직무역량개발</label> &nbsp; <label><input type="radio" name="ac"> 사외-자기개발</label></td></tr>
+        <tr><th>*교육기간</th><td><input type="text" value="2026-10-27" style="width:90px"> ~ <input type="text" value="2026-10-28" style="width:90px"></td></tr><tr><th>*교육시간</th><td><input type="text" value="12.0" style="width:60px"> 시간</td></tr><tr><th>*교육비용</th><td><input type="text" value="0" style="width:90px"> 원</td></tr>
+        <tr><th>*교육기관명</th><td><input type="text" style="width:96%" value="글로벌상생협력센터"></td></tr><tr><th>교육기관 전화번호</th><td><input type="text" style="width:90px"></td></tr><tr><th>교육 URL</th><td>http:// <input type="text" style="width:60%"></td></tr><tr><th>교육장소</th><td><input type="text" style="width:160px" value="글로벌상생협력센터"></td></tr>
+        <tr><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 고용보험 환급여부 · 비환급/환급)</div></th><td><label><input type="radio" name="al" onchange="admCalc()"> 법정교육</label> &nbsp; <label><input type="radio" name="al" checked onchange="admCalc()"> 일반교육</label></td></tr>
+        <tr><th>*이수학점</th><td><input type="text" style="width:90px" value="1"></td></tr></table>
+      <h5>조직 내 전파교육</h5>
+      <table class="f"><tr><th>전파교육 시간</th><td><input type="text" style="width:96%" value="11/11 16:00~16:30"></td></tr><tr><th>전파교육 장소</th><td><input type="text" style="width:96%" value="생산부 소회의실"></td></tr><tr><th>전파교육 참석자</th><td><input type="text" style="width:96%" value="생산2팀 김OO 사원"></td></tr></table>
+      <h5>교육내용</h5>
+      <table class="f"><tr><th>교육내용</th><td><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>1일차
+스마트 팩토리에서 AX 팩토리로의 변화
+변동점 요소 파악 및 변동 데이터 수집·설계
+
+2일차
+공정 데이터 분석과 품질 개선 인사이트 도출</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div></td></tr>
+        <tr><th>교육목적 <span class="mk del">삭제</span><div style="font-weight:400;font-size:11px;color:#aaa">(연수원 교육소감 입력 내용)</div></th><td><div class="delbox">교육목적(교육소감) 입력란 삭제</div><div class="note-mk" style="margin:6px 0 0">에듀매니저의 "교육목적" 입력란은 연수원의 "교육소감"이 저장되는 항목입니다. 이미 입력된 기존 내용(예: 교육 후 소감 문장)의 보존/삭제 여부는 고객사 확인 후 확정합니다.</div></td></tr>
+        <tr><th>첨부파일 <span class="mk del">삭제</span></th><td><div class="delbox">첨부파일 항목 삭제</div><div class="note-mk" style="margin:6px 0 0">기존에 올라간 첨부파일(수료증, 전파교육 사진 등)의 보존/삭제 여부는 확인이 필요합니다. 현재 화면은 기존 파일 3개가 삭제 체크박스와 함께 표시됩니다.</div></td></tr>
+        <tr><th>교육만족도 <span class="mk del">삭제</span></th><td><div class="delbox">교육만족도 선택 삭제 (기존 값 : 매우만족)</div></td></tr>
+        <tr><th>업무활용도 <span class="mk del">삭제</span></th><td><div class="delbox">업무활용도 선택 삭제 (기존 값 : 높음)</div></td></tr>
+        </table>
+      <h5>교육 활용도 보고 <span class="mk">신규</span></h5>
+      <table class="f" id="atab">
+        <tr><th>해당 교육 수강이 필요한 이유<br>사전 작성 내용</th><td>수입 시 서류 및 세관 검사 PROCESS 스터디</td></tr>
+        <tr><th>교육 이수 후 교육 내용을 참고하거나<br>적용할 업무/과제 사전 작성 내용</th><td>인도네시아 유리 수입 시 인보이스 금액 오기입 방지</td></tr>
+        <tr><th>실제 활용 수준 <span style="font-weight:400;color:#aaa">(하나만 선택)</span></th><td>
+          <label style="display:block;padding:5px 0"><input type="radio" name="alv" value="a" checked> <b>직접 적용</b> <span style="color:#777">현재 수행 중인 업무, 프로세스, 산출물 등에 직접 반영</span></label><label style="display:block;padding:5px 0"><input type="radio" name="alv" value="b"> <b>업무 참고</b> <span style="color:#777">트렌드 분석, 신규 업무 기획안 작성 등의 구체적 참고 자료로 활용</span></label><label style="display:block;padding:5px 0"><input type="radio" name="alv" value="c"> <b>미활용</b> <span style="color:#777">현업에 적용하거나 참고하지 않음</span></label></td></tr>
+        <tr><th>적용/참고 업무</th><td><input class="apf" type="text" style="width:96%" value="공정 데이터 분석 자동화 코드 작성" placeholder="예: 인도네시아 유리 수입 프로세스 개선안"></td></tr>
+        <tr><th>적용/참고 내용</th><td><input class="apf" type="text" style="width:96%" value="교육에서 배운 파이썬 분석 코드를 생산 공정 불량 데이터 정제 업무에 직접 적용함" placeholder="예: 교육에서 배운 A지표를 기획안 작성 시 벤치마킹 지표로 참고함"></td></tr>
+        <tr><th>성과 및 변화</th><td><input class="apf" type="text" style="width:96%" value="월간 불량 데이터 정리 시간 약 30% 단축" placeholder="예: 인보이스 오기입 0건 달성, 관련 리서치 소요 시간 20% 단축"></td></tr>
+        <tr><th>미활용 사유 <span style="font-weight:400;color:#aaa">(하나만 선택)</span></th><td>
+          <label style="display:block;padding:5px 0"><input type="radio" name="awh" value="1"> <b>업무 상황 변동</b> <span style="color:#777">적용 예정이었던 프로젝트나 업무가 지연되거나 취소됨</span></label><label style="display:block;padding:5px 0"><input type="radio" name="awh" value="2"> <b>환경적 제약</b> <span style="color:#777">적용을 시도했으나, 예산/인프라/권한 등 조직 제약으로 적용 불가</span></label><label style="display:block;padding:5px 0"><input type="radio" name="awh" value="3"> <b>교육 내용 불일치</b> <span style="color:#777">실제 교육 내용이 사전 커리큘럼 및 예측한 내용과 달라 적용 불가</span></label><label style="display:block;padding:5px 0"><input type="radio" name="awh" value="4"> <b>향후 활용 예정</b> <span style="color:#777">구체적으로 언제, 어떤 업무에 적용할 예정인지 기재 &nbsp;<input id="awh1" type="text" style="width:40%"></span></label><label style="display:block;padding:5px 0"><input type="radio" name="awh" value="5"> <b>기타 사유</b> <span style="color:#777">직접 입력 &nbsp;<input id="awh2" type="text" style="width:55%"></span></label></td></tr></table>
+      <div style="text-align:center;margin:16px 0"><button class="sbt red">수정하기</button> <button class="sbt" style="padding:9px 18px">목록</button></div>
+      <div class="note-mk" style="max-width:none">결과보고서 목록, 상세, 엑셀 다운로드, 컬럼매핑에도 변경된 항목명과 신규 항목을 동일하게 반영합니다. 기존 결과보고 데이터(교육소감, 만족도, 활용도 등)의 처리 방식은 고객사 답변 후 확정합니다.</div>
+    </div></div></div></section>
+
+<div id="toast" style="position:fixed;right:18px;bottom:18px;background:#222;color:#fff;padding:10px 16px;border-radius:5px;display:none;font-size:13px;z-index:99;font-family:'Malgun Gothic',sans-serif"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+function go(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
+document.querySelectorAll('#bar a').forEach(b=>b.onclick=()=>go(b.dataset.s));
+const secs=[...document.querySelectorAll('.screen')];
+function spy(){let cur=secs[0].id;secs.forEach(e=>{if(e.getBoundingClientRect().top<window.innerHeight*0.35)cur=e.id});document.querySelectorAll('#bar a').forEach(a=>a.classList.toggle('on',a.dataset.s===cur))}
+window.addEventListener('scroll',spy);spy();
+$('#mkt').onchange=e=>document.body.classList.toggle('nomk',!e.target.checked);
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',1800)}
+function pop(id){$('#'+id).classList.add('on')} function closePop(id){$('#'+id).classList.remove('on')}
+
+// 연수원 활용도 보고
+const val=n=>{const e=document.querySelector('input[name='+n+']:checked');return e?e.value:null};
+let lastLv=null;
+function calc(){
+  const legal=val('legal')==='legal';
+  const lvs=document.querySelectorAll('input[name=lv]');
+  lvs.forEach(r=>{r.disabled=legal; if(legal)r.checked=false});
+  const lv=legal?null:val('lv');
+  const pf=document.querySelectorAll('.pf'), why=document.querySelectorAll('input[name=why]'), w1=$('#whytxt'), w2=$('#whytxt2');
+  if(lv!==lastLv){pf.forEach(p=>p.value='');why.forEach(w=>w.checked=false);w1.value='';w2.value='';lastLv=lv}
+  const pOn=lv==='a'||lv==='b', wOn=lv==='c';
+  pf.forEach(p=>p.disabled=!pOn); why.forEach(w=>w.disabled=!wOn); w1.disabled=!wOn; w2.disabled=!wOn;
+  $('#t2').classList.toggle('dis',!pOn); $('#t3').classList.toggle('dis',!wOn); $('#t1').classList.toggle('dis',legal);
+  $('#t2').querySelectorAll('tr:not(.h)').forEach(r=>r.classList.toggle('dis',!pOn)); $('#t3').querySelectorAll('tr:not(.h)').forEach(r=>r.classList.toggle('dis',!wOn)); $('#t1').querySelectorAll('tr:not(.h)').forEach(r=>r.classList.toggle('dis',legal));
+  $('#reqtxt').textContent=legal?'법정교육은 활용도 보고를 작성하지 않아도 제출할 수 있습니다.':'일반교육은 활용도 보고를 작성해야 제출할 수 있습니다.';
+  $('#err').style.display='none';
+}
+function submitReport(){
+  const e=$('#err');let m='';
+  if(val('legal')!=='legal'){
+    const lv=val('lv');
+    if(!lv)m='1. 실제 활용 수준을 선택해 주세요.';
+    else if(lv!=='c'&&[...document.querySelectorAll('.pf')].some(p=>!p.value.trim()))m='2. 구체적 활용 성과 3개 항목을 모두 입력해 주세요.';
+    else if(lv==='c'){const w=val('why');if(!w)m='3. 미활용 사유를 선택해 주세요.';else if(w==='4'&&!$('#whytxt').value.trim())m='향후 활용 예정 내용을 입력해 주세요.';else if(w==='5'&&!$('#whytxt2').value.trim())m='기타 사유 내용을 입력해 주세요.'}
+  }
+  if(m){e.textContent=m;e.style.display='block'}else{e.style.display='none';toast('제출되었습니다. (시연)')}
+}
+calc();
+
+// 에듀매니저 활용도 연동
+function admCalc(){
+  const legal=document.querySelectorAll('input[name=al]')[0].checked;
+  const lvs=document.querySelectorAll('input[name=alv]'), whs=document.querySelectorAll('input[name=awh]'), pf=document.querySelectorAll('.apf'), t1=document.getElementById('awh1'), t2=document.getElementById('awh2');
+  lvs.forEach(r=>{r.disabled=legal;if(legal)r.checked=false});
+  const c=document.querySelector('input[name=alv]:checked'), v=c?c.value:null;
+  if(v!==window._alv){pf.forEach(p=>p.value='');whs.forEach(w=>w.checked=false);t1.value='';t2.value='';window._alv=v}
+  const pOn=v==='a'||v==='b', wOn=v==='c';
+  pf.forEach(p=>p.disabled=!pOn); whs.forEach(w=>w.disabled=!wOn); t1.disabled=!wOn; t2.disabled=!wOn;
+  document.getElementById('atab').querySelectorAll('tr').forEach((r,k)=>{if(k>=3)r.style.opacity=legal?.45:((k>=3&&k<=5&&!pOn)||(k===6&&!wOn)?.45:1)});
+}
+document.querySelectorAll('input[name=alv]').forEach(r=>r.onchange=admCalc);
+window._alv='a';admCalc();
+
+// 전파교육 목록
+const posts=[
+ [8,'SCM','해외 물류 리스크 관리 과정 전파교육',1,'박물류','SCM팀','2026-11-10',12],
+ [7,'EHS위원회','산업안전 법정교육 전파자료 (2)',1,'최안전','EHS팀','2026-11-08',30],
+ [6,'영업본부','2026 글로벌 유리 시장 동향 세미나 전파교육 (1)',1,'김영업','영업1팀','2026-11-05',42],
+ [5,'생산본부','스마트팩토리 도입 사례 세미나',1,'이생산','생산기술팀','2026-11-01',25],
+ [4,'관리본부','노무 이슈 대응 실무',0,'정관리','','2026-10-28',9]];
+let cur='전체';
+function render(){const rows=posts.filter(p=>cur==='전체'||p[1]===cur);$('#cnt').textContent=rows.length;
+  $('#plist').innerHTML=rows.length?rows.map(p=>`<tr><td>${p[0]}</td><td class="l"><a href="#" style="color:#555;text-decoration:none" onclick="go('c7');return false">${p[2]}</a></td><td>${p[3]?'📎':''}</td><td>${p[4]}</td><td>${p[5]}</td><td>${p[6]}</td><td>${p[7]}</td></tr>`).join(''):'<tr><td colspan="7">등록된 게시글이 없습니다.</td></tr>'}
+document.querySelectorAll('#catwrap .c').forEach(c=>c.onclick=()=>{cur=c.dataset.c;document.querySelectorAll('#catwrap .c').forEach(x=>x.classList.toggle('on',x===c));render()});
+render();
+
+let pn=1;function pg(d){pn=Math.min(3,Math.max(1,pn+d));$('#pgn').textContent=pn+' of 3';$('#pgbox').textContent='전파교육 자료 '+pn+'페이지'}
+let rec=0;function recm(){rec++;document.getElementById('rc').textContent=rec;toast('추천되었습니다. (시연)')}
+let liked=false;function like(){liked=!liked;$('#lc').textContent=liked?1:0;$('#like').textContent=liked?'♥':'♡'}
+function addC(){const v=$('#cin').value.trim();if(!v){toast('의견 내용을 입력해 주세요.');return}const d=document.createElement('div');d.className='cmt';d.innerHTML='<b>나</b> · ';d.append(document.createTextNode(v));$('#cmts').prepend(d);$('#cin').value=''}
+</script>
+
+<script>
+(function(){
+  let cnt=new Map();
+  function num(el){const sc=el.closest('.screen');const n=(cnt.get(sc)||0)+1;cnt.set(sc,n);return n}
+  function mk(el,block){
+    const w=document.createElement('span');w.className='nb-wrap'+(block?' blk':'');
+    const b=document.createElement('button');b.type='button';b.className='nb';b.textContent=num(el);
+    const pop=document.createElement('div');pop.className='nb-pop';
+    el.parentNode.insertBefore(w,el);w.appendChild(b);w.appendChild(pop);
+    return {w,b,pop};
+  }
+  const items=[...document.querySelectorAll('.note-mk, .mk')].filter(el=>el.classList.contains('note-mk')||el.textContent.trim().length>12);
+  items.forEach(el=>{
+    if(el.closest('.nb-pop'))return;
+    const isNote=el.classList.contains('note-mk');
+    const o=mk(el,isNote);
+    el.className='';el.removeAttribute('style');
+    if(isNote)el.style.display='block';
+    o.pop.appendChild(el);
+  });
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('.nb');
+    document.querySelectorAll('.nb-pop.on').forEach(p=>{if(!b||p.parentNode!==b.parentNode){p.classList.remove('on');p.previousSibling&&p.previousSibling.classList&&p.previousSibling.classList.remove('on')}});
+    if(!b)return;
+    const pop=b.nextSibling;const on=!pop.classList.contains('on');
+    pop.classList.toggle('on',on);b.classList.toggle('on',on);
+    if(on){pop.classList.remove('fl');const r=pop.getBoundingClientRect();if(r.right>window.innerWidth-8)pop.classList.add('fl')}
+  });
+})();
+</script>
+</body>
+</html>
