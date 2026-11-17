@@ -362,14 +362,14 @@ body.annot .anno-tag{display:block}
 
         <!-- 5. 교담자 진행 업무 목록 (필수 고정 메뉴 4개 + 실제 건수) -->
         <section class="card" data-n="5">
-          <div class="card-h"><h2>교담자 진행 업무 목록<small>처리가 필요한 건수를 바로 확인하세요</small></h2></div>
+          <div class="card-h"><h2>교담자 진행 업무 목록<small>학습시작일 기준으로 처리가 필요한 건수를 확인하세요</small></h2></div>
           <div class="todo">
-            <div class="t-card" data-go="교육 신청 현황 (승인대기 건 조회)">
+            <div class="t-card" data-go="교육 신청 현황 (학습시작일 기준 승인대기 건 조회)">
               <span class="ic y"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
               <span class="tn">교육 신청 현황</span>
               <span class="tl">승인대기 <b class="c-blue">12</b>건</span>
             </div>
-            <div class="t-card" data-go="학습 수료 현황 (미수료 위험 건 조회)">
+            <div class="t-card" data-go="학습 수료 현황 (학습시작일 기준 미수료 위험 건 조회)">
               <span class="ic r"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span>
               <span class="tn">학습 수료 현황</span>
               <span class="tl">미수료 위험 <b class="c-red">16</b>건</span>
@@ -672,7 +672,7 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '2':[O,'통합검색','메뉴명 검색 후 바로 이동','below'],
    '3':[M,'상단 메뉴','문의·과정리스트 다운로드·매뉴얼','below'],
    '4':[M+'·'+O,'즐겨찾기','','below'],
-   '5':[O,'교담자 진행 업무 목록','처리 필요 건수 카드 (필수 4종 고정)'],
+   '5':[O,'교담자 진행 업무 목록','학습시작일 기준 처리 필요 건수 (필수 4종 고정)'],
    '6':[O,'교육현황 대시보드','시작일 최근순·종료일 임박순 5건'],
    '7':[M,'공지사항','전체 공지 최근 4건·구분 태그'],
    '8':[M,'월간휴넷 / 체험단','탭 전환 (세미나·체험단 신청)'],
