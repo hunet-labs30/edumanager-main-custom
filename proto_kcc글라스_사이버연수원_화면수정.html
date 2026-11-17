@@ -208,6 +208,11 @@ body.nomk .nb-wrap{display:none!important}
   <a data-s="a2"><i>10</i>외부교육 신청 · 과정 상세</a>
   <a data-s="a2b"><i>11</i>외부교육 신청 수정</a>
   <a data-s="a3"><i>12</i>결과보고서 확인·수정</a>
+  <div class="grp">연수원 모바일 (PC와 동일 적용)</div>
+  <a data-s="m1"><i>13</i>메뉴 · 1:1문의 삭제</a>
+  <a data-s="m2"><i>14</i>사외교육 신청</a>
+  <a data-s="m3"><i>15</i>교육결과보고</a>
+  <a data-s="m4"><i>16</i>전파교육 자료</a>
   <label><input type="checkbox" id="mkt" checked> 변경 표시 보기</label>
 </div>
 
@@ -662,6 +667,154 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <div style="text-align:center;margin:16px 0"><button class="sbt red">수정하기</button> <button class="sbt" style="padding:9px 18px">목록</button></div>
       <div class="note-mk" style="max-width:none">결과보고서 목록, 상세, 엑셀 다운로드, 컬럼매핑에도 변경된 항목명과 신규 항목을 동일하게 반영합니다. 기존 결과보고 데이터는 이관하지 않고 신규 화면에 새로 쌓습니다. (고객사 확정)</div>
     </div></div></div></section>
+
+<!-- ============ 연수원 모바일 ============ -->
+<style>
+.mob{background:#eef0f4;padding:22px 16px 30px;font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:#333}
+.mob .wrap{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;align-items:flex-start}
+.mob .cp{font-size:12px;color:#777;margin:0 0 8px;text-align:center}
+.ph{width:375px;background:#fff;border:1px solid #c9ced8;border-radius:20px;overflow:hidden;font-size:13px;color:#555;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.ph .phh{height:46px;background:#fff;border-bottom:1px solid #e5e7ec;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#222;font-size:15px;font-weight:700}
+.ph .phh .bk{color:#0a2fb0;font-size:20px;width:40px}.ph .phh .ic{width:40px;text-align:right;color:#555;font-weight:400}
+.ph .phb{padding:14px 14px 18px}
+.ph .nt{background:#f6f6f6;padding:12px;line-height:1.7;font-size:11.5px;margin-bottom:14px}
+.ph .nt b{color:#222}.ph .nt .r{color:#e60012}
+.ph h4{margin:14px 0 8px;font-size:14px;color:#222;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ph h4:before{content:"";width:6px;height:6px;background:#0a2fb0;display:inline-block}
+.ph .mr{padding:9px 0;border-bottom:1px solid #eee}
+.ph .mr .t{display:block;font-weight:700;font-size:12px;color:#222;margin-bottom:6px}
+.ph input[type=text],.ph textarea,.ph select{width:100%;box-sizing:border-box;border:1px solid #d5d8de;border-radius:4px;padding:8px;font:inherit;font-size:12px}
+.ph textarea{height:70px;resize:none}
+.ph .sub{font-size:11.5px;font-weight:700;color:#222;margin:8px 0 5px}
+.ph .bt{display:flex;gap:8px;justify-content:center;margin-top:16px}
+.ph .bt button{border:1px solid #0a2fb0;background:#fff;color:#0a2fb0;border-radius:20px;padding:9px 20px;font-size:12px}.ph .bt button.bl{background:#0a2fb0;color:#fff}
+.ph .dl{border:1px dashed #b5b9c2;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 8px,#f0f0f0 8px,#f0f0f0 16px);color:#8a8f99;text-align:center;padding:9px;font-size:11.5px}
+body.nomk .ph .dl{display:none}
+.ph .menu a{display:flex;justify-content:space-between;padding:13px 4px;border-bottom:1px solid #eee;color:#222;font-size:14px}
+.ph .menu a.sb2{padding:9px 4px 9px 18px;color:#666;font-size:13px;background:#fafbfd}
+.ph .li{padding:11px 0;border-bottom:1px solid #eee}.ph .li b{display:block;color:#222;font-size:13px;margin-bottom:3px}.ph .li span{font-size:11px;color:#888}
+.ph .chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}.ph .chips span{border:1px solid #d5d8de;border-radius:14px;padding:4px 10px;font-size:11px}.ph .chips span.on{background:#0a2fb0;color:#fff;border-color:#0a2fb0}
+.ph .ro2{display:block;padding:6px 0;font-size:12px}.ph .ro2 b{color:#222}.ph .ro2 span{display:block;color:#777;font-size:11px;margin-left:20px}
+.ph .dis{opacity:.45}
+</style>
+
+<!-- m1 -->
+<section class="screen mob" id="m1">
+  <div class="secbar" style="margin:-22px -16px 18px"><span class="no">13</span>연수원 모바일 · 메뉴 <small>1:1문의 삭제 / 전파교육 자료 추가 (PC 화면과 동일 적용)</small></div>
+  <div class="wrap">
+    <div><p class="cap cp">변경 전</p><div class="ph"><div class="phh"><span class="bk"></span>메뉴<span class="ic">✕</span></div><div class="phb menu">
+      <a>공지사항 <span>⌄</span></a><a>온라인교육 <span>⌄</span></a><a>사외교육 <span>⌄</span></a><a class="sb2">교육참가신청</a><a class="sb2">교육결과보고</a><a>나의 교육관리 <span>⌄</span></a>
+      <a class="delmark" style="color:#0a2fb0">1:1문의 게시판 <span>›</span></a></div></div></div>
+    <div><p class="cap cp">변경 후</p><div class="ph"><div class="phh"><span class="bk"></span>메뉴<span class="ic">✕</span></div><div class="phb menu">
+      <a>공지사항 <span>⌄</span></a><a>온라인교육 <span>⌄</span></a><a>사외교육 <span>⌄</span></a><a class="sb2">교육참가신청</a><a class="sb2">교육결과보고</a><a class="sb2">전파교육 자료 <span class="mk">신규</span></a><a>나의 교육관리 <span>⌄</span></a></div></div></div>
+  </div>
+  <div class="note-mk" style="max-width:700px">모바일 메뉴의 "1:1문의 게시판"을 삭제하고, 사외교육 하위에 "전파교육 자료"를 추가합니다. PC 화면과 항목, 용어, 안내 문구, 입력 규칙이 모두 동일합니다.</div>
+</section>
+
+<!-- m2 -->
+<section class="screen mob" id="m2">
+  <div class="secbar" style="margin:-22px -16px 18px"><span class="no">14</span>연수원 모바일 · 사외교육 신청 <small>PC 3번 화면과 동일 적용</small></div>
+  <div class="wrap"><div><p class="cap cp">변경 후</p><div class="ph"><div class="phh"><span class="bk">‹</span>사외교육<span class="ic">⌕ ☰</span></div><div class="phb">
+    <div class="nt"><b>[필독] 사외교육 신청 유의사항</b><br><span class="r">1. 교육비 결재선 : 무료-팀장 / 50만원 이하-임원 / 50만원 초과-본부장<br>2. 본인 신청 원칙 (일괄/대리 신청 불가)<br>3. 교육 신청 목적이 불분명하거나 구체적이지 않은 형식적인 경우, 담당자 검토 후 반려 가능</span> <span class="mk">신규</span><br><span class="r">4. 사외교육 수강 후 '교육결과보고' 필히 작성 필요<br>&nbsp;&nbsp;&nbsp;(※ 50만원 초과 교육의 경우 '교육결과보고' 미제출시 해당 연도 추가 사외교육 결재 제한)</span> <span class="mk">신규</span><br><span class="r">5. 법정교육도 이력관리를 위해 신청 必</span> <span class="mk">신규</span></div>
+    <h4>외부교육 신청하기</h4>
+    <div class="mr"><span class="t">교육명</span><input type="text" placeholder="교육명을 입력하세요.(필수 입력)"></div>
+    <div class="mr"><span class="t">교육분류</span><label><input type="radio" checked> 사외-직무역량개발</label></div>
+    <div class="mr"><span class="t">교육기간</span><input type="text" style="width:44%"> ~ <input type="text" style="width:44%"></div>
+    <div class="mr"><span class="t">교육시간</span><input type="text" style="width:80px"> 시간</div>
+    <div class="mr"><span class="t">교육비용</span><input type="text" style="width:120px"> 원</div>
+    <div class="mr"><span class="t">법정교육 여부 <span class="mk">항목명 변경</span></span><label style="margin-right:8px"><input type="radio" name="mlg"> 법정교육</label><label><input type="radio" name="mlg" checked> 일반교육</label><div style="font-size:10.5px;color:#aaa;margin-top:3px">(기존: 환급여부 비환급 / 환급)</div></div>
+    <h4>교육기관</h4>
+    <div class="mr"><span class="t">교육기관명</span><input type="text"></div><div class="mr"><span class="t">교육URL</span><input type="text" placeholder="http://"></div><div class="mr"><span class="t">교육장소</span><input type="text"></div>
+    <h4>교육내용</h4>
+    <div class="mr"><span class="t">교육내용</span><textarea></textarea></div>
+    <div class="mr"><span class="t">교육 신청 목적 <span class="mk">항목명 변경</span></span>
+      <div style="font-weight:700;font-size:11.5px;margin:0 0 5px">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.</div><textarea></textarea>
+      <div style="font-weight:700;font-size:11.5px;margin:10px 0 5px">2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.</div><textarea></textarea></div>
+    <div class="mr"><span class="t">첨부파일</span><input type="text" placeholder="찾아보기"></div>
+    <h4>결재자 등록 <span class="mk">문구 변경</span></h4>
+    <div style="color:#e60012;font-size:11.5px">※ 인사팀 결재단계 추가 불필요 / 부서 결재 후 인사팀 최종 확인 시 완료</div>
+    <div class="bt"><button>목록으로</button><button class="bl">신청하기</button></div></div></div></div></div>
+  <div class="note-mk" style="max-width:700px">PC 사외교육 신청 화면과 같은 변경(유의사항 3~5번, 법정교육 여부 라디오 기본값 일반교육, 교육 신청 목적 입력란 2개 분리, 결재단계 안내 문구)을 모바일에도 동일하게 적용합니다.</div>
+</section>
+
+<!-- m3 -->
+<section class="screen mob" id="m3">
+  <div class="secbar" style="margin:-22px -16px 18px"><span class="no">15</span>연수원 모바일 · 교육결과보고 <small>PC 5번 화면과 동일 적용</small></div>
+  <div class="wrap"><div><p class="cap cp">변경 후</p><div class="ph"><div class="phh"><span class="bk">‹</span>교육결과보고<span class="ic">⌕ ☰</span></div><div class="phb">
+    <div class="nt"><b>[필독] 작성시 유의 사항</b><br><span class="r">1. [전결권한] : 상위 조직책임자<br>2. 첨부 : 교육 수료증(이수증), 전파교육 실시 사진, 전파교육 자료 (*3개 자료 모두 첨부하여 결과보고서 작성 완료 시, 인사팀 검토 후 교육시간 인정)<br>3. 전파교육 자료 필수 항목 : 교육명, 교육일자, 교육주관처, 교육강사, 교육참석자(소속/이름/직급)<br>&nbsp;&nbsp;&nbsp;*전파 교육자료는 <u>교육플랫폼 게시판</u>에 게시될 예정</span> <span class="mk">게시판 변경</span><br><span class="r">4. 50만원 초과 교육의 경우 '교육결과보고' 미제출시 해당 연도 추가 사외교육 결재 보류</span> <span class="mk">신규</span></div>
+    <h4>결과보고 등록하기</h4>
+    <div class="mr"><span class="t">교육명</span><input type="text" placeholder="교육명을 입력하세요.(필수 입력)"></div>
+    <div class="mr"><span class="t">교육기간</span><input type="text" style="width:44%"> ~ <input type="text" style="width:44%"></div>
+    <div class="mr"><span class="t">교육시간 · 교육비용</span><input type="text" style="width:80px"> 시간 &nbsp;<input type="text" style="width:100px"> 원</div>
+    <div class="mr"><span class="t">법정교육 여부 <span class="mk">항목명 변경</span></span><label style="margin-right:8px"><input type="radio" name="mlg2" value="legal" onchange="mcalc()"> 법정교육</label><label><input type="radio" name="mlg2" value="gen" checked onchange="mcalc()"> 일반교육</label></div>
+    <h4>교육기관 · 전파교육</h4>
+    <div class="mr"><span class="t">교육기관명 · 교육장소</span><input type="text"></div>
+    <div class="mr"><span class="t">전파교육 시간 · 장소 · 참석자</span><input type="text"></div>
+    <h4>교육내용</h4>
+    <div class="mr"><span class="t">교육내용</span><div style="color:#0a2fb0;font-size:11px;margin-bottom:4px">업무에 활용할 교육내용을 구체적으로 작성해 주세요. <span class="mk">안내 변경</span></div><textarea></textarea></div>
+    <div class="mr"><span class="t">교육소감 <span class="mk del">삭제</span></span><div class="dl">입력란 삭제</div></div>
+    <div class="mr"><span class="t">첨부파일 <span class="mk del">삭제</span></span><div class="dl">항목 삭제</div></div>
+    <div class="mr"><span class="t">수료 여부 · 교육 만족도 · 업무 활용도 <span class="mk del">삭제</span></span><div class="dl">선택 항목 삭제 (아래 교육 활용도 보고로 대체)</div></div>
+    <h4>교육 활용도 보고 <span class="mk">신규</span></h4>
+    <div id="mrep">
+    <div class="mr"><span class="t">해당 교육 수강이 필요한 이유 사전 작성 내용</span><div style="font-size:12px">수입 시 서류 및 세관 검사 PROCESS 스터디</div></div>
+    <div class="mr"><span class="t">교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제 사전 작성 내용</span><div style="font-size:12px">인도네시아 유리 수입 시 인보이스 금액 오기입 방지</div></div>
+    <div class="mr"><span class="t">1. 실제 활용 수준 <span style="font-weight:400;color:#aaa">(하나만 선택)</span></span>
+      <label class="ro2"><input type="radio" name="mlv" value="a" onchange="mcalc()"> <b>직접 적용</b><span>현재 수행 중인 업무, 프로세스, 산출물 등에 직접 반영</span></label>
+      <label class="ro2"><input type="radio" name="mlv" value="b" onchange="mcalc()"> <b>업무 참고</b><span>트렌드 분석, 신규 업무 기획안 작성 등의 구체적 참고 자료로 활용</span></label>
+      <label class="ro2"><input type="radio" name="mlv" value="c" onchange="mcalc()"> <b>미활용</b><span>현업에 적용하거나 참고하지 않음</span></label></div>
+    <div class="mr" id="mt2"><span class="t">2. 구체적 활용 성과</span><input type="text" placeholder="적용/참고 업무" style="margin-bottom:6px"><input type="text" placeholder="적용/참고 내용" style="margin-bottom:6px"><input type="text" placeholder="성과 및 변화"></div>
+    <div class="mr" id="mt3"><span class="t">3. 미활용 사유 <span style="font-weight:400;color:#aaa">(하나만 선택)</span></span>
+      <label class="ro2"><input type="radio" name="mwh"> <b>업무 상황 변동</b></label><label class="ro2"><input type="radio" name="mwh"> <b>환경적 제약</b></label><label class="ro2"><input type="radio" name="mwh"> <b>교육 내용 불일치</b></label>
+      <label class="ro2"><input type="radio" name="mwh"> <b>향후 활용 예정</b><input type="text" style="margin-top:4px"></label><label class="ro2"><input type="radio" name="mwh"> <b>기타 사유</b><input type="text" style="margin-top:4px"></label></div>
+    </div>
+    <div class="bt"><button>임시저장</button><button class="bl">제출</button></div></div></div></div></div>
+  <div class="note-mk" style="max-width:700px">PC 교육결과보고 화면과 같은 변경(법정교육 여부, 교육소감·첨부파일·수료 여부·만족도·업무 활용도 삭제, 교육 활용도 보고 신설, 활성/필수 처리 조건)을 모바일에도 동일하게 적용합니다. 법정교육을 선택하면 활용도 보고 전체가 비활성화되고, 일반교육은 1번 선택에 따라 2번 또는 3번이 활성화됩니다.</div>
+  <div class="note-mk" style="max-width:700px">모바일 결과보고 화면에는 PC에 없는 "신청학점" 입력이 있습니다. 노출 조건은 개발 확인이 필요하여 이 시안에는 표시하지 않았습니다.</div>
+</section>
+
+<!-- m4 -->
+<section class="screen mob" id="m4">
+  <div class="secbar" style="margin:-22px -16px 18px"><span class="no">16</span>연수원 모바일 · 전파교육 자료 <small>목록 · 글쓰기 · 상세 (PC 6~8번 화면과 동일 적용)</small></div>
+  <div class="wrap">
+    <div><p class="cap cp">목록</p><div class="ph"><div class="phh"><span class="bk">‹</span>전파교육 자료<span class="ic">⌕ ☰</span></div><div class="phb">
+      <div class="chips"><span class="on">전체</span><span>영업본부</span><span>생산본부</span><span>관리본부</span><span>SCM</span><span>EHS위원회</span></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px"><select style="width:80px"><option>제목</option></select><input type="text"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span><b style="color:#333">4</b>개의 게시글</span><button style="border:0;background:#0a2fb0;color:#fff;border-radius:4px;padding:7px 12px;font-size:12px">글등록 ✎</button></div>
+      <div class="li"><b>2026 글로벌 유리 시장 동향 세미나 전파교육 📎</b><span>최정헌 · 영업1팀 <span class="mk">부서명</span> · 2026-11-16 · 조회 1</span></div>
+      <div class="li"><b>안전보건 관리 실무 전파교육</b><span>이생산 · 생산1팀 · 2026-11-05 · 조회 12</span></div>
+      <div class="li"><b>노무 이슈 대응 실무</b><span>정관리 · 인사팀 · 2026-10-28 · 조회 9</span></div></div></div></div>
+    <div><p class="cap cp">글쓰기</p><div class="ph"><div class="phh"><span class="bk">‹</span>전파교육 자료<span class="ic">⌕ ☰</span></div><div class="phb">
+      <div class="nt"><b>📢 사외교육 신청 전, 게시판을 먼저 확인해 주세요!</b> <span class="mk">문구 추가</span><br>본 게시판은 임직원들이 다녀온 사외교육의 핵심 인사이트와 학습 자료가 공유되는 지식 자료실입니다.<br>신규 사외교육을 신청하시기 전, 아래의 목적으로 게시판을 먼저 검색해 보시기를 권장합니다.<br>* 유사 자료 확인<br>* 인사이트 발굴</div>
+      <div class="mr"><span class="t">제목 *</span><input type="text"></div>
+      <div class="mr"><span class="t">분류 <span class="mk del">삭제</span></span><div class="dl">분류 선택 삭제 (부서 분류는 작성자 소속 기준)</div></div>
+      <div class="mr"><span class="t">교육기간 * <span class="mk">신규</span></span><input type="text" style="width:44%"> ~ <input type="text" style="width:44%"></div>
+      <div class="mr"><span class="t">교육시간 * <span class="mk">신규</span></span><input type="text" style="width:80px"> 시간</div>
+      <div class="mr"><span class="t">교육기관명 * <span class="mk">신규</span></span><input type="text"></div>
+      <div class="mr"><span class="t">교육장소 * <span class="mk">신규</span></span><input type="text"></div>
+      <div class="mr"><span class="t">내용</span><textarea style="height:110px"></textarea></div>
+      <div class="mr"><span class="t">파일첨부</span><input type="text" placeholder="찾아보기"></div>
+      <div class="bt"><button>취소</button><button class="bl">등록</button></div></div></div></div>
+    <div><p class="cap cp">상세</p><div class="ph"><div class="phh"><span class="bk">‹</span>전파교육 자료<span class="ic">⌕ ☰</span></div><div class="phb">
+      <div style="font-size:16px;color:#222;font-weight:700;line-height:1.4;margin-bottom:6px">2026 글로벌 유리 시장 동향 세미나 전파교육</div>
+      <div style="font-size:11.5px;color:#777;line-height:1.7;padding-bottom:10px;border-bottom:1px solid #ddd">분류 : 영업본부<br>최정헌 <span class="mk">소속 추가</span> 영업1팀 · 2026-11-16 · 조회수 1 · 추천 0<br>첨부파일 : 093d5b4e9a84e5ef.pdf</div>
+      <div style="font-size:11.5px;color:#777;margin:10px 0">교육기간 2026-10-20 ~ 2026-10-21 · 교육시간 16시간 · 교육기관명 한국유리협회 · 교육장소 서울</div>
+      <div style="background:#555;color:#fff;text-align:center;padding:50px 0;border-radius:4px;font-size:12px">전파교육 자료 1페이지<div style="margin-top:12px;font-size:11px;color:#ccc">◀ 1 of 3 ▶ &nbsp;⛶</div></div>
+      <div class="bt"><button>이전</button><button>다음</button><button class="bl">목록</button></div>
+      <div class="bt" style="margin-top:8px"><button>추천 ☆</button><button>수정</button><button>삭제</button></div>
+      <div class="cp" style="margin-top:14px;text-align:left">댓글</div>
+      <div class="li"><b style="font-size:12px">이생산 (생산본부)</b><span>자료 감사합니다.</span></div></div></div></div>
+  </div>
+  <div class="note-mk" style="max-width:700px">전파교육 자료 목록, 글쓰기, 상세도 PC 화면과 동일한 항목, 용어, 안내 문구를 모바일에 적용합니다. 모바일에서의 첨부파일 바로보기 가능 여부는 개발 확인이 필요하여 이 시안은 PC와 같은 보기 영역으로 표시했습니다.</div>
+  <div class="note-mk" style="max-width:700px">결재 관리(결재자 의견)는 모바일 결재관리 화면에서 PC와 같은 안내 문구, 항목명이 적용되어야 하며, 모바일 팝업 화면은 확인 후 시안에 추가합니다.</div>
+</section>
+<script>
+function mcalc(){const g=document.querySelector('input[name=mlg2]:checked').value==='legal';const lv=(document.querySelector('input[name=mlv]:checked')||{}).value;
+ const rep=document.getElementById('mrep');rep.style.opacity=g?.4:1;rep.querySelectorAll('input').forEach(i=>i.disabled=g);
+ const t2=document.getElementById('mt2'),t3=document.getElementById('mt3');
+ [[t2,lv==='a'||lv==='b'],[t3,lv==='c']].forEach(([el,on])=>{el.style.opacity=(!g&&on)?1:.4;el.querySelectorAll('input').forEach(i=>i.disabled=g||!on)})}
+mcalc();
+</script>
 
 <div id="toast" style="position:fixed;right:18px;bottom:18px;background:#222;color:#fff;padding:10px 16px;border-radius:5px;display:none;font-size:13px;z-index:99;font-family:'Malgun Gothic',sans-serif"></div>
 
