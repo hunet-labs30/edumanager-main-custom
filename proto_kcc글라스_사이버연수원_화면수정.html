@@ -316,7 +316,7 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <h3>교육과정 정보</h3>
       <div style="display:flex;gap:4px;margin-bottom:10px"><select style="width:132px"><option>사외-직무역량개발</option></select><input type="text" style="flex:1;max-width:450px;color:#e60012" placeholder="과정명을 입력하세요.(필수 입력)"></div>
       <table class="g"><tr><th>교육기간<span class="req">*</span></th><th>교육시간<span class="req">*</span></th><th>교육비용<span class="req">*</span></th><th>법정교육 여부<span class="req">*</span> <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 고용보험 환급여부)</div></th></tr>
-        <tr><td><input type="text" style="width:80px"> ~ <input type="text" style="width:80px"></td><td><input type="text" style="width:64px"> 시간</td><td><input type="text" style="width:96px"> 원</td><td><select><option>선택</option><option>법정교육</option><option>일반교육</option></select><div style="font-size:10px;color:#aaa;margin-top:3px">(기존: 비환급 / 환급)</div></td></tr></table>
+        <tr><td><input type="text" style="width:80px"> ~ <input type="text" style="width:80px"></td><td><input type="text" style="width:64px"> 시간</td><td><input type="text" style="width:96px"> 원</td><td><label style="margin-right:6px"><input type="radio" name="legal0"> 법정교육</label><label><input type="radio" name="legal0" checked> 일반교육</label><div style="font-size:10px;color:#aaa;margin-top:3px">(기존: 비환급 / 환급)</div></td></tr></table>
       <h3>교육기관 정보</h3>
       <table class="g"><tr><th>교육기관명<span class="req">*</span></th><th>교육장소<span class="req">*</span></th><th>교육 URL</th></tr><tr><td><input type="text" style="width:100%"></td><td><input type="text" style="width:100%"></td><td>https:// <input type="text" style="width:130px"></td></tr></table>
       <h3>교육내용</h3>
@@ -394,7 +394,7 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <tr><th>교육 만족도 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr>
       <tr><th>업무활용도 <span class="mk del">삭제</span></th><td style="color:#e60012">삭제</td></tr></table>
     <h3 style="font-size:13px;margin:10px 0 6px">교육 활용도 보고 <span class="mk">신규</span></h3>
-    <div class="note-mk" style="margin:0 0 8px">신청자가 선택한 활용 수준에 따라 노출 항목이 달라집니다. 아래 3가지 경우 중 해당하는 1가지만 보입니다.</div>
+    <div class="note-mk" style="margin:0 0 8px">신청자가 선택한 활용 수준에 따라 노출 항목이 달라집니다. 아래 3가지 경우 중 해당하는 1가지만 보입니다. 법정교육을 선택하고 활용도 보고를 작성하지 않은 건은 이 영역 전체를 노출하지 않습니다.</div>
     <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">① 직접 적용 선택 시</p>
     <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">해당 교육 수강이 필요한 이유<br>사전 작성 내용</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
       <tr><th>교육 이수 후 교육 내용을 참고하거나<br>적용할 업무/과제<br>사전 작성 내용</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
@@ -574,7 +574,7 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <table class="l"><thead><tr><th style="width:30px"><input type="checkbox"></th><th style="width:60px">번호</th><th>커뮤니티 이름</th><th>노출여부</th><th>커뮤니티 이용권한</th><th>등록일</th><th>관리</th></tr></thead>
         <tbody><tr><td><input type="checkbox"></td><td>2</td><td class="lf" style="text-align:center">전파교육 자료 <span class="mk">신규 등록</span></td><td>노출</td><td>전체공개</td><td>2026-11-20</td><td><button class="sbt">수정</button> <button class="sbt">삭제</button></td></tr>
         <tr><td><input type="checkbox"></td><td>1</td><td style="text-align:center">1:1 문의 게시판 <span class="mk">삭제 안 함 · 비노출로 유지</span></td><td><span style="color:#d33">비노출</span></td><td>전체공개</td><td>2025-03-19</td><td><button class="sbt">수정</button> <button class="sbt">삭제</button></td></tr></tbody></table>
-      <div class="note-mk" style="max-width:none">1:1문의 게시판은 삭제하지 않고 노출 없이 그대로 둡니다(기존 글 11건도 그대로). 전파교육 자료 게시판은 노출 · 댓글 사용 · 추천 사용 · 글쓰기/보기 권한 전체로 등록하는 안을 제안합니다. 부서별 분류 설정 가능 여부는 개발 확인 후 확정합니다.</div>
+      <div class="note-mk" style="max-width:none">1:1문의 게시판은 삭제하지 않고 노출 없이 그대로 둡니다(기존 글 11건도 그대로). 전파교육 자료 게시판은 노출 · 댓글 사용 · 추천 사용 · 글쓰기/보기 권한 전체로 등록하는 안을 제안합니다. 부서별 분류는 게시판 설정의 카테고리 설정(표준 기능)으로 등록합니다.</div>
     </div></div></div></section>
 
 <!-- a2 -->
@@ -585,7 +585,7 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <h5 style="border-top:0;margin-top:6px;border-bottom:0;padding:0">수강생정보</h5>
       <table class="f top1"><tr><th>신청자</th><td>· 이유미 - kccglass-ymlee0030, 22600030, 안전환경팀.환경보건</td></tr></table>
       <h5 style="border-bottom:1px solid #555">교육과정정보</h5>
-      <table class="f"><tr><th>교육명</th><td>구조 및 응급처치 교육</td></tr><tr><th>교육분류</th><td>사외-직무역량개발</td></tr><tr><th>교육기간</th><td>2026-11-18 ~ 2026-11-18</td></tr><tr><th>교육시간</th><td>4시간</td></tr><tr><th>교육비용</th><td>0원</td></tr><tr><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 고용보험 환급여부)</div></th><td>일반교육 <span style="color:#aaa;font-size:11px">(기존 값: 비환급)</span></td></tr></table>
+      <table class="f"><tr><th>교육명</th><td>구조 및 응급처치 교육</td></tr><tr><th>교육분류</th><td>사외-직무역량개발</td></tr><tr><th>교육기간</th><td>2026-11-18 ~ 2026-11-18</td></tr><tr><th>교육시간</th><td>4시간</td></tr><tr><th>교육비용</th><td>0원</td></tr><tr><th>법정교육 여부 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 고용보험 환급여부)</div></th><td>일반교육</td></tr></table>
       <h5>교육기관정보</h5>
       <table class="f"><tr><th>교육기관명</th><td>노원구보건소</td></tr><tr><th>교육기관 전화번호</th><td></td></tr><tr><th>교육 URL</th><td>http://</td></tr><tr><th>교육장소</th><td>서울 노원구 노해로 437, 노원구청 별관1층 심폐소생술 교육장</td></tr></table>
       <h5>교육내용</h5>
