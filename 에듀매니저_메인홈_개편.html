@@ -27,6 +27,7 @@ ul{list-style:none}
 .s-title{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:40px;color:#fff}
 .s-title b{font-weight:500;display:flex;align-items:center;gap:8px}
 .star{color:#ffc107}
+.fav-list{max-height:204px;overflow-y:auto;scrollbar-width:thin}
 .fav-list li{display:flex;align-items:center;height:34px;padding:0 20px 0 48px;cursor:pointer;color:#ddd;position:relative}
 .fav-list li:hover{background:#3d3d3d;color:#fff}
 .fav-list li .x{margin-left:auto;opacity:0;color:#aaa;font-size:15px;line-height:1}
@@ -178,7 +179,10 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .monthly .btn{width:100%}
 .mt{display:flex;flex-direction:column}
 .favcard{display:flex;flex-direction:column}
+.fav-scroll{position:relative;flex:1;min-height:100px}
+.fav-scroll .fav-rows{position:absolute;inset:0;overflow-y:auto;padding-right:4px;scrollbar-width:thin}
 .fav-rows{list-style:none;display:flex;flex-direction:column;gap:8px}
+.fav-rows li{flex:none}
 .fav-rows li{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
 .fav-rows li:hover{border-color:#bdbdbd;background:#fcfcfc}
 .fav-rows .st{color:#ffc107}.fav-rows .gp{color:var(--mute)}
@@ -474,7 +478,7 @@ body.annot .anno-tag{display:block}
         <!-- 8. 월간휴넷 -->
         <section class="card favcard" data-n="8">
           <div class="card-h"><h2>즐겨찾기</h2><button class="fqset card-set" type="button">설정</button></div>
-          <ul class="fav-rows" id="favCard"></ul>
+          <div class="fav-scroll"><ul class="fav-rows" id="favCard"></ul></div>
         </section>
       </div>
     </div>
