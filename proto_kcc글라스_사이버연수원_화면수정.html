@@ -321,13 +321,10 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <table class="g"><tr><th>교육기관명<span class="req">*</span></th><th>교육장소<span class="req">*</span></th><th>교육 URL</th></tr><tr><td><input type="text" style="width:100%"></td><td><input type="text" style="width:100%"></td><td>https:// <input type="text" style="width:130px"></td></tr></table>
       <h3>교육내용</h3>
       <div class="frm"><div class="r"><label>교육내용</label><div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea></textarea><div class="ft"></div></div></div></div>
-        <div class="r"><label>교육 신청 목적 <span class="mk">항목명 변경</span><br><span style="font-size:10.5px;color:#aaa">(기존: 교육목적)</span></label><div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea id="purpose">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.
-
-
-
-2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.
-</textarea><div class="ft"></div></div>
-          <div class="note-mk" style="margin:6px 0 0">기존 입력란의 "1. 직무역량 향상 관점", "2. 조직성과 창출 기여 관점" 소제목 문구가 각각 아래 안내 문구로 바뀝니다. 입력란은 하나이며, 에듀매니저와 결과보고 화면에서도 하나의 내용으로 보입니다.</div></div></div>
+        <div class="r"><label>교육 신청 목적 <span class="mk">항목명 변경</span><br><span style="font-size:10.5px;color:#aaa">(기존: 교육목적)</span></label><div><div style="font-weight:700;font-size:12px;margin:0 0 6px">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.</div><div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea id="purpose"></textarea><div class="ft"></div></div>
+          <div style="font-weight:700;font-size:12px;margin:14px 0 6px">2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.</div>
+          <div class="ed"><div class="tb">문단 ▾ | 글꼴 ▾ | 크기 ▾ | ≡ ≡ ≡ ≡ &nbsp; A ▾ B I U S ⛓ ☰ ❝ ▣ ⊞ Ω</div><textarea id="purpose2"></textarea><div class="ft"></div></div>
+          <div class="note-mk" style="margin:6px 0 0">기존의 한 입력란("1. 직무역량 향상 관점", "2. 조직성과 창출 기여 관점" 소제목 구분)을 입력란 2개로 분리합니다. 각 입력란은 별도로 저장되며, 결과보고 사전 작성 내용, 상급자 팝업, 에듀매니저에서도 1번, 2번으로 나뉘어 보입니다.</div></div></div>
         <div class="r"><label>첨부파일</label><div><div class="drop">찾아보기</div></div></div></div>
       <h3 style="margin-top:6px">결재단계 등록 <span class="red">※ 인사팀 결재단계 추가 불필요 / 부서 결재 후 인사팀 최종 확인 시 완료</span><span class="mk">문구 변경</span><span style="margin-left:auto"><button class="sbtn">결재등록</button></span></h3>
       <table class="g" style="margin-bottom:6px"><tr><th>결재단계</th><th>결재유형</th><th>이름</th><th>직급</th><th>부서</th></tr><tr><td colspan="5">검색된 데이터가 없습니다.</td></tr></table>
@@ -378,7 +375,7 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
     <table class="g" style="margin-bottom:14px"><tr><th>교육기관명</th><th>교육장소</th><th>교육 URL</th></tr><tr><td>노원구보건소</td><td>서울 노원구 노해로 437</td><td></td></tr></table>
     <h3 style="font-size:13px;margin:10px 0 6px">교육내용</h3>
     <table class="g" style="margin-bottom:10px"><tr><th style="width:130px">교육내용</th><td style="text-align:left">구조 및 응급처치교육(4시간)</td></tr>
-      <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 교육목적)</div></th><td style="text-align:left">1. 응급의료법 대상자(자동심장충격기 관리책임자)에 해당하여 수강<br>2. 응급활동의 원칙 및 기본인명구조술 등 현업 적용 예정</td></tr></table>
+      <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-size:10px;color:#aaa">(기존: 교육목적)</div></th><td style="text-align:left">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.<br>응급의료법 대상자(자동심장충격기 관리책임자)에 해당하여 수강<br><br>2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.<br>응급활동의 원칙 및 기본인명구조술 등 현업 적용 예정</td></tr></table>
   </div></div>
   <div class="pop on" id="p3b"><div class="pn" style="width:560px">
     <div class="t"><span>외부교육 보고서</span><span>✕</span></div>
@@ -405,13 +402,18 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <tr><th>적용/참고 업무</th><td style="text-align:left">공정 데이터 분석 자동화 코드 작성</td></tr>
       <tr><th>적용/참고 내용</th><td style="text-align:left">교육에서 배운 분석 방법을 공정 불량 데이터 정제 업무에 직접 적용함</td></tr>
       <tr><th>성과 및 변화</th><td style="text-align:left">월간 불량 데이터 정리 시간 단축</td></tr></table>
-    <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">② 업무 참고 선택 시 <span style="font-weight:400;color:#888">(①과 같은 항목, 활용 수준 값만 "업무 참고")</span></p>
-    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">실제 활용 수준</th><td style="text-align:left">업무 참고</td></tr>
-      <tr><th>적용/참고 업무 · 내용 · 성과 및 변화</th><td style="text-align:left">①과 동일하게 3개 항목 노출</td></tr></table>
+    <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">② 업무 참고 선택 시 </p>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">해당 교육 수강이 필요한 이유<br>사전 작성 내용</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
+      <tr><th>교육 이수 후 교육 내용을 참고하거나<br>적용할 업무/과제<br>사전 작성 내용</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
+      <tr><th>실제 활용 수준</th><td style="text-align:left">업무 참고</td></tr>
+      <tr><th>적용/참고 업무</th><td style="text-align:left">신규 라인 공정 불량 분석 기획안 작성</td></tr>
+      <tr><th>적용/참고 내용</th><td style="text-align:left">교육에서 배운 A지표를 기획안 작성 시 벤치마킹 지표로 참고함</td></tr>
+      <tr><th>성과 및 변화</th><td style="text-align:left">관련 리서치 소요 시간 단축</td></tr></table>
     <p style="font-size:11.5px;font-weight:700;margin:8px 0 4px">③ 미활용 선택 시</p>
-    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">실제 활용 수준</th><td style="text-align:left">미활용</td></tr>
-      <tr><th>미활용 사유</th><td style="text-align:left">향후 활용 예정 <span style="color:#888">(입력한 내용: 12월 신규 라인 가동 시 적용 예정)</span></td></tr>
-      <tr><td colspan="2" style="text-align:left;color:#888;font-size:11px">적용/참고 업무 · 내용 · 성과 및 변화는 노출하지 않습니다. 사유가 "향후 활용 예정" 또는 "기타 사유"이면 입력 내용을 함께 보여 줍니다.</td></tr></table>
+    <table class="g" style="margin-bottom:10px"><tr><th style="width:150px">해당 교육 수강이 필요한 이유<br>사전 작성 내용</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
+      <tr><th>교육 이수 후 교육 내용을 참고하거나<br>적용할 업무/과제<br>사전 작성 내용</th><td style="text-align:left">신청 시 작성한 내용</td></tr>
+      <tr><th>실제 활용 수준</th><td style="text-align:left">미활용</td></tr>
+      <tr><th>미활용 사유</th><td style="text-align:left">향후 활용 예정 <span style="color:#888">(입력한 내용: 12월 신규 라인 가동 시 적용 예정)</span></td></tr></table>
     <h3 style="font-size:13px;margin:10px 0 6px">결재진행현황</h3>
     <table class="g" style="margin-bottom:6px"><tr><th>결재단계</th><th>이름</th><th>직급</th><th>부서</th><th>결재일</th><th>상태</th></tr><tr><td>1</td><td>김팀장</td><td>팀장</td><td>생산기술팀</td><td></td><td style="color:#e60012">대기</td></tr></table>
   </div></div>
@@ -588,8 +590,11 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <table class="f"><tr><th>교육기관명</th><td>노원구보건소</td></tr><tr><th>교육기관 전화번호</th><td></td></tr><tr><th>교육 URL</th><td>http://</td></tr><tr><th>교육장소</th><td>서울 노원구 노해로 437, 노원구청 별관1층 심폐소생술 교육장</td></tr></table>
       <h5>교육내용</h5>
       <table class="f"><tr><th>교육내용</th><td>- 구조 및 응급처치교육(4시간)<br>&nbsp;&nbsp;- 일상에서 응급환자 발생 시 대처하는 응급처치 요령, 심폐소생술의 이론과 술기, 자동심장충격기(AED) 사용법을 배울 수 있는 과정입니다.</td></tr>
-        <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 교육목적)</div></th><td class="pre">1. 응급의료법 제14조 대상자(자동심장충격기 관리책임자)에 해당하여 이 내용을 교육해 함.
-2. 응급활동의 원칙 및 내용, 기본인명구조술(이론·실습) 등 현업 적용 예정<div class="note-mk" style="margin:6px 0 0">신청자가 작성한 내용을 하나의 내용으로 조회합니다.</div></td></tr>
+        <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 교육목적)</div></th><td class="pre">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.
+응급의료법 제14조 대상자(자동심장충격기 관리책임자)에 해당하여 이 내용을 교육해 함.
+
+2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.
+응급활동의 원칙 및 내용, 기본인명구조술(이론·실습) 등 현업 적용 예정<div class="note-mk" style="margin:6px 0 0">신청 시 분리해 입력한 1번, 2번 내용을 항목별로 조회합니다.</div></td></tr>
         <tr><th>첨부파일</th><td></td></tr></table>
       <div style="text-align:center;margin:18px 0"><button class="sbt red" onclick="go('a2b')">수정하기</button> <button class="sbt" style="padding:9px 18px">목록</button> <button class="sbt" style="padding:9px 18px">삭제</button></div>
       <div class="note-mk" style="max-width:none">결재여부 · 최종승인(승인대기/승인완료/반려) 처리 방식과 결재현황 팝업(결재자 의견 두 컬럼)은 변경 없이 현행 유지합니다.</div>
@@ -611,8 +616,8 @@ document.getElementById('mhwrap').innerHTML='<p class="cap">변경 전 <span cla
       <h5>교육내용</h5>
       <table class="f"><tr><th>교육내용</th><td><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>- 구조 및 응급처치교육(4시간)
   - 일상에서 응급환자 발생 시 대처하는 응급처치 요령, 심폐소생술의 이론과 술기, 자동심장충격기(AED) 사용법을 배울 수 있는 과정입니다.</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div></td></tr>
-        <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 교육목적)</div></th><td><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>1. 응급의료법 제14조 대상자(자동심장충격기 관리책임자)에 해당하여 이 내용을 교육해 함.
-2. 응급활동의 원칙 및 내용, 기본인명구조술(이론·실습) 등 현업 적용 예정</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div><div class="note-mk" style="margin:6px 0 0">연수원 신청 화면에서 신청자가 한 입력란에 작성한 내용을 하나의 내용으로 조회·수정합니다. 기존 데이터의 "교육목적" 값은 항목명만 "교육 신청 목적"으로 바뀌어 그대로 보입니다.</div></td></tr>
+        <tr><th>교육 신청 목적 <span class="mk">항목명 변경</span><div style="font-weight:400;font-size:11px;color:#aaa">(기존: 교육목적)</div></th><td><div style="font-weight:700;margin:0 0 4px">1. 해당 교육 수강이 필요한 이유를 구체적으로 작성해 주세요.</div><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>응급의료법 제14조 대상자(자동심장충격기 관리책임자)에 해당하여 이 내용을 교육해 함.</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div>
+          <div style="font-weight:700;margin:12px 0 4px">2. 교육 이수 후 교육 내용을 참고하거나 적용할 업무/과제를 구체적으로 작성해 주세요.</div><div class="edi"><div class="tb">돋움 ▾ 9pt ▾ 가 가 가 가 ≡ ≡ ≡ ☰ ☷ ❝ URL ▣</div><textarea>응급활동의 원칙 및 내용, 기본인명구조술(이론·실습) 등 현업 적용 예정</textarea><div class="ft">⇕ 입력창 크기 조절 &nbsp; Editor | HTML | TEXT</div></div><div class="note-mk" style="margin:6px 0 0">연수원 신청 화면에서 분리해 입력한 1번, 2번 내용을 입력란 2개로 조회·수정합니다. 기존 데이터의 "교육목적" 값은 항목명만 "교육 신청 목적"으로 바뀌어 그대로 보입니다.</div></td></tr>
         <tr><th>첨부파일</th><td><button class="sbt" style="background:#ddd">Select...</button><div style="font-size:11px;color:#777;margin-top:6px">(업로드 용량제한 10MB)</div></td></tr></table>
       <div style="text-align:center;margin:16px 0"><button class="sbt red" onclick="toast('수정되었습니다. (시연)')">수정하기</button> <button class="sbt" style="padding:9px 18px" onclick="go('a2')">목록</button> <button class="sbt" style="padding:9px 18px">삭제</button></div>
     </div></div></div></section>
