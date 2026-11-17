@@ -207,6 +207,31 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .fq-act{display:flex;justify-content:flex-end;gap:8px}
 .fq-act button{height:36px;padding:0 18px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer}
 .fq-act .pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.s-title .side-set{margin-left:auto;background:transparent;border:1px solid #777;color:#ddd;border-radius:4px;font-size:11px;padding:2px 8px;cursor:pointer}
+.s-title .side-set:hover{background:#444;color:#fff}
+.card-h .card-set{margin-left:auto;background:#fff;border:1px solid #ccc;border-radius:6px;font-size:12px;padding:4px 12px;cursor:pointer;color:#444}
+.card-h .card-set:hover{background:#f6f6f6}
+.fq-box2{position:relative;background:#fff;border-radius:16px;width:640px;max-width:94vw;padding:26px 28px 22px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.fq-x{position:absolute;top:12px;right:16px;border:0;background:none;font-size:15px;font-weight:700;cursor:pointer}
+.fq-cols{display:flex;align-items:center;gap:12px}
+.fq-left{flex:1;min-width:0}
+.fq-ttl{font-weight:700;font-size:15px;margin-bottom:10px}
+.fq-sbox{border:1px solid #bbb;border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:8px}
+.fq-sbox input{border:0;outline:0;font:inherit;height:28px}
+.fq-sbox button{align-self:flex-start;background:#1a2a5e;color:#fff;border:0;border-radius:4px;padding:6px 18px;font-weight:700;cursor:pointer}
+.fq-list{list-style:none;height:190px;overflow:auto;margin-top:12px}
+.fq-list li{display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid #e5e5e5;cursor:pointer}
+.fq-list li .cb{width:18px;height:18px;border:2px solid #999;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex:none}
+.fq-list li.on .cb{background:#c00;border-color:#c00}
+.fq-list li.dis{color:#aaa;cursor:default}.fq-list li.dis .cb{background:#ddd;border-color:#ddd}
+.fq-pick{border:1px solid #1565c0;background:#fff;color:#1565c0;font-weight:700;padding:7px 12px;cursor:pointer;flex:none;border-radius:3px}
+.fq-right{flex:1;min-width:0;border:1px solid #bbb;border-radius:22px;padding:16px 18px}
+.fq-rh{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px}
+.fq-rh button{background:#111;color:#fff;border:0;border-radius:4px;padding:6px 14px;font-weight:700;cursor:pointer}
+.fq-right .fq-list{margin-top:8px}
+.fq-act2{display:flex;justify-content:center;gap:28px;margin-top:20px}
+.fq-act2 button{width:150px;height:44px;border-radius:6px;border:0;background:#aaa;color:#fff;font-weight:700;cursor:pointer}
+.fq-act2 .pri{background:#444}
 .startsel{font-size:12px;color:#555;display:flex;align-items:center;gap:6px}
 .startsel select{height:30px;border:1px solid #ccc;border-radius:6px;padding:0 8px;font:inherit;background:#fff}
 .mt-tabs{display:flex;gap:20px;border-bottom:1px solid #eee;margin:-4px 0 14px}
@@ -344,7 +369,7 @@ body.annot .anno-tag{display:block}
     <div class="s-row" id="goMain"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>메인</div>
 
     <div id="favBox" data-n="4">
-      <div class="s-title"><b><span class="star">★</span>즐겨찾기</b></div>
+      <div class="s-title"><b><span class="star">★</span>즐겨찾기</b><button class="fqset side-set" type="button">설정</button></div>
       <ul class="fav-list" id="favList"></ul>
     </div>
 
@@ -448,9 +473,8 @@ body.annot .anno-tag{display:block}
         </section>
         <!-- 8. 월간휴넷 -->
         <section class="card favcard" data-n="8">
-          <div class="card-h"><h2>즐겨찾기</h2><span class="card-desc">자주 쓰는 메뉴로 바로 이동합니다.</span></div>
+          <div class="card-h"><h2>즐겨찾기</h2><button class="fqset card-set" type="button">설정</button></div>
           <ul class="fav-rows" id="favCard"></ul>
-          <button class="btn fq-set" id="fqSet">즐겨찾기 설정</button>
         </section>
       </div>
     </div>
@@ -510,11 +534,18 @@ body.annot .anno-tag{display:block}
 
 <div class="chatbot" title="아이런 챗봇">?</div>
 <button class="annot-btn" id="annotBtn">기획 번호 표시</button>
-<div class="fq-layer" id="fqLayer"><div class="fq-box"><h3>즐겨찾기 설정</h3>
-<input type="text" id="fqQ" placeholder="메뉴명을 검색해 선택하세요">
-<ul class="fq-res" id="fqRes"></ul>
-<div>현재 즐겨찾기 (<b id="fqCnt">0</b>)</div><div class="fq-cur" id="fqCur"></div>
-<div class="fq-act"><button id="fqCancel">취소</button><button class="pri" id="fqSave">저장</button></div></div></div>
+<div class="fq-layer" id="fqLayer"><div class="fq-box2" role="dialog" aria-label="즐겨찾기 설정">
+<button class="fq-x" id="fqX" aria-label="닫기">X</button>
+<div class="fq-cols">
+ <div class="fq-left"><div class="fq-ttl">메뉴 검색</div>
+  <div class="fq-sbox"><input type="text" id="fqQ" placeholder="검색어를 입력해주세요"><button type="button" id="fqFind">검색</button></div>
+  <ul class="fq-list" id="fqRes"></ul></div>
+ <button type="button" class="fq-pick" id="fqPick">선택 ›</button>
+ <div class="fq-right"><div class="fq-rh"><span>현재 즐겨찾기 (<b id="fqCnt">0</b>)</span><button type="button" id="fqDel">삭제</button></div>
+  <ul class="fq-list" id="fqCur"></ul></div>
+</div>
+<div class="fq-act2"><button type="button" id="fqCancel">취소</button><button type="button" class="pri" id="fqSave">저장</button></div>
+</div></div>
 <button class="unused-btn" id="unusedBtn">미사용 메뉴 시연</button>
 <div class="unused-pop" id="unusedPop"><small>권한에 따라 메뉴별로 노출·미노출됩니다.<br>미노출로 체크한 카드만 빠집니다.</small></div>
 
@@ -723,22 +754,26 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
     e.appendChild(t);
   });
 })();
-/* 즐겨찾기 설정 레이어 : 메뉴 검색 후 선택/해제, 저장 시 사이드바·메인에 동시 반영 */
+/* 즐겨찾기 설정 레이어 : 메뉴 검색 → 선택 → 현재 즐겨찾기에서 삭제 → 저장 (사이드바·메인 동시 반영) */
 (function(){
-  var draft=[];var L=$('#fqLayer');
+  var draft=[],lc={},rc={},q='';var L=$('#fqLayer');
   var ALL=FLAT.map(function(x){return x.n}).filter(function(n,i,a){return a.indexOf(n)===i});
   function draw(){
-    var q=$('#fqQ').value.trim();
-    $('#fqRes').innerHTML=ALL.filter(function(n){return !q||n.indexOf(q)>-1}).map(function(n){return '<li data-m="'+esc(n)+'"><span>'+esc(n)+'</span>'+(draft.indexOf(n)>-1?'<span class="v">✓</span>':'')+'</li>'}).join('')||'<li style="color:#999;cursor:default">검색 결과가 없습니다.</li>';
-    $('#fqCur').innerHTML=draft.map(function(n){return '<span>'+esc(n)+'<i data-x="'+esc(n)+'">×</i></span>'}).join('');
+    $('#fqRes').innerHTML=ALL.filter(function(n){return !q||n.indexOf(q)>-1}).map(function(n){var added=draft.indexOf(n)>-1;return '<li data-m="'+esc(n)+'" class="'+(added?'dis':lc[n]?'on':'')+'"><span class="cb">'+(lc[n]&&!added?'V':'')+'</span><span>'+esc(n)+(added?' (추가됨)':'')+'</span></li>'}).join('')||'<li class="dis">검색 결과가 없습니다.</li>';
+    $('#fqCur').innerHTML=draft.map(function(n){return '<li data-x="'+esc(n)+'" class="'+(rc[n]?'on':'')+'"><span class="cb">'+(rc[n]?'V':'')+'</span><span>'+esc(n)+'</span></li>'}).join('')||'<li class="dis" style="cursor:default;color:#999">즐겨찾기한 메뉴가 없습니다.</li>';
     $('#fqCnt').textContent=draft.length;
   }
-  $('#fqSet').onclick=function(e){e.stopPropagation();draft=fav.slice();$('#fqQ').value='';draw();L.classList.add('open')};
-  $('#fqQ').oninput=draw;
-  $('#fqRes').onclick=function(e){var li=e.target.closest('[data-m]');if(!li)return;var n=li.dataset.m,i=draft.indexOf(n);if(i>-1)draft.splice(i,1);else draft.push(n);draw()};
-  $('#fqCur').onclick=function(e){var x=e.target.closest('[data-x]');if(!x)return;draft.splice(draft.indexOf(x.dataset.x),1);draw()};
-  $('#fqCancel').onclick=function(){L.classList.remove('open')};
-  $('#fqSave').onclick=function(){fav=draft.slice();try{localStorage.setItem(FAV_KEY,JSON.stringify(fav))}catch(e){}renderFav();L.classList.remove('open');toast('즐겨찾기를 저장했습니다.')};
+  function open(e){if(e)e.stopPropagation();draft=fav.slice();lc={};rc={};q='';$('#fqQ').value='';draw();L.classList.add('open')}
+  [].forEach.call(document.querySelectorAll('.fqset'),function(b){b.onclick=open});
+  $('#fqFind').onclick=function(){q=$('#fqQ').value.trim();draw()};
+  $('#fqQ').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();$('#fqFind').click()}};
+  $('#fqRes').onclick=function(e){var li=e.target.closest('[data-m]');if(!li||li.classList.contains('dis'))return;var n=li.dataset.m;if(lc[n])delete lc[n];else lc[n]=1;draw()};
+  $('#fqCur').onclick=function(e){var li=e.target.closest('[data-x]');if(!li)return;var n=li.dataset.x;if(rc[n])delete rc[n];else rc[n]=1;draw()};
+  $('#fqPick').onclick=function(){var add=Object.keys(lc);if(!add.length){toast('추가할 메뉴를 선택해 주세요.');return}add.forEach(function(n){if(draft.indexOf(n)<0)draft.push(n)});lc={};draw()};
+  $('#fqDel').onclick=function(){var del=Object.keys(rc);if(!del.length){toast('삭제할 메뉴를 선택해 주세요.');return}draft=draft.filter(function(n){return !rc[n]});rc={};draw()};
+  function close(){L.classList.remove('open')}
+  $('#fqCancel').onclick=close;$('#fqX').onclick=close;
+  $('#fqSave').onclick=function(){fav=draft.slice();try{localStorage.setItem(FAV_KEY,JSON.stringify(fav))}catch(e){}renderFav();close();toast('즐겨찾기를 저장했습니다.')};
 })();
 /* 교담자 진행 업무 목록 : 기업이 사용하지 않는 메뉴는 카드 제외, 남은 개수로 열 수 재구성 */
 var UNUSED={},REQ=[];
