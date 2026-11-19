@@ -652,7 +652,7 @@ function renderAll(){
 }
 document.addEventListener('click',function(e){
   var gh=e.target.closest('.g-head');if(gh&&gh.parentElement.classList.contains('g')){gh.parentElement.classList.toggle('open');return}
-  var go=e.target.closest('[data-go]');if(go){var gp=goPath(go.dataset.go);toast('이동: '+go.dataset.go+(gp?'\n경로: '+gp:''))}
+  var go=e.target.closest('[data-go]');if(go){var gp=goPath(go.dataset.go);toast('이동: '+go.dataset.go+(gp?'\n경로: '+gp+(gp.indexOf('/')===0?'\n열기: 현재 창(페이지 전환)':gp.indexOf('http')===0?'\n열기: 새 탭':''):''))}
 });
 $('#expandAll').onclick=function(){document.querySelectorAll('#allMenu .g').forEach(function(g){g.classList.add('open')})};
 $('#collapseAll').onclick=function(){document.querySelectorAll('#allMenu .g').forEach(function(g){g.classList.remove('open')})};
