@@ -549,7 +549,7 @@ body.annot .top-grid{row-gap:30px}
 <div class="chatbot" title="아이런 챗봇">?</div>
 <button class="annot-btn" id="annotBtn">기획 번호 표시</button>
 <div class="fq-layer" id="fqLayer"><div class="fq-box2" role="dialog" aria-label="즐겨찾기 설정">
-<div class="fq-head"><div><h3>즐겨찾기 설정</h3><p>메뉴를 검색해 추가하면 메인 화면 우측에 표시됩니다.</p></div><button class="fq-x" id="fqX" aria-label="닫기">×</button></div>
+<div class="fq-head"><div><h3>즐겨찾기 설정</h3><p>메뉴를 검색해 추가하면 메인 화면 우측에 표시됩니다. (최대 10개)</p></div><button class="fq-x" id="fqX" aria-label="닫기">×</button></div>
 <div class="fq-cols">
  <section class="fq-panel fq-left"><div class="fq-ttl">메뉴 검색</div>
   <div class="fq-sbox"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="text" id="fqQ" placeholder="메뉴명을 입력해주세요"><button type="button" id="fqFind">검색</button></div>
@@ -777,7 +777,7 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
   $('#fqQ').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();$('#fqFind').click()}};
   $('#fqRes').onclick=function(e){var li=e.target.closest('[data-m]');if(!li||li.classList.contains('dis'))return;var n=li.dataset.m;if(lc[n])delete lc[n];else lc[n]=1;draw()};
   $('#fqCur').onclick=function(e){var li=e.target.closest('[data-x]');if(!li)return;var n=li.dataset.x;if(rc[n])delete rc[n];else rc[n]=1;draw()};
-  $('#fqPick').onclick=function(){var add=Object.keys(lc);if(!add.length){toast('추가할 메뉴를 선택해 주세요.');return}add.forEach(function(n){if(draft.indexOf(n)<0)draft.push(n)});lc={};draw()};
+  $('#fqPick').onclick=function(){var add=Object.keys(lc);if(!add.length){toast('추가할 메뉴를 선택해 주세요.');return}if(draft.length+add.length>10){toast('즐겨찾기는 최대 10개까지 등록할 수 있습니다.');return}add.forEach(function(n){if(draft.indexOf(n)<0)draft.push(n)});lc={};draw()};
   $('#fqDel').onclick=function(){var del=Object.keys(rc);if(!del.length){toast('삭제할 메뉴를 선택해 주세요.');return}draft=draft.filter(function(n){return !rc[n]});rc={};draw()};
   function close(){L.classList.remove('open')}
   $('#fqCancel').onclick=close;$('#fqX').onclick=close;
