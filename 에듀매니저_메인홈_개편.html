@@ -321,6 +321,13 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .pi-author{display:flex;align-items:center;gap:6px;color:#777;font-size:12px;margin:6px 0 8px}
 .pi-author .av{width:24px;height:24px;border-radius:50%;object-fit:cover;background:#cfd8dc;color:#455a64;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex:none}
 .pi-author .sep{color:#ccc}
+.pi-clip{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid #eee;cursor:pointer}
+.pi-clip .ck{flex:none;font-size:12px;font-weight:500;color:var(--blue);width:76px}
+.pi-clip .cth{position:relative;flex:none;width:96px;aspect-ratio:16/9;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff}
+.pi-clip .cth i{font-style:normal;font-size:12px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+.pi-clip .cth em{position:absolute;right:4px;bottom:3px;font-style:normal;font-size:10px;background:rgba(0,0,0,.7);border-radius:3px;padding:0 4px}
+.pi-clip .ct{flex:1;min-width:0;font-size:13px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pi-clip:hover .ct{text-decoration:underline}
 .pi-body{position:relative;color:#666;font-size:12.5px;line-height:1.6;height:6.4em;overflow:hidden}
 .pi-body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.8em;background:linear-gradient(rgba(255,255,255,0),#fff)}
 .rm{display:inline-block;margin-top:6px;color:var(--text);text-decoration:underline;cursor:pointer;font-size:12px}
@@ -526,6 +533,7 @@ body.annot .top-grid{row-gap:30px}
               <a class="rm" data-go="휴넷 CEO 아티클 상세">Read more ›</a>
             </div>
           </div>
+          <div class="pi-clip" data-go="휴넷 CEO 인사이트 클립 상세"><span class="ck">인사이트 클립</span><span class="cth" style="background:linear-gradient(135deg,#37474f,#78909c)"><i>&#9654;</i><em>14min</em></span><span class="ct">르네상스 거장들의 라이벌전: 다빈치, 미켈란젤로, 라파엘로</span></div>
         </article>
         <article class="pi">
           <div class="pi-h"><span class="lb">리더십 저니</span><a class="more" data-go="리더십 저니 사이트(leadership.hunet.co.kr/journey)">자세히보기 ›</a></div>
@@ -538,6 +546,7 @@ body.annot .top-grid{row-gap:30px}
               <a class="rm" data-go="리더십 저니 아티클 상세">Read more ›</a>
             </div>
           </div>
+          <div class="pi-clip" data-go="리더십 저니 인사이트 클립 상세"><span class="ck">인사이트 클립</span><span class="cth" style="background:linear-gradient(135deg,#1565c0,#64b5f6)"><i>&#9654;</i><em>10min</em></span><span class="ct">세대 갈등을 넘어 팀을 하나로 만드는 대화법</span></div>
         </article>
       </div>
     </section>
@@ -755,7 +764,7 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '7':[O,'즐겨찾기 바로가기','즐겨찾기한 메뉴를 메인 우측에 수동 배치'],
    '8':[M,'신규·인기 과정 추천','썸네일+제목 캐러셀, 상세는 새 탭'],
    '9':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
-   '10':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 체험 콘텐츠'],
+   '10':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 아티클과 인사이트 클립'],
    '11':[M,'하단 띠배너','멤버십 혜택 확인 안내, 클릭 시 이동']
   };
   Object.keys(A).forEach(function(n){
