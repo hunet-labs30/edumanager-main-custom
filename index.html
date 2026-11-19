@@ -385,10 +385,6 @@ body.annot .anno-tag{display:block}
   <div class="side-scroll">
     <div class="s-row" id="goMain"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>메인</div>
 
-    <div id="favBox" data-n="4">
-      <div class="s-title"><b><span class="star">★</span>즐겨찾기</b><button class="fqset side-set" type="button">설정</button></div>
-      <ul class="fav-list" id="favList"></ul>
-    </div>
 
     <div class="divider"></div>
 
@@ -614,9 +610,6 @@ function renderFavCard(){
 }
 function renderFav(){
   renderFavCard();
-  var ul=$('#favList');
-  if(!fav.length){ul.innerHTML='<li class="fav-empty" style="padding:4px 20px 8px 48px;height:auto;cursor:default">즐겨찾기 메뉴가<br>여기에 표시됩니다.</li>';return}
-  ul.innerHTML=fav.map(function(n){return '<li data-go="'+esc(n)+'"><span>'+esc(n)+'</span></li>'}).join('');
 }
 function renderAll(){
   var openSet={};document.querySelectorAll('#allMenu .g.open').forEach(function(e){openSet[e.dataset.g]=1});
@@ -752,7 +745,6 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '5':[O,'교담자 진행 업무 목록','학습시작일 기준 드롭다운, 권한별 메뉴 노출·미노출'],
    '6':[O,'교육현황 대시보드','교담자별 열람 가능 과정만 노출 (예: 온보딩 담당자는 온보딩 과정만)'],
    '7':[M,'공지사항','전체 공지 최근 4건·구분 태그'],
-   '4':[M+'·'+O,'즐겨찾기','','below'],
    '8':[O,'즐겨찾기 바로가기','즐겨찾기한 메뉴를 메인 우측에 수동 배치 (사이드바와 동일 목록)'],
    '9':[M,'신규·인기 과정 추천','썸네일+제목 캐러셀, 상세는 새 탭'],
    '10':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
