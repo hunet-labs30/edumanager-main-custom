@@ -78,7 +78,7 @@ ul{list-style:none}
 .res .none{padding:14px 16px;color:var(--mute);cursor:default}
 .res .hint{padding:6px 16px;color:#aaa;font-size:11px;border-top:1px solid #f0f0f0;margin-top:4px}
 .h-right{display:flex;align-items:center;gap:6px}
-.h-promo{font-size:12px;color:#555;white-space:nowrap;margin-right:6px;cursor:pointer}.h-right{white-space:nowrap}.h-promo b{color:var(--blue);font-weight:500}
+.h-right{white-space:nowrap}
 .h-link{padding:0 12px;height:35px;display:inline-flex;align-items:center;gap:6px;color:#555;border-radius:8px}
 .h-link:hover{background:#eee}
 .btn{height:35px;padding:0 18px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
@@ -378,7 +378,7 @@ body.annot .top-grid{row-gap:30px}
 .anno-tag.inl{top:50%;left:36px;transform:translateY(-50%)}
 .annot-btn.on{background:#e91e63;color:#fff;border-color:#e91e63}
 
-@media (max-width:1500px){.h-promo{display:none}.todo{grid-template-columns:repeat(3,minmax(0,1fr))}.top-grid{grid-template-columns:minmax(0,1fr) 350px}.search{width:300px}.c-item{width:calc((100% - 54px)/4)}}
+@media (max-width:1500px){.todo{grid-template-columns:repeat(3,minmax(0,1fr))}.top-grid{grid-template-columns:minmax(0,1fr) 350px}.search{width:300px}.c-item{width:calc((100% - 54px)/4)}}
 </style>
 </head>
 <body>
@@ -422,7 +422,6 @@ body.annot .top-grid{row-gap:30px}
       </div>
     </div>
     <div class="h-right" data-n="3">
-      <a class="h-promo" data-go="멤버십 구독권 안내">100만원 상당의 구독권 5개 혜택이 아직 남아있어요! <b>지금받기 ›</b></a>
       <a class="h-link" data-go="휴넷 담당자 문의">휴넷담당자 문의</a>
       <a class="h-link" id="dlList">과정리스트 다운로드</a>
       <button class="btn btn-blue" data-go="매뉴얼">매뉴얼</button>
@@ -745,7 +744,7 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
   var A={
    '1':[M,'기업정보','기업명·멤버십 등급, 혜택 툴팁','below'],
    '2':[O,'통합검색','메뉴명 검색 후 바로 이동','below'],
-   '3':[M,'상단 메뉴','구독권 안내·문의·과정리스트 다운로드·매뉴얼','below'],
+   '3':[M,'상단 메뉴','문의·과정리스트 다운로드·매뉴얼','below'],
    '4':[O,'교담자 진행 업무 목록','학습시작일 기준 드롭다운, 권한별 메뉴 노출·미노출'],
    '5':[O,'교육현황 대시보드','교담자별 열람 가능 과정만 노출 (예: 온보딩 담당자는 온보딩 과정만)'],
    '6':[M,'공지사항','전체 공지 최근 4건'],
