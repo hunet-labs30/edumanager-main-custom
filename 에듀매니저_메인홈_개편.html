@@ -603,13 +603,13 @@ function $(s,r){return (r||document).querySelector(s)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var tt;var GO_PATHS=[
  ['멤버십 혜택 안내 페이지','https://hrd.hunet.co.kr/Contents/MemberShip'],
- ['휴넷 담당자','/Manage/ManagerConcatAnswer (현행은 문의 /Manage/ManagerConcatQuestion 과 분리, 확인 필요)'],
+ ['휴넷 담당자','/Manage/ManagerConcatQuestion'],
  ['교육 신청 현황','/Enroll/Status'],
  ['학습 수료 현황','/Study/Status'],
  ['결과보고서 페이지','/Study/ResultReport#b'],
  ['마이크로러닝 현황','/ImagineStatus/ContentsUseStatus#personContents'],
  ['교육 수료 확인서','/Study/StudyCertifcates'],
- ['교육비용 현황','경로 확인 필요 (요청서·현행 메뉴에 없음)'],
+ ['교육비용 현황','연수원 3.0 EDMS 좌측메뉴 > 교육비용 (현행 에듀매니저에는 없음, URL 확인 필요)'],
  ['과정 학습 현황','/Study/Status (과정 조건 전달 방식 확인 필요)'],
  ['과정 상세(새 탭)','https://hrd.hunet.co.kr/Catalog/DetailToHsmFromB2BNew?processCd={과정 코드}'],
  ['휴넷 CEO 사이트','https://ceo.hunet.co.kr/'],
@@ -620,9 +620,10 @@ var tt;var GO_PATHS=[
  ['휴넷TV 상세','https://www.youtube.com/watch?v={영상 ID}'],
  ['뉴스레터 상세','https://hrd.hunet.co.kr/Trend/TrendDetail?page_no=1&search_text=&board_seq={번호}&type_code=0#divContent'],
  ['리포트 상세','https://hrd.hunet.co.kr/Report/ReportDetail?type={리포트 코드}'],
+ ['리더십 저니 아티클 상세','https://leadership.hunet.co.kr/journey/library/article/{아티클 번호}'],
+ ['리더십 저니 인사이트 클립 상세','https://leadership.hunet.co.kr/journey/library/video/{클립 코드}'],
  ['아티클 상세','경로 확인 필요'],
  ['CEO 인사이트 클립 상세','https://ceo.hunet.co.kr/membership/insight-clip/{클립 코드}'],
- ['인사이트 클립 상세','경로 확인 필요'],
  ['매뉴얼','https://hunetdown.cdn.hunet.co.kr/Resources/Hunet/Document/2025edumanagermanual_250304162000.pdf (현행 관리지원 메뉴 기준)'],
  ['로그아웃','/Login/Logout']
 ];
