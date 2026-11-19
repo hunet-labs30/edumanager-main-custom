@@ -259,7 +259,7 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .mt .pane .btn{margin-top:auto}
 .top-grid>.col{display:contents}
 .top-grid>.col>.card{min-height:0}
-[data-n="5"]{grid-area:1/1}[data-n="6"]{grid-area:2/1}[data-n="7"]{grid-area:1/2}[data-n="8"]{grid-area:2/2}
+[data-n="4"]{grid-area:1/1}[data-n="5"]{grid-area:2/1}[data-n="6"]{grid-area:1/2}[data-n="7"]{grid-area:2/2}
 .trial .banner{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:702/250;margin-bottom:12px;cursor:pointer;background:#5b3fd6}
 .trial .banner img{display:block;width:100%}
 .trial .dday{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.65);color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
@@ -353,11 +353,11 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 body.annot [data-n]::before{content:attr(data-n);position:absolute;top:-10px;left:-10px;width:22px;height:22px;border-radius:50%;background:#e91e63;color:#fff;font-size:12px;font-weight:700;border:1.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:30}
 body.annot [data-n]{outline:2px dashed #e91e63;outline-offset:-2px}
 body.annot .top-grid [data-n],body.annot main [data-n]{outline-offset:2px}
-body.annot [data-n="1"],body.annot [data-n="2"],body.annot [data-n="3"],body.annot [data-n="4"],body.annot [data-n="12"]{position:relative}
-body.annot [data-n="1"]::before,body.annot [data-n="2"]::before,body.annot [data-n="3"]::before,body.annot [data-n="4"]::before,body.annot [data-n="12"]::before{top:50%;left:4px;margin-top:-11px}
-body.annot [data-n="12"]::before{left:8px}
+body.annot [data-n="1"],body.annot [data-n="2"],body.annot [data-n="3"],body.annot [data-n="11"]{position:relative}
+body.annot [data-n="1"]::before,body.annot [data-n="2"]::before,body.annot [data-n="3"]::before,body.annot [data-n="11"]::before{top:50%;left:4px;margin-top:-11px}
+body.annot [data-n="11"]::before{left:8px}
 .annot-btn{position:fixed;left:240px;bottom:16px;z-index:40;background:#fff;border:1px solid #d5d5d5;border-radius:18px;height:34px;padding:0 16px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-[data-n="5"]{display:flex;flex-direction:column}
+[data-n="4"]{display:flex;flex-direction:column}
 .todo{flex:1;grid-auto-rows:1fr}
 .todo.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .todo.c1{grid-template-columns:minmax(0,1fr)}
@@ -431,7 +431,7 @@ body.annot .anno-tag{display:block}
       <div class="col">
 
         <!-- 5. 교담자 진행 업무 목록 (필수 고정 메뉴 4개 + 실제 건수) -->
-        <section class="card" data-n="5">
+        <section class="card" data-n="4">
           <div class="card-h"><h2>교담자 진행 업무 목록<small>처리가 필요한 건수를 바로 확인하세요</small></h2><label class="startsel">학습시작일 기준 <select id="startSel"></select></label></div>
           <div class="todo">
             <div class="t-card" data-go="교육 신청 현황 (학습시작일 기준 승인대기 건 조회)">
@@ -468,7 +468,7 @@ body.annot .anno-tag{display:block}
         </section>
 
         <!-- 6. 교육현황 대시보드 -->
-        <section class="card" data-n="6">
+        <section class="card" data-n="5">
           <div class="card-h"><h2>교육현황 대시보드</h2><span class="card-desc" id="sumDesc"></span><span class="seg" id="sumSeg"><button data-s="start" class="on">학습시작일순</button><button data-s="end">학습종료일순</button></span></div>
           <table>
             <thead><tr><th style="width:190px">학습기간</th><th>과정</th><th class="num" style="width:78px">학습인원</th><th style="width:136px;white-space:nowrap">수료율</th><th class="num" style="width:92px">미수료 인원</th></tr></thead>
@@ -479,12 +479,12 @@ body.annot .anno-tag{display:block}
 
       <div class="col right-col">
         <!-- 7. 공지사항 -->
-        <section class="card" data-n="7">
+        <section class="card" data-n="6">
           <div class="card-h"><h2>공지사항</h2><a class="more" data-go="공지사항 목록">더보기 ›</a></div>
           <ul class="notice" id="notice"></ul>
         </section>
         <!-- 8. 월간휴넷 -->
-        <section class="card favcard" data-n="8">
+        <section class="card favcard" data-n="7">
           <div class="card-h"><h2>즐겨찾기</h2><button class="fqset card-set" type="button">설정</button></div>
           <div class="fav-scroll"><ul class="fav-rows" id="favCard"></ul></div>
         </section>
@@ -492,13 +492,13 @@ body.annot .anno-tag{display:block}
     </div>
 
     <!-- 9. 신규 인기 과정 (전체 폭) -->
-    <section class="card" data-n="9" style="margin-top:20px">
+    <section class="card" data-n="8" style="margin-top:20px">
       <div class="card-h"><h2>신규 · 인기 과정 추천</h2><div class="nav-btns"><button id="prev" aria-label="이전">‹</button><button id="next" aria-label="다음">›</button></div></div>
       <div class="slider" id="slider"></div>
     </section>
 
     <!-- 10 L&D 인사이트 (정보성 콘텐츠) -->
-    <section class="card" data-n="10" style="margin-top:20px">
+    <section class="card" data-n="9" style="margin-top:20px">
       <div class="card-h"><h2>L&amp;D 인사이트<small>교육담당자를 위한 콘텐츠 모음</small></h2></div>
       <div class="tabs" id="infoTabs"></div>
       <div class="insight">
@@ -508,7 +508,7 @@ body.annot .anno-tag{display:block}
     </section>
 
     <!-- 11 Today's Premium Insights -->
-    <section class="card prem" data-n="11" style="margin-top:20px">
+    <section class="card prem" data-n="10" style="margin-top:20px">
       <div class="card-h"><h2>Today's Premium Insights</h2></div>
       <div class="prem2">
         <article class="pi">
@@ -539,7 +539,7 @@ body.annot .anno-tag{display:block}
     </section>
   </main>
 
-  <div class="strip-banner" data-n="12" data-go="멤버십 혜택 안내 페이지"><span class="sb-txt">휴넷 CEO 멤버십과 리더십 저니 이용권이 포함된 <b>UX레벨업</b> 님 기업의 엔터프라이즈 멤버십 혜택을 확인하세요</span><span class="sb-cta">혜택 확인 ›</span></div>
+  <div class="strip-banner" data-n="11" data-go="멤버십 혜택 안내 페이지"><span class="sb-txt">휴넷 CEO 멤버십과 리더십 저니 이용권이 포함된 <b>UX레벨업</b> 님 기업의 엔터프라이즈 멤버십 혜택을 확인하세요</span><span class="sb-cta">혜택 확인 ›</span></div>
   <div class="foot-bar"><span class="pill">UX레벨업 (개발용)</span><span>영업담당</span><span>|</span><span>운영담당 - _</span></div>
   <div class="copy">Copyright © HUNET. All Rights Reserved.</div>
 </div>
@@ -547,7 +547,7 @@ body.annot .anno-tag{display:block}
 <div class="chatbot" title="아이런 챗봇">?</div>
 <button class="annot-btn" id="annotBtn">기획 번호 표시</button>
 <div class="fq-layer" id="fqLayer"><div class="fq-box2" role="dialog" aria-label="즐겨찾기 설정">
-<div class="fq-head"><div><h3>즐겨찾기 설정</h3><p>메뉴를 검색해 추가하면 사이드바와 메인 화면에 함께 표시됩니다.</p></div><button class="fq-x" id="fqX" aria-label="닫기">×</button></div>
+<div class="fq-head"><div><h3>즐겨찾기 설정</h3><p>메뉴를 검색해 추가하면 메인 화면 우측에 표시됩니다.</p></div><button class="fq-x" id="fqX" aria-label="닫기">×</button></div>
 <div class="fq-cols">
  <section class="fq-panel fq-left"><div class="fq-ttl">메뉴 검색</div>
   <div class="fq-sbox"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="text" id="fqQ" placeholder="메뉴명을 입력해주세요"><button type="button" id="fqFind">검색</button></div>
@@ -742,14 +742,14 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '1':[M,'기업정보','기업명·멤버십 등급, 혜택 툴팁','below'],
    '2':[O,'통합검색','메뉴명 검색 후 바로 이동','below'],
    '3':[M,'상단 메뉴','문의·과정리스트 다운로드·매뉴얼','below'],
-   '5':[O,'교담자 진행 업무 목록','학습시작일 기준 드롭다운, 권한별 메뉴 노출·미노출'],
-   '6':[O,'교육현황 대시보드','교담자별 열람 가능 과정만 노출 (예: 온보딩 담당자는 온보딩 과정만)'],
-   '7':[M,'공지사항','전체 공지 최근 4건·구분 태그'],
-   '8':[O,'즐겨찾기 바로가기','즐겨찾기한 메뉴를 메인 우측에 수동 배치 (사이드바와 동일 목록)'],
-   '9':[M,'신규·인기 과정 추천','썸네일+제목 캐러셀, 상세는 새 탭'],
-   '10':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
-   '11':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 체험 콘텐츠'],
-   '12':[M,'하단 띠배너','멤버십 혜택 확인 안내, 클릭 시 이동']
+   '4':[O,'교담자 진행 업무 목록','학습시작일 기준 드롭다운, 권한별 메뉴 노출·미노출'],
+   '5':[O,'교육현황 대시보드','교담자별 열람 가능 과정만 노출 (예: 온보딩 담당자는 온보딩 과정만)'],
+   '6':[M,'공지사항','전체 공지 최근 4건·구분 태그'],
+   '7':[O,'즐겨찾기 바로가기','즐겨찾기한 메뉴를 메인 우측에 수동 배치'],
+   '8':[M,'신규·인기 과정 추천','썸네일+제목 캐러셀, 상세는 새 탭'],
+   '9':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
+   '10':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 체험 콘텐츠'],
+   '11':[M,'하단 띠배너','멤버십 혜택 확인 안내, 클릭 시 이동']
   };
   Object.keys(A).forEach(function(n){
     var e=document.querySelector('[data-n="'+n+'"]');if(!e)return;var a=A[n];
@@ -757,11 +757,10 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
     t.style.setProperty('--tc',a[0].indexOf('·')>-1?'#455a64':a[0]===M?MC:OC);
     t.innerHTML='<b>'+a[0]+'</b><em>'+a[1]+'</em>'+a[2];
     if(n==='4')t.style.maxWidth='210px';
-    if(n==='4')t.style.maxWidth='210px';
     e.appendChild(t);
   });
 })();
-/* 즐겨찾기 설정 레이어 : 메뉴 검색 → 선택 → 현재 즐겨찾기에서 삭제 → 저장 (사이드바·메인 동시 반영) */
+/* 즐겨찾기 설정 레이어 : 메뉴 검색 → 선택 → 현재 즐겨찾기에서 삭제 → 저장 */
 (function(){
   var draft=[],lc={},rc={},q='';var L=$('#fqLayer');
   var ALL=FLAT.map(function(x){return x.n}).filter(function(n,i,a){return a.indexOf(n)===i});
