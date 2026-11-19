@@ -304,7 +304,8 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .rep .ph small{font-size:12px;font-weight:400;opacity:.8;margin-bottom:4px}
 .rep .dur{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.78);color:#fff;font-size:12px;border-radius:4px;padding:1px 6px}
 .rep .play{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font-size:16px;padding-left:3px}
-.ilist li{display:flex;align-items:center;gap:12px;height:57px;border-bottom:1px solid #f2f2f2;cursor:pointer;padding:0 2px}
+.ilist{display:flex;flex-direction:column;height:192px}
+.ilist li{display:flex;align-items:center;gap:12px;flex:1;min-height:0;border-bottom:1px solid #f2f2f2;cursor:pointer;padding:0 2px}
 .ilist li:last-child{border-bottom:0}
 .ilist li:first-child{border-top:1px solid #f2f2f2}
 .ilist .tag{min-width:52px}
@@ -312,7 +313,7 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .ilist li:hover .tt{text-decoration:underline}
 .ilist time{color:#888;font-size:12px;flex:none}
 .ilist .ar{color:#999;font-size:18px;flex:none}
-.ilist .empty{display:block;color:var(--mute);padding:20px 0;cursor:default;height:auto;border:0}
+.ilist .empty{display:block;flex:none;color:var(--mute);padding:20px 0;cursor:default;height:auto;border:0}
 .tg-세미나{background:#e0f2f1;color:#00695c}.tg-휴넷TV{background:#fdecea;color:#c62828}.tg-뉴스레터{background:#fff8e1;color:#8d6e00}.tg-리포트{background:#e8eaf6;color:#3949ab}
 .prem{background:#fff}
 .prem2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
@@ -762,11 +763,32 @@ var ALL=[
  {tag:'휴넷TV',title:'AI 시대에 창의력이 중요한 이유는 따로있습니다. 일잘러가 아닌 \'이것\'이 되어야 해요. #유호현 님의 창의력 인사이트를 기록하다',date:'2026-11-09',dur:'9:06'},
  {tag:'세미나',title:'[L&Deep-R] AI 시대를 이끌어갈 핵심 역량! 준비되셨나요?',date:'2026-11-05'},
  {tag:'뉴스레터',title:'[L&Deep-R] AI 활용률 88%인데, 성과는 왜 6%에 그쳤을까?',date:'2026-11-01',color:'#8d6e00'},
- {tag:'리포트',title:'교육담당자를 위한 콘텐츠 모음 리포트',date:'2026-10-28',color:'#3949ab'}
+ {tag:'휴넷TV',title:'조직문화가 성과가 되는 순간 | 휴넷 CEO 인사이트',date:'2026-11-02',dur:'12:30'},
+ {tag:'세미나',title:'2027 AI-Powered 교육계획, 수립부터 실행까지',date:'2026-10-27'},
+ {tag:'리포트',title:'교육담당자를 위한 콘텐츠 모음 리포트',date:'2026-10-28',color:'#3949ab'},
+ {tag:'휴넷TV',title:'신임 팀장을 위한 1on1 대화법',date:'2026-10-26',dur:'8:14'},
+ {tag:'세미나',title:'[월간휴넷] 10월 리더십 트렌드 세미나',date:'2026-10-15'},
+ {tag:'리포트',title:'2027 교육담당자 트렌드 리포트',date:'2026-10-10',color:'#3949ab'},
+ {tag:'뉴스레터',title:'[L&Deep-R] 성과를 만드는 팀장의 일하는 방식',date:'2026-10-01',color:'#8d6e00'},
+ {tag:'휴넷TV',title:'HR 담당자가 꼭 알아야 할 2027 교육 트렌드',date:'2026-10-19',dur:'15:02'},
+ {tag:'휴넷TV',title:'생성형 AI 시대의 학습 설계',date:'2026-10-12',dur:'10:45'},
+ {tag:'세미나',title:'[APL Festa 2026] 실천학습 페스타',date:'2026-09-20'},
+ {tag:'리포트',title:'AI 도입 사례 연구 리포트',date:'2026-09-15',color:'#3949ab'},
+ {tag:'세미나',title:'[월간휴넷] 9월 HR 트렌드 세미나',date:'2026-09-10'},
+ {tag:'뉴스레터',title:'[L&Deep-R] 신입사원 온보딩, 90일의 법칙',date:'2026-09-01',color:'#8d6e00'},
+ {tag:'리포트',title:'월간휴넷 8월 리포트',date:'2026-08-20',color:'#3949ab'},
+ {tag:'뉴스레터',title:'[L&Deep-R] 일하는 방식을 바꾸는 AI 활용법',date:'2026-08-01',color:'#8d6e00'},
+ {tag:'리포트',title:'인재 경영 리포트',date:'2026-07-18',color:'#3949ab'},
+ {tag:'휴넷TV',title:'리더의 질문법',date:'2026-10-05',dur:'7:31'},
+ {tag:'뉴스레터',title:'[L&Deep-R] 학습 문화는 어떻게 만들어지는가',date:'2026-07-01',color:'#8d6e00'},
+ {tag:'리포트',title:'법정교육 패키지 가이드',date:'2026-06-25',color:'#3949ab'},
+ {tag:'뉴스레터',title:'[L&Deep-R] 리스킬링, 지금 시작해야 하는 이유',date:'2026-06-01',color:'#8d6e00'}
 ];
 var INFO_TABS=['전체','세미나','휴넷TV','뉴스레터','리포트'];
 var infoKey='전체';
-function infoItems(){var l=infoKey==='전체'?ALL:ALL.filter(function(x){return x.tag===infoKey});return l.slice().sort(function(a,b){return a.date<b.date?1:-1}).slice(0,3)}
+function infoSorted(){var l=infoKey==='전체'?ALL:ALL.filter(function(x){return x.tag===infoKey});return l.slice().sort(function(a,b){return a.date<b.date?1:-1})}
+function infoRepItem(){return infoSorted().filter(function(x){return x.tag!=='뉴스레터'})[0]}
+function infoItems(){var ri=infoRepItem(),l=infoSorted();return ri?l.filter(function(x){return x!==ri}).slice(0,4):l.slice(0,5)}
 function repHtml(it){
   if(!it)return '';
   if(it.tag==='휴넷TV')return '<img class="cv" src="'+TV_IMG+'" alt=""><span class="play">&#9654;</span><span class="dur">'+it.dur+'</span>';
@@ -776,7 +798,7 @@ function repHtml(it){
 function renderInfo(){
   $('#infoTabs').innerHTML=INFO_TABS.map(function(k){return '<button data-k="'+k+'" class="'+(k===infoKey?'on':'')+'">'+(k==='전체'?'전체':'#'+k)+'</button>'}).join('');
   var l=infoItems();
-  var ri=ALL.slice().sort(function(a,b){return a.date<b.date?1:-1}).filter(function(x){return x.tag!=='뉴스레터'&&(infoKey==='전체'||x.tag===infoKey)})[0];
+  var ri=infoRepItem();
   var noImg=!ri;
   document.querySelector('.insight').classList.toggle('noimg',noImg);
   var rep=$('#infoRep');rep.innerHTML=repHtml(ri);rep.setAttribute('data-go',ri?ri.tag+' 상세: '+ri.title:'');
@@ -802,8 +824,8 @@ $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 �
    '6':[M,'공지사항','전체 공지 최근 5건'],
    '7':[O,'즐겨찾기 바로가기','즐겨찾기한 메뉴를 메인 우측에 수동 배치'],
    '8':[M,'신규·인기 과정 추천','신규/인기 탭, 첫 탭 랜덤, 4초 자동 넘김(한 화면씩), 상세는 새 탭'],
-   '9':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭'],
-   '10':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 아티클과 인사이트 클립'],
+   '9':[M,'L&D 인사이트','세미나·휴넷TV·뉴스레터·리포트 탭, 탭별 최신순 5건(썸네일 1+목록 4)'],
+   '10':[M,"Today's Premium Insights",'CEO 멤버십·리더십 저니 최신 아티클과 인사이트 클립'],
    '11':[M,'하단 띠배너','멤버십 혜택 확인 안내, 클릭 시 이동']
   };
   Object.keys(A).forEach(function(n){
