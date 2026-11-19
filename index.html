@@ -347,10 +347,6 @@ td.un{color:#d32f2f;font-weight:500}td.un0{color:#aaa}.tfoot-note{margin-top:10p
 .chatbot{position:fixed;right:20px;bottom:20px;width:50px;height:50px;border-radius:50%;background:#5b3fd6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:12;cursor:pointer}
 
 /* 모달/토스트 */
-.dim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center}
-.dim.show{display:flex}
-.modal{background:#fff;border-radius:12px;width:480px;max-width:92vw;padding:24px 26px}
-.modal h3{font-size:17px;font-weight:500;margin-bottom:14px}
 .m-table td,.m-table th{padding:10px 8px;border-bottom:1px solid #f0f0f0;text-align:left;font-weight:400}
 .m-table th{color:#777;width:130px;border-top:0;background:none}
 .m-list{margin:12px 0 0;padding:12px 14px;background:#fff8e1;border-radius:8px;color:#8d5a00;line-height:1.7}
@@ -456,7 +452,7 @@ body.annot .top-grid{row-gap:30px}
               <span class="tn">학습 수료 현황</span>
               <span class="tl">미수료 위험 <b class="c-red">16</b>건</span>
             </div>
-            <div class="t-card" id="reportItem">
+            <div class="t-card" id="reportItem" data-go="결과보고서 페이지">
               <span class="ic o"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg></span>
               <span class="tn">결과보고서 출력</span>
               <span class="tl">결과보고서 <b class="c-blue">1</b>건</span>
@@ -575,19 +571,6 @@ body.annot .top-grid{row-gap:30px}
 <button class="unused-btn" id="unusedBtn">미사용 메뉴 시연</button>
 <div class="unused-pop" id="unusedPop"><small>권한에 따라 메뉴별로 노출·미노출됩니다.<br>미노출로 체크한 카드만 빠집니다.</small></div>
 
-<div class="dim" id="dim">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="결과보고서 확정">
-    <h3>결과보고서 확정 · 생성</h3>
-    <table class="m-table">
-      <tr><th>과정</th><td>2026 안전보건교육 상반기 외 2개 과정</td></tr>
-      <tr><th>보고서 다운로드</th><td><span class="badge b-end">확정 전 · 불가</span></td></tr>
-      <tr><th>수료확정일</th><td>-</td></tr>
-      <tr><th>최신 기준일</th><td>2026-11-11 (오늘 집계 기준)</td></tr>
-    </table>
-    <div class="m-list" id="mReasons">확정 불가 사유<br>· 학습 종료 후 수료 처리가 진행 중인 과정이 1개 있습니다.</div>
-    <div class="m-btns"><button class="btn btn-line" id="mClose">닫기</button><button class="btn btn-blue" id="mConfirm">확정하고 보고서 생성</button></div>
-  </div>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -666,7 +649,6 @@ q.addEventListener('blur',function(){setTimeout(function(){res.classList.remove(
 q.addEventListener('focus',renderRes);
 document.addEventListener('keydown',function(e){
   var tag=(document.activeElement||{}).tagName;
-  if(e.key==='Escape')$('#dim').classList.remove('show');
 });
 
 /* 공지 */
@@ -744,11 +726,6 @@ renderInfo();
 /* 월간휴넷 / 체험단 탭 */
 
 
-/* 결과보고서 확정 모달 */
-$('#reportItem').onclick=function(){$('#dim').classList.add('show')};
-$('#mClose').onclick=function(){$('#dim').classList.remove('show')};
-$('#dim').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')});
-$('#mConfirm').onclick=function(){toast('확정할 수 없는 상태입니다. 사유를 확인하세요.')};
 $('#dlList').onclick=function(){toast('해당 기업 과정리스트 엑셀을 다운로드합니다.')};
 
 /* 기획 번호 */
