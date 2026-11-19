@@ -707,7 +707,7 @@ var ALL=[
  {tag:'세미나',title:'[월간휴넷] 포사이트 코리아 2025 런칭 쇼케이스',date:'2026-11-10'},
  {tag:'휴넷TV',title:'AI 시대에 창의력이 중요한 이유는 따로있습니다. 일잘러가 아닌 \'이것\'이 되어야 해요. #유호현 님의 창의력 인사이트를 기록하다',date:'2026-11-09',dur:'9:06'},
  {tag:'세미나',title:'[L&Deep-R] AI 시대를 이끌어갈 핵심 역량! 준비되셨나요?',date:'2026-11-05'},
- {tag:'뉴스레터',title:'이달의 HR 트렌드 뉴스레터',date:'2026-11-01',color:'#8d6e00'},
+ {tag:'뉴스레터',cat:'L&D Reference',title:'[L&Deep-R] AI 활용률 88%인데, 성과는 왜 6%에 그쳤을까?',date:'2026-11-01',color:'#8d6e00'},
  {tag:'리포트',title:'교육담당자를 위한 콘텐츠 모음 리포트',date:'2026-10-28',color:'#3949ab'}
 ];
 var INFO_TABS=['전체','세미나','휴넷TV','뉴스레터','리포트'];
@@ -717,6 +717,7 @@ function repHtml(it){
   if(!it)return '';
   if(it.tag==='휴넷TV')return '<img class="cv" src="'+TV_IMG+'" alt=""><span class="play">&#9654;</span><span class="dur">'+it.dur+'</span>';
   if(it.tag==='세미나')return '<div class="ph" style="background:linear-gradient(135deg,#5b3fd6,#2d1b8a)"><small>세미나</small>'+esc(it.title)+'</div>';
+  if(it.tag==='뉴스레터')return '<div class="ph" style="background:'+it.color+'"><small>'+esc(it.cat)+'</small>'+esc(it.title)+'</div>';
   return '<div class="ph" style="background:'+it.color+'"><small>'+esc(it.tag)+'</small>'+esc(it.title)+'</div>';
 }
 function renderInfo(){
