@@ -663,6 +663,7 @@ var SUM=[
  ['2026-11-01','(왕초보도 쉽게 배우는) 나의 첫 여행 일본어 외 1개 과정',360,99,'종료','2026-11-14'],
  ['2026-11-01','리더십 핵심역량 강화 과정 외 3개 과정',128,45,'진행','2026-11-20'],
  ['2026-11-01','신입사원 온보딩 과정 외 1개 과정',54,100,'종료','2026-11-10'],
+ ['2026-10-01','마케팅 직무 역량 강화 과정 외 1개 과정',240,38,'진행','2026-11-20'],
  ['2026-10-15','직무 필수교육 하반기 외 2개 과정',642,72,'진행','2026-11-18'],
  ['2026-09-01','정보보안 인식 제고 교육 외 1개 과정',1210,93,'종료','2026-10-31'],
  ['2026-05-01','[전화] 비즈니스 회화_영어_중급_주3회 10분 외 471개 과정',365,79,'진행','2026-12-31'],
@@ -672,15 +673,20 @@ var SUM_MODE='start',TODAY='2026-11-16';
 function sd(s){return s.slice(2).replace(/-/g,'.')}
 function dday(e){var d=Math.round((new Date(e)-new Date(TODAY))/864e5);return d>0?'<span class="dd">D-'+d+'</span>':d===0?'<span class="dd">D-day</span>':'<span class="dd z">종료</span>'}
 var SCOPE='all';function SUMV(){return SCOPE==='onb'?SUM.filter(function(r){return r[1].indexOf('온보딩')>-1}):SUM}
+function cmpN(x,y){return x<y?-1:x>y?1:0}
+function nm(r){return r[1]}
+function cmpStart(a,b){return cmpN(b[0],a[0])||cmpN(b[2],a[2])||cmpN(nm(a),nm(b))}
+function cmpEndOpen(a,b){return cmpN(a[5],b[5])||cmpN(a[3],b[3])||cmpN(b[2],a[2])}
+function cmpEndDone(a,b){return cmpN(b[5],a[5])||cmpN(a[3],b[3])||cmpN(b[2],a[2])}
 function renderSum(){
   var rows;
   if(SUM_MODE==='end'){
-    var open=SUMV().filter(function(r){return r[5]>=TODAY}).sort(function(a,b){return a[5]<b[5]?-1:a[5]>b[5]?1:0});
-    var done=SUMV().filter(function(r){return r[5]<TODAY}).sort(function(a,b){return a[5]<b[5]?1:a[5]>b[5]?-1:0});
+    var open=SUMV().filter(function(r){return r[5]>=TODAY}).sort(cmpEndOpen);
+    var done=SUMV().filter(function(r){return r[5]<TODAY}).sort(cmpEndDone);
     rows=open.concat(done).slice(0,MAX_ROWS);
     $('#sumDesc').textContent='학습종료일이 임박한 과정 순으로 최대 5건이 표시됩니다.';
   }else{
-    rows=SUMV().slice().sort(function(a,b){return a[0]<b[0]?1:a[0]>b[0]?-1:0}).slice(0,MAX_ROWS);
+    rows=SUMV().slice().sort(cmpStart).slice(0,MAX_ROWS);
     $('#sumDesc').textContent='학습시작일이 최근인 과정 순으로 최대 5건이 표시됩니다.';
   }
   [].forEach.call(document.querySelectorAll('#sumSeg button'),function(x){x.classList.toggle('on',x.dataset.s===SUM_MODE)});
