@@ -602,27 +602,28 @@ function $(s,r){return (r||document).querySelector(s)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var tt;var GO_PATHS=[
  ['멤버십 혜택 안내 페이지','https://hrd.hunet.co.kr/Contents/MemberShip'],
- ['휴넷 담당자','/Manage/ManagerConcatAnswer'],
+ ['휴넷 담당자','/Manage/ManagerConcatAnswer (현행은 문의 /Manage/ManagerConcatQuestion 과 분리, 확인 필요)'],
  ['교육 신청 현황','/Enroll/Status'],
  ['학습 수료 현황','/Study/Status'],
  ['결과보고서 페이지','/Study/ResultReport#b'],
  ['마이크로러닝 현황','/ImagineStatus/ContentsUseStatus#personContents'],
  ['교육 수료 확인서','/Study/StudyCertifcates'],
- ['교육비용 현황','경로 확인 필요'],
+ ['교육비용 현황','경로 확인 필요 (요청서·현행 메뉴에 없음)'],
  ['과정 학습 현황','/Study/Status (과정 조건 전달 방식 확인 필요)'],
- ['과정 상세(새 탭)','과정별 상세 경로 (예: https://hrd.hunet.co.kr/Contents/StepUp)'],
+ ['과정 상세(새 탭)','https://hrd.hunet.co.kr/Catalog/DetailToHsmFromB2BNew?processCd={과정 코드}'],
  ['휴넷 CEO 사이트','https://ceo.hunet.co.kr/'],
  ['리더십 저니 사이트','https://leadership.hunet.co.kr/journey'],
- ['공지 상세','경로 확인 필요'],
- ['공지사항 목록','경로 확인 필요'],
- ['세미나 상세','https://hrd.hunet.co.kr/Forum 안의 해당 상세 (상세 경로 확인 필요)'],
- ['휴넷TV 상세','https://www.youtube.com/channel/UCHFx6mZWXtabMMh3cCRfPWQ 의 해당 영상'],
- ['뉴스레터 상세','https://hrd.hunet.co.kr/Trend#divTrendTap 안의 해당 상세 (상세 경로 확인 필요)'],
- ['리포트 상세','https://hrd.hunet.co.kr/Report 안의 해당 상세 (상세 경로 확인 필요)'],
+ ['공지 상세','/Manage/EDMNoticeDetail?noticeSeq={공지 번호}'],
+ ['공지사항 목록','/Manage/EDMNotice'],
+ ['세미나 상세','https://hrd.hunet.co.kr/Forum/MontlyHunetSeminar?year=2026&month=11 형태 (목록 항목별 주소)'],
+ ['휴넷TV 상세','https://www.youtube.com/watch?v={영상 ID}'],
+ ['뉴스레터 상세','https://hrd.hunet.co.kr/Trend/TrendDetail?page_no=1&search_text=&board_seq={번호}&type_code=0#divContent'],
+ ['리포트 상세','https://hrd.hunet.co.kr/Report/ReportDetail?type={리포트 코드}'],
  ['아티클 상세','경로 확인 필요'],
+ ['CEO 인사이트 클립 상세','https://ceo.hunet.co.kr/membership/insight-clip/{클립 코드}'],
  ['인사이트 클립 상세','경로 확인 필요'],
- ['매뉴얼','현행 매뉴얼 경로 유지 (확인 필요)'],
- ['로그아웃','현행 로그아웃 처리 유지 (확인 필요)']
+ ['매뉴얼','https://hunetdown.cdn.hunet.co.kr/Resources/Hunet/Document/2025edumanagermanual_250304162000.pdf (현행 관리지원 메뉴 기준)'],
+ ['로그아웃','/Login/Logout']
 ];
 function goPath(t){for(var i=0;i<GO_PATHS.length;i++){if(t.indexOf(GO_PATHS[i][0])>-1)return GO_PATHS[i][1]}return ''}
 function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},m.indexOf('\n')>-1?3500:2000)}
