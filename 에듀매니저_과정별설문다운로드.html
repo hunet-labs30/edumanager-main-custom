@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>과정별 설문 다운로드</title>
+<style>
+:root{
+  --red:#e60012; --dark:#2b2b2b; --side:#3a3a3a; --side2:#4a4a4a;
+  --line:#d9d9d9; --bg:#f6f6f7; --text:#222; --muted:#777; --blue:#1f6fd0; --new:#e60012;
+}
+@media (prefers-color-scheme: dark){ :root{ } }
+*{box-sizing:border-box}
+body{margin:0;font-family:"Malgun Gothic","Noto Sans KR",sans-serif;font-size:13px;color:var(--text);background:#fff}
+.wrap{display:flex;min-height:100vh}
+.side{width:188px;background:var(--side);color:#ddd;flex-shrink:0}
+.side .logo{background:var(--red);color:#fff;font-weight:700;padding:16px;font-size:14px}
+.side .m1{padding:11px 16px;font-weight:700;color:#fff;border-bottom:1px solid #444}
+.side .grp{padding:9px 16px;color:#eee;background:#333;font-weight:700;font-size:12px}
+.side .sub{background:var(--side2)}
+.side .sub div{padding:8px 16px 8px 26px;color:#bbb;font-size:12px}
+.side .sub div.on{color:#fff;font-weight:700}
+.main{flex:1;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--bg);border-bottom:1px solid var(--line)}
+.top h1{font-size:15px;margin:0}
+.top .acc{font-size:12px;color:#444}
+.top .acc b{margin-right:10px}
+.content{padding:20px 24px 60px}
+.tabs{display:flex;gap:0;margin-bottom:18px}
+.tabs span{padding:4px 12px;color:var(--muted);border-right:1px solid var(--line);font-size:13px}
+.tabs span:last-child{border:none}
+.tabs span.on{color:#111;font-weight:700;border-bottom:2px solid #111}
+h2{font-size:16px;margin:0 0 10px}
+.search{background:var(--bg);border:1px solid var(--line);padding:16px 20px;margin-bottom:26px}
+.search .row{display:flex;align-items:center;gap:8px;margin:6px 0}
+.search .row .lb{width:80px;font-weight:700;color:#555}
+.search input[type=text],.search input[type=date]{height:26px;border:1px solid #bbb;padding:0 6px;font-size:12px}
+.search input[type=text]{width:170px}
+.btn{height:26px;padding:0 12px;border:1px solid #555;background:#555;color:#fff;font-size:12px;cursor:pointer}
+.btn:hover{background:#333}
+.bar{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
+.bar select{height:26px;border:1px solid #bbb;font-size:12px}
+.links{display:flex;gap:14px;align-items:center;font-size:12px}
+.links a{color:#2d8fd5;text-decoration:none;cursor:pointer}
+.help{font-size:12px;color:var(--muted);text-align:right;margin:0 0 8px}
+table{width:100%;border-collapse:collapse;border-top:2px solid #444}
+th{background:#f3f3f3;font-weight:700;padding:10px 6px;border-bottom:1px solid var(--line);font-size:12px}
+td{padding:11px 6px;border-bottom:1px solid var(--line);text-align:center;font-size:12px}
+td.l{text-align:left}
+tr.sel td{background:#f0f6ff}
+.dl{height:24px;padding:0 10px;border:1px solid var(--blue);background:#fff;color:var(--blue);font-size:12px;cursor:pointer;border-radius:3px}
+.dl:hover{background:var(--blue);color:#fff}
+.none{color:#aaa}
+.empty{padding:50px 0;text-align:center;color:var(--muted);border-bottom:1px solid var(--line)}
+.pager{display:flex;justify-content:center;gap:6px;margin-top:18px}
+.pager span{width:26px;height:26px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#888}
+/* modal / toast */
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:50}
+.mask.show{display:flex}
+.dlg{background:#fff;width:380px;border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.dlg .bd{padding:26px 24px 18px;font-size:13px;line-height:1.7;white-space:pre-line}
+.dlg .ft{display:flex;justify-content:center;gap:8px;padding:0 0 20px}
+.dlg .ft button{min-width:76px;height:32px;border:1px solid #888;background:#fff;cursor:pointer;font-size:13px}
+.dlg .ft button.pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%);background:#222;color:#fff;padding:12px 22px;border-radius:4px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+.toast.show{opacity:.95}
+/* demo only */
+.demo{position:fixed;right:14px;bottom:14px;background:#fff;border:1px dashed #999;padding:8px 12px;font-size:11px;color:#555;z-index:40}
+.demo label{cursor:pointer}
+body.hl .newarea{outline:2px dashed var(--new);outline-offset:2px;position:relative}
+body.hl .newtag::after{content:"신규";position:absolute;top:-9px;left:-2px;background:var(--new);color:#fff;font-size:10px;padding:0 4px;line-height:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="side">
+    <div class="logo">교육운영관리시스템</div>
+    <div class="m1">전체메뉴</div>
+    <div class="grp">수강생</div>
+    <div class="grp">학습설정</div>
+    <div class="grp">온라인과정</div>
+    <div class="sub">
+      <div>수강신청</div>
+      <div class="on">학습수료현황</div>
+      <div>수강신청기간</div>
+      <div>필수과정관리</div>
+      <div>필수달성현황</div>
+    </div>
+    <div class="grp">오프라인과정</div>
+    <div class="grp">마이크로러닝</div>
+    <div class="grp">외부교육</div>
+  </aside>
+
+  <section class="main">
+    <div class="top">
+      <h1>학습수료현황</h1>
+      <div class="acc"><b>고객사 교육담당자</b></div>
+    </div>
+    <div class="content">
+      <div class="tabs">
+        <span>개인별 학습현황</span>
+        <span class="on">과정별 학습현황</span>
+        <span>학습현황 간소화(내부)</span>
+      </div>
+
+      <h2>과정별 학습현황</h2>
+      <div class="search">
+        <div class="row">
+          <span class="lb">검색조건</span>
+          <label><input type="radio" name="dt" checked> 학습기간</label>
+          <label><input type="radio" name="dt"> 학습시작일</label>
+          <input type="date" id="d1" value="2026-10-26"> ~ <input type="date" id="d2" value="2026-11-26">
+          <label><input type="checkbox"> 수시과정검색</label>
+        </div>
+        <div class="row">
+          <span class="lb">대상검색</span>
+          <label><input type="radio" name="tg" checked> 과정명</label>
+          <label><input type="radio" name="tg"> 과목명</label>
+          <label><input type="radio" name="tg"> 부서명</label>
+          <input type="text" id="kw">
+          <button class="btn" id="btnSearch">검색</button>
+        </div>
+      </div>
+
+      <h2>수강신청 현황 요약</h2>
+      <div class="bar">
+        <select><option>20개씩 보기</option><option>50개씩 보기</option><option>100개씩 보기</option></select>
+        <div class="links">
+          <a id="btnBulk">대용량 엑셀 다운로드</a>
+          <a>대용량 엑셀 컬럼맵핑</a>
+          <a id="btnExcel">엑셀 다운로드</a>
+          <a class="newarea newtag" id="btnSurveyAll">설문 다운로드</a>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36px" class="newarea newtag"><input type="checkbox" id="chkAll"></th>
+            <th style="width:46px">번호</th>
+            <th>과정분류</th>
+            <th>과정명</th>
+            <th>과목명</th>
+            <th>학습기간</th>
+            <th style="width:56px">전체</th>
+            <th style="width:56px">학습중</th>
+            <th style="width:64px">수료자수</th>
+            <th style="width:70px">미수료자수</th>
+            <th style="width:90px" class="newarea newtag">설문</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div id="emptyBox" class="empty" style="display:none">등록된 데이터가 없습니다.</div>
+      <div class="pager"><span>&lt;</span><span>&gt;</span></div>
+    </div>
+  </section>
+</div>
+
+<div class="mask" id="mask">
+  <div class="dlg">
+    <div class="bd" id="dlgBody"></div>
+    <div class="ft" id="dlgFt"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- 데모용 (정책서 제외): 신규 영역 표시 토글 -->
+<div class="demo"><label><input type="checkbox" id="hlToggle"> 신규 영역 표시 (프로토타입 전용)</label></div>
+
+<script>
+/* 샘플 데이터 (프로토타입 전용)
+   survey: null = 설문 없음 / {name, responses} = 설문 있음, responses = 조회 기간 내 응답 건수 */
+var COURSES = [
+  {code:'HLSC001', cat:'직무', name:'신입사원 직무 기본과정', subject:'직무 기본', period:'2026-10-26 ~ 2026-11-30', total:42, ing:30, done:12, notdone:0, survey:{name:'과정 만족도 설문', responses:3}},
+  {code:'HLSC002', cat:'리더십', name:'신임 팀장 리더십 과정', subject:'리더십 입문', period:'2026-11-01 ~ 2026-12-15', total:18, ing:18, done:0, notdone:0, survey:{name:'과정 만족도 설문', responses:3}},
+  {code:'HLSC003', cat:'직무', name:'엑셀 업무 활용 실무', subject:'엑셀 실무', period:'2026-10-26 ~ 2026-11-20', total:65, ing:5, done:58, notdone:2, survey:null},
+  {code:'HLSC004', cat:'공통', name:'개인정보보호 법정의무교육', subject:'개인정보보호', period:'2026-11-02 ~ 2026-11-30', total:120, ing:44, done:76, notdone:0, survey:null},
+  {code:'HLSC005', cat:'어학', name:'비즈니스 영어 회화', subject:'영어 회화', period:'2026-11-03 ~ 2026-12-31', total:27, ing:27, done:0, notdone:0, survey:{name:'과정 만족도 설문', responses:3}},
+  {code:'HLSC006', cat:'공통', name:'직장 내 괴롭힘 예방교육', subject:'괴롭힘 예방', period:'2026-10-26 ~ 2026-11-25', total:88, ing:0, done:85, notdone:3, survey:{name:'교육 효과 설문', responses:0}},
+  {code:'HLSC007', cat:'리더십', name:'성과관리 코칭 실습', subject:'코칭 실습', period:'2026-11-09 ~ 2026-12-09', total:14, ing:14, done:0, notdone:0, survey:{name:'과정 만족도 설문', responses:3}},
+  {code:'HLSC008', cat:'직무', name:'데이터 분석 입문', subject:'데이터 분석', period:'2026-11-10 ~ 2026-12-10', total:31, ing:29, done:2, notdone:0, survey:null}
+];
+var SAMPLE_USERS = [['kim01','김하늘','영업본부'],['lee02','이도윤','기획팀'],['park03','박서연','개발팀']];
+var Q = [[1,'과정 내용에 만족하십니까?','매우 만족'],[2,'개선이 필요한 점을 자유롭게 작성해 주세요.','실습 시간이 더 있으면 좋겠습니다.']];
+
+var current = COURSES.slice();
+var selected = {};
+var tbody = document.getElementById('tbody');
+
+function render(){
+  tbody.innerHTML = '';
+  document.getElementById('emptyBox').style.display = current.length ? 'none' : 'block';
+  current.forEach(function(c,i){
+    var tr = document.createElement('tr');
+    if(selected[c.code]) tr.className = 'sel';
+    tr.innerHTML =
+      '<td><input type="checkbox" data-code="'+c.code+'"'+(selected[c.code]?' checked':'')+'></td>'+
+      '<td>'+(current.length-i)+'</td><td>'+c.cat+'</td><td class="l">'+c.name+'</td><td class="l">'+c.subject+'</td>'+
+      '<td>'+c.period+'</td><td>'+c.total+'</td><td>'+c.ing+'</td><td>'+c.done+'</td><td>'+c.notdone+'</td>'+
+      '<td>'+(c.survey ? '<button class="dl" data-one="'+c.code+'">다운로드</button>' : '<span class="none">-</span>')+'</td>';
+    tbody.appendChild(tr);
+  });
+  var all = current.length>0 && current.every(function(c){return selected[c.code];});
+  document.getElementById('chkAll').checked = all;
+}
+
+tbody.addEventListener('change', function(e){
+  var code = e.target.getAttribute('data-code');
+  if(!code) return;
+  if(e.target.checked) selected[code]=true; else delete selected[code];
+  render();
+});
+tbody.addEventListener('click', function(e){
+  var code = e.target.getAttribute('data-one');
+  if(!code) return;
+  var c = current.filter(function(x){return x.code===code;})[0];
+  startDownload([c], false);
+});
+document.getElementById('chkAll').addEventListener('change', function(e){
+  current.forEach(function(c){ if(e.target.checked) selected[c.code]=true; else delete selected[c.code]; });
+  render();
+});
+document.getElementById('btnSearch').addEventListener('click', function(){
+  var kw = document.getElementById('kw').value.trim();
+  current = COURSES.filter(function(c){ return !kw || c.name.indexOf(kw)>-1; });
+  selected = {};
+  render();
+});
+document.getElementById('btnSurveyAll').addEventListener('click', function(){
+  var picked = current.filter(function(c){return selected[c.code];});
+  if(picked.length){ startDownload(picked, false); }
+  else { startDownload(current, true); }
+});
+
+/* 기존 엑셀 다운로드 / 대용량 엑셀 다운로드: 체크 있으면 선택 과정만, 없으면 검색된 전체 */
+function startSummaryDownload(label, fileName){
+  var picked = current.filter(function(c){return selected[c.code];});
+  var list = picked.length ? picked : current;
+  if(!list.length){ return alertBox('다운로드할 데이터가 없습니다.'); }
+  var msg = picked.length
+    ? '선택한 과정('+list.length+'개)의 수강신청 현황을 '+label+'로 다운로드하시겠습니까?'
+    : '검색된 전체 과정('+list.length+'개)의 수강신청 현황을 '+label+'로 다운로드하시겠습니까?';
+  confirmBox(msg, function(){
+    var rows = [['번호','과정분류','과정명','과목명','학습기간','전체','학습중','수료자수','미수료자수']];
+    list.forEach(function(c,i){ rows.push([list.length-i,c.cat,c.name,c.subject,c.period,c.total,c.ing,c.done,c.notdone]); });
+    var csv = '﻿' + rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+    a.download = fileName;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('엑셀 파일이 다운로드되었습니다.');
+  });
+}
+document.getElementById('btnExcel').addEventListener('click', function(){ startSummaryDownload('엑셀', '수강신청현황_20261126.csv'); });
+document.getElementById('btnBulk').addEventListener('click', function(){ startSummaryDownload('대용량 엑셀', '수강신청현황_대용량_20261126.csv'); });
+
+/* 다운로드 흐름 */
+function startDownload(list, isAll){
+  var withSurvey = list.filter(function(c){return c.survey;});
+  var excluded = list.length - withSurvey.length;
+  if(!withSurvey.length){
+    return alertBox('다운로드할 설문이 있는 과정이 없습니다.');
+  }
+  var total = withSurvey.reduce(function(s,c){return s+c.survey.responses;},0);
+  if(total===0){
+    return alertBox('다운로드할 설문 응답이 없습니다.');
+  }
+  var msg;
+  if(list.length===1){ msg = '"'+withSurvey[0].name+'" 과정의 설문 응답을 다운로드하시겠습니까?'; }
+  else if(isAll){ msg = '검색된 전체 과정('+list.length+'개)의 설문 응답을 다운로드하시겠습니까?'; }
+  else { msg = '선택한 과정('+list.length+'개)의 설문 응답을 다운로드하시겠습니까?'; }
+  if(excluded>0 && list.length>1){ msg += '\n설문이 없는 과정('+excluded+'개)은 제외됩니다.'; }
+  confirmBox(msg, function(){ doDownload(withSurvey); });
+}
+
+function doDownload(courses){
+  var head = ['설문','과정코드','과정명','과목명','학습자ID','수강생명','계열사명','설문질문번호','설문질문','응답','설문응답일','학습시작일','학습종료일'];
+  var rows = [head];
+  courses.forEach(function(c){
+    var parts = c.period.split(' ~ ');
+    for(var u=0; u<c.survey.responses; u++){
+      var us = SAMPLE_USERS[u%SAMPLE_USERS.length];
+      Q.forEach(function(q){
+        rows.push([c.survey.name,c.code,c.name,c.subject,us[0],us[1],us[2],q[0],q[1],q[2],'2026-11-2'+(u+1),parts[0],parts[1]]);
+      });
+    }
+  });
+  var csv = '﻿' + rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download = '설문응답_20261126.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('설문 응답 파일이 다운로드되었습니다.');
+}
+
+/* 공통 UI */
+var mask = document.getElementById('mask');
+function closeBox(){ mask.classList.remove('show'); }
+function alertBox(msg){
+  document.getElementById('dlgBody').textContent = msg;
+  var ft = document.getElementById('dlgFt'); ft.innerHTML='';
+  var b = document.createElement('button'); b.className='pri'; b.textContent='확인'; b.onclick=closeBox; ft.appendChild(b);
+  mask.classList.add('show');
+}
+function confirmBox(msg, ok){
+  document.getElementById('dlgBody').textContent = msg;
+  var ft = document.getElementById('dlgFt'); ft.innerHTML='';
+  var c = document.createElement('button'); c.textContent='취소'; c.onclick=closeBox;
+  var o = document.createElement('button'); o.className='pri'; o.textContent='확인'; o.onclick=function(){closeBox(); ok();};
+  ft.appendChild(c); ft.appendChild(o);
+  mask.classList.add('show');
+}
+var tt;
+function toast(msg){
+  var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(function(){t.classList.remove('show');}, 2600);
+}
+document.getElementById('hlToggle').addEventListener('change', function(e){
+  document.body.classList.toggle('hl', e.target.checked);
+});
+render();
+</script>
+</body>
+</html>
