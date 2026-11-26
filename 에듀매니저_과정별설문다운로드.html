@@ -253,7 +253,6 @@ document.getElementById('btnSurveyAll').addEventListener('click', function(){
 function startSummaryDownload(isBulk, fileName){
   var picked = current.filter(function(c){return selected[c.code];});
   var list = picked.length ? picked : current;
-  if(!list.length){ return alertBox('다운로드할 데이터가 없습니다.'); }
   var run = function(){
     var rows = [['번호','과정분류','과정명','과목명','학습기간','전체','학습중','수료자수','미수료자수']];
     list.forEach(function(c,i){ rows.push([list.length-i,c.cat,c.name,c.subject,c.period,c.total,c.ing,c.done,c.notdone]); });
@@ -264,8 +263,7 @@ function startSummaryDownload(isBulk, fileName){
     document.body.appendChild(a); a.click(); a.remove();
   };
   /* 기존 동작: 엑셀 = 다운로드 목적 입력 팝업, 대용량 엑셀 = 다운로드 요청완료 팝업 */
-  var info = (picked.length ? '선택한 과정 ' : '검색된 전체 과정 ') + list.length + '개의 수강신청 현황을 다운로드합니다.';
-  if(isBulk){ requestDoneBox(info); } else { purposeBox(run, info); }
+  if(isBulk){ requestDoneBox(); } else { purposeBox(run); }
 }
 document.getElementById('btnExcel').addEventListener('click', function(){ startSummaryDownload(false, '수강신청현황_20261126.csv'); });
 document.getElementById('btnBulk').addEventListener('click', function(){ startSummaryDownload(true, '수강신청현황_대용량_20261126.csv'); });
@@ -273,19 +271,8 @@ document.getElementById('btnBulk').addEventListener('click', function(){ startSu
 /* 다운로드 흐름 */
 function startDownload(list, isAll){
   var withSurvey = list.filter(function(c){return c.survey;});
-  var excluded = list.length - withSurvey.length;
-  if(!withSurvey.length){
-    return alertBox('다운로드할 설문이 있는 과정이 없습니다.');
-  }
-  var total = withSurvey.reduce(function(s,c){return s+c.survey.responses;},0);
-  if(total===0){
-    return alertBox('다운로드할 설문 응답이 없습니다.');
-  }
-  /* 설문 다운로드는 기존 엑셀 다운로드와 동일하게 다운로드 목적 입력 팝업을 거침 */
-  var info = (isAll ? '검색된 전체 과정 ' : '선택한 과정 ') + list.length + '개 중 설문이 있는 ' + withSurvey.length + '개 과정의 설문 응답을 다운로드합니다.';
-  if(list.length===1 && !isAll){ info = '"' + withSurvey[0].name + '" 과정의 설문 응답을 다운로드합니다.'; }
-  if(excluded>0 && list.length>1){ info += '<br>설문이 없는 과정(' + excluded + '개)은 제외됩니다.'; }
-  purposeBox(function(){ doDownload(withSurvey); }, info);
+  /* 설문 다운로드는 기존 엑셀 다운로드와 동일하게 다운로드 목적 입력 팝업을 거침 (대상이 없어도 기존과 동일하게 팝업 노출) */
+  purposeBox(function(){ doDownload(withSurvey); });
 }
 
 function doDownload(courses){
