@@ -64,6 +64,22 @@ tr.sel td{background:#f0f6ff}
 .dlg .ft button.pri{background:var(--blue);border-color:var(--blue);color:#fff}
 .toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%);background:#222;color:#fff;padding:12px 22px;border-radius:4px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
 .toast.show{opacity:.95}
+.dlg.wide{width:600px}
+.dlg.wide .bd{white-space:normal;padding:28px 30px 10px;text-align:left}
+.ptitle{font-size:20px;font-weight:700;margin-bottom:22px}
+.plink{font-size:13px;color:#999;font-weight:700}
+.pinfo{background:#f0f6ff;border-radius:4px;padding:10px 14px;font-size:13px;line-height:1.6;margin-bottom:14px}
+.pfield{display:block;width:100%;height:38px;border:1px solid #ccc;border-radius:4px;padding:0 14px;font-size:13px;margin-bottom:10px;box-sizing:border-box}
+.pfield.dis{background:#f3f3f3;color:#999}
+.pred{color:#e5484d;font-weight:700;font-size:12px;margin-top:8px}
+.pw{display:inline-block;background:#000;color:#000;padding:0 52px;margin-left:4px}
+.pguide{font-size:12px;line-height:1.7;margin-top:22px}
+.pbold{color:#e5484d;font-weight:700}
+.plink2{color:#1a2ee0;font-weight:700}
+.dlg .ft button.red{border-color:#e5484d;color:#e5484d;font-weight:700}
+.okic{width:56px;height:56px;border-radius:50%;border:3px solid #dcefd8;color:#8fd18a;font-size:30px;line-height:50px;text-align:center;margin:0 auto 14px}
+.otitle{font-size:18px;font-weight:700;text-align:center;margin-bottom:10px}
+.odesc{font-size:12px;color:#666}
 /* demo only */
 .demo{position:fixed;right:14px;bottom:14px;background:#fff;border:1px dashed #999;padding:8px 12px;font-size:11px;color:#555;z-index:40}
 .demo label{cursor:pointer}
@@ -234,14 +250,11 @@ document.getElementById('btnSurveyAll').addEventListener('click', function(){
 });
 
 /* 기존 엑셀 다운로드 / 대용량 엑셀 다운로드: 체크 있으면 선택 과정만, 없으면 검색된 전체 */
-function startSummaryDownload(label, fileName){
+function startSummaryDownload(isBulk, fileName){
   var picked = current.filter(function(c){return selected[c.code];});
   var list = picked.length ? picked : current;
   if(!list.length){ return alertBox('다운로드할 데이터가 없습니다.'); }
-  var msg = picked.length
-    ? '선택한 과정('+list.length+'개)의 수강신청 현황을 '+label+'로 다운로드하시겠습니까?'
-    : '검색된 전체 과정('+list.length+'개)의 수강신청 현황을 '+label+'로 다운로드하시겠습니까?';
-  confirmBox(msg, function(){
+  var run = function(){
     var rows = [['번호','과정분류','과정명','과목명','학습기간','전체','학습중','수료자수','미수료자수']];
     list.forEach(function(c,i){ rows.push([list.length-i,c.cat,c.name,c.subject,c.period,c.total,c.ing,c.done,c.notdone]); });
     var csv = '﻿' + rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
@@ -249,11 +262,13 @@ function startSummaryDownload(label, fileName){
     a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
     a.download = fileName;
     document.body.appendChild(a); a.click(); a.remove();
-    toast('엑셀 파일이 다운로드되었습니다.');
-  });
+  };
+  /* 기존 동작: 엑셀 = 다운로드 목적 입력 팝업, 대용량 엑셀 = 다운로드 요청완료 팝업 */
+  var info = (picked.length ? '선택한 과정 ' : '검색된 전체 과정 ') + list.length + '개의 수강신청 현황을 다운로드합니다.';
+  if(isBulk){ requestDoneBox(info); } else { purposeBox(run, info); }
 }
-document.getElementById('btnExcel').addEventListener('click', function(){ startSummaryDownload('엑셀', '수강신청현황_20261126.csv'); });
-document.getElementById('btnBulk').addEventListener('click', function(){ startSummaryDownload('대용량 엑셀', '수강신청현황_대용량_20261126.csv'); });
+document.getElementById('btnExcel').addEventListener('click', function(){ startSummaryDownload(false, '수강신청현황_20261126.csv'); });
+document.getElementById('btnBulk').addEventListener('click', function(){ startSummaryDownload(true, '수강신청현황_대용량_20261126.csv'); });
 
 /* 다운로드 흐름 */
 function startDownload(list, isAll){
@@ -266,12 +281,11 @@ function startDownload(list, isAll){
   if(total===0){
     return alertBox('다운로드할 설문 응답이 없습니다.');
   }
-  var msg;
-  if(list.length===1){ msg = '"'+withSurvey[0].name+'" 과정의 설문 응답을 다운로드하시겠습니까?'; }
-  else if(isAll){ msg = '검색된 전체 과정('+list.length+'개)의 설문 응답을 다운로드하시겠습니까?'; }
-  else { msg = '선택한 과정('+list.length+'개)의 설문 응답을 다운로드하시겠습니까?'; }
-  if(excluded>0 && list.length>1){ msg += '\n설문이 없는 과정('+excluded+'개)은 제외됩니다.'; }
-  confirmBox(msg, function(){ doDownload(withSurvey); });
+  /* 설문 다운로드는 기존 엑셀 다운로드와 동일하게 다운로드 목적 입력 팝업을 거침 */
+  var info = (isAll ? '검색된 전체 과정 ' : '선택한 과정 ') + list.length + '개 중 설문이 있는 ' + withSurvey.length + '개 과정의 설문 응답을 다운로드합니다.';
+  if(list.length===1 && !isAll){ info = '"' + withSurvey[0].name + '" 과정의 설문 응답을 다운로드합니다.'; }
+  if(excluded>0 && list.length>1){ info += '<br>설문이 없는 과정(' + excluded + '개)은 제외됩니다.'; }
+  purposeBox(function(){ doDownload(withSurvey); }, info);
 }
 
 function doDownload(courses){
@@ -291,7 +305,6 @@ function doDownload(courses){
   a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
   a.download = '설문응답_20261126.csv';
   document.body.appendChild(a); a.click(); a.remove();
-  toast('설문 응답 파일이 다운로드되었습니다.');
 }
 
 /* 공통 UI */
@@ -303,12 +316,34 @@ function alertBox(msg){
   var b = document.createElement('button'); b.className='pri'; b.textContent='확인'; b.onclick=closeBox; ft.appendChild(b);
   mask.classList.add('show');
 }
-function confirmBox(msg, ok){
-  document.getElementById('dlgBody').textContent = msg;
+/* 기존 엑셀 다운로드 팝업: 다운로드 목적 입력 + 압축 해제 패스워드 안내 */
+function purposeBox(ok, info){
+  var dlg = document.querySelector('.dlg');
+  dlg.className = 'dlg wide';
+  document.getElementById('dlgBody').innerHTML =
+    '<div class="ptitle">다운로드 하는 목적을 입력해 주세요. <span class="plink">[관련 근거 확인하기]</span></div>'+
+    '<select class="pfield"><option>임직원 데이터 확인용</option></select>'+
+    '<input class="pfield dis" value="임직원 데이터 확인용" disabled>'+
+    '<div class="pred">* 압축 해제 패스워드 : <span class="pw">Hn7k2Qx9</span></div>'+
+    '<div class="pred">* 패스워드를 드래그 &amp; 복사하여 이용해주세요.</div>'+
+    '<div class="pguide"><b>[압축파일 해제 안내]</b><br>개인정보 파일의 안전한 보관을 위하여 다운로드 파일은 자동 암호화됩니다.<br>압축 파일은 일반 프로그램에서 열리지 않을 수 있으므로, 압축 파일의 암호를 해제하려면<br><span class="pbold">반드시, 반집, 알집 등 암호 해제 기능이 포함된 압축 프로그램을 사용해 주세요.</span><br>프로그램이 설치되어 있지 않다면, <span class="plink2">[압축프로그램 설치 가이드]</span> 를 확인하신 후 이용해주시기 바랍니다.</div>';
   var ft = document.getElementById('dlgFt'); ft.innerHTML='';
-  var c = document.createElement('button'); c.textContent='취소'; c.onclick=closeBox;
-  var o = document.createElement('button'); o.className='pri'; o.textContent='확인'; o.onclick=function(){closeBox(); ok();};
-  ft.appendChild(c); ft.appendChild(o);
+  var o = document.createElement('button'); o.className='red'; o.textContent='다운로드'; o.onclick=function(){closeBox(); ok();};
+  var c = document.createElement('button'); c.textContent='닫기'; c.onclick=closeBox;
+  ft.appendChild(o); ft.appendChild(c);
+  mask.classList.add('show');
+}
+/* 기존 대용량 엑셀 다운로드 팝업: 요청완료 안내 */
+function requestDoneBox(info){
+  var dlg = document.querySelector('.dlg');
+  dlg.className = 'dlg';
+  document.getElementById('dlgBody').innerHTML =
+    '<div class="okic">✓</div><div class="otitle">다운로드 요청완료</div>'+
+    '<div class="odesc">요청하신 파일이 생성되면 좌측 하단 [대용량 파일 다운로드] 에서 확인 가능합니다.</div>';
+  var ft = document.getElementById('dlgFt'); ft.innerHTML='';
+  var v = document.createElement('button'); v.textContent='다운로드 보기'; v.onclick=closeBox;
+  var o = document.createElement('button'); o.className='pri'; o.textContent='확인'; o.onclick=closeBox;
+  ft.appendChild(v); ft.appendChild(o);
   mask.classList.add('show');
 }
 var tt;
