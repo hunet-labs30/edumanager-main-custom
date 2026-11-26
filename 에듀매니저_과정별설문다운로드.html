@@ -198,7 +198,7 @@ var COURSES = [
   {code:'HLSC008', cat:'직무', name:'데이터 분석 입문', subject:'데이터 분석', period:'2026-11-10 ~ 2026-12-10', total:31, ing:29, done:2, notdone:0, survey:null}
 ];
 var SAMPLE_USERS = [['kim01','김하늘','영업본부'],['lee02','이도윤','기획팀'],['park03','박서연','개발팀']];
-var Q = [[1,'과정 내용에 만족하십니까?','매우 만족'],[2,'개선이 필요한 점을 자유롭게 작성해 주세요.','실습 시간이 더 있으면 좋겠습니다.']];
+var Q = [[1,'과정 내용에 만족하십니까?','매우 만족',5],[2,'개선이 필요한 점을 자유롭게 작성해 주세요.','실습 시간이 더 있으면 좋겠습니다.','']];
 
 var current = COURSES.slice();
 var selected = {};
@@ -276,14 +276,14 @@ function startDownload(list, isAll){
 }
 
 function doDownload(courses){
-  var head = ['설문','과정코드','과정명','과목명','학습자ID','수강생명','계열사명','설문질문번호','설문질문','응답','설문응답일','학습시작일','학습종료일'];
+  var head = ['설문','과정코드','과정명','과목명','학습자ID','수강생명','그룹사명','계열사명','설문질문번호','설문질문','응답','응답보기번호','설문응답일','학습시작일','학습종료일'];
   var rows = [head];
   courses.forEach(function(c){
     var parts = c.period.split(' ~ ');
     for(var u=0; u<c.survey.responses; u++){
       var us = SAMPLE_USERS[u%SAMPLE_USERS.length];
       Q.forEach(function(q){
-        rows.push([c.survey.name,c.code,c.name,c.subject,us[0],us[1],us[2],q[0],q[1],q[2],'2026-11-2'+(u+1),parts[0],parts[1]]);
+        rows.push([c.survey.name,c.code,c.name,c.subject,us[0],us[1],'샘플그룹',us[2],q[0],q[1],q[2],q[3],'2026-11-2'+(u+1),parts[0],parts[1]]);
       });
     }
   });
